@@ -1,0 +1,557 @@
+<meta charset="UTF-8">
+<title>英伟达开始放贷了</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  :root{
+    --paper:#FAFBFC;
+    --panel:#EDF1F5;
+    --panel-warm:#F5F1EC;
+    --ink:#15212E;
+    --muted:#5C6F82;
+    --accent:#0B5E7D;
+    --flag:#A34527;
+    --good:#1E6F4E;
+    --rule:#D5DEE6;
+    --rule-soft:#E6ECF1;
+
+    --serif:"Source Serif 4","Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Serif SC","Source Serif 4",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    font-size:17px;
+    line-height:1.78;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:720px;margin:0 auto;padding:56px 24px 96px}
+
+  .kicker{
+    font-family:var(--mono);font-size:11.5px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+    margin:0 0 18px;
+  }
+  h1{
+    font-family:var(--sans);font-weight:700;
+    font-size:clamp(28px,5vw,40px);line-height:1.24;
+    letter-spacing:-.01em;text-wrap:balance;
+    margin:0 0 16px;
+  }
+  .standfirst{font-size:19px;line-height:1.7;color:var(--muted);margin:0 0 26px}
+  .byline{
+    font-family:var(--mono);font-size:12px;color:var(--muted);
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:11px 0;margin:0 0 44px;
+  }
+  .byline span{white-space:nowrap}
+  .byline i{font-style:normal;color:var(--rule);padding:0 8px}
+
+  h2{
+    font-family:var(--sans);font-weight:700;
+    font-size:24px;line-height:1.35;text-wrap:balance;
+    margin:56px 0 4px;padding-top:22px;
+    border-top:2px solid var(--ink);
+  }
+  h3{font-family:var(--sans);font-weight:600;font-size:18.5px;margin:34px 0 2px}
+  p{margin:14px 0}
+  a{color:var(--accent)}
+  strong{font-weight:600}
+  .lede{font-size:18.5px}
+
+  .pull{
+    font-family:var(--sans);font-weight:600;
+    font-size:20px;line-height:1.6;
+    border-left:3px solid var(--accent);
+    padding:4px 0 4px 20px;margin:30px 0;
+  }
+  .pull.flag{border-left-color:var(--flag)}
+
+  .scroll{overflow-x:auto;margin:26px 0;
+    border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+  table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+  caption{
+    caption-side:top;text-align:left;
+    font-family:var(--mono);font-size:11.5px;font-weight:500;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+    padding:0 0 8px;
+  }
+  th{
+    font-family:var(--sans);font-weight:600;font-size:13.5px;
+    text-align:left;color:var(--muted);
+    padding:10px 14px 10px 0;border-bottom:1px solid var(--rule);white-space:nowrap;
+  }
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{font-family:var(--mono);font-size:14.5px;font-weight:500;white-space:nowrap}
+  td.lab{font-family:var(--sans);font-weight:600;font-size:14.5px}
+  .up{color:var(--good)}
+  .dn{color:var(--flag)}
+  .src{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+
+  .ledger{
+    background:var(--panel);border:1px solid var(--rule);
+    padding:22px 24px;margin:28px 0;
+    font-family:var(--mono);font-size:14.5px;line-height:2.05;
+    font-variant-numeric:tabular-nums;
+  }
+  .ledger .row{display:flex;justify-content:space-between;gap:16px}
+  .ledger .row.sum{border-top:1px solid var(--rule);margin-top:8px;padding-top:8px;font-weight:600}
+  .ledger .row.gap{border-top:2px solid var(--ink);margin-top:10px;padding-top:10px;
+    font-weight:600;color:var(--flag)}
+  .ledger .lbl{font-family:var(--sans);font-weight:400}
+  .ledger .in{color:var(--good)}
+  .ledger .out{color:var(--flag)}
+
+  .note{
+    background:var(--panel-warm);border-left:3px solid var(--muted);
+    padding:14px 18px;margin:26px 0;font-size:15px;line-height:1.7;
+  }
+  .note .tag{
+    display:block;font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;
+  }
+
+  .watch{margin:30px 0;border-top:1px solid var(--rule)}
+  .watch .item{padding:20px 0;border-bottom:1px solid var(--rule)}
+  .watch .h{
+    font-family:var(--sans);font-weight:700;font-size:17px;margin:0 0 6px;
+  }
+  .watch p{margin:8px 0}
+  .watch .kill{
+    font-size:14.5px;line-height:1.65;color:var(--ink);
+    background:var(--panel);border-left:3px solid var(--flag);
+    padding:10px 14px;margin:12px 0 0;
+  }
+  .watch .kill b{
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--flag);display:block;margin-bottom:3px;
+  }
+
+  ul{margin:14px 0;padding-left:22px}
+  li{margin:7px 0}
+  footer{
+    margin-top:56px;padding-top:20px;border-top:2px solid var(--ink);
+    font-family:var(--mono);font-size:12px;line-height:1.9;color:var(--muted);
+  }
+  ::selection{background:#CFE3EC;color:var(--ink)}
+  a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  @media (max-width:640px){
+    body{font-size:16.5px}
+    .wrap{padding:36px 18px 72px}
+    h2{font-size:21px}
+    .pull{font-size:18px}
+  }
+</style>
+
+<div class="wrap">
+
+<p class="kicker">财报拆解 · FY2027 Q2</p>
+
+<h1>英伟达交了一份挑不出毛病的财报，然后它的钱变了形状</h1>
+
+<p class="standfirst">生意那一半没什么好担心的：需求超过产能，明年还要再涨七成。真正变了的是另一半——这个季度公司第一次大规模借钱，把四百多亿砸进别家公司股权，同时亲口说 75% 的毛利率就是顶了。还有一笔 1,050 亿的担保，新闻稿里一个字没提。</p>
+
+<p class="byline">
+<span>2026-08-27</span><i>·</i><span>数字取自 SEC 8-K 与 10-Q 原文</span><i>·</i><span>非投资建议</span>
+</p>
+
+<p class="lede">财报发出来的头半个小时，股票是跌的，跌了 1.3%。</p>
+
+<p>营收 962 亿美元，比市场预期高出一截。数据中心 890 亿，同比翻了一倍还多。毛利率 75.0%，是这家公司自己的历史高位。就这么一份成绩单，盘后的第一反应是往下走。</p>
+
+<p>半小时后电话会开始。CFO 说了一句话，股票掉头往上，最后停在 +4%、218.77 美元。</p>
+
+<p>那句话是：明年（FY2028）预计增长 <strong>70% 左右</strong>，而这个数字是<strong>被产能卡住的数字</strong>。CEO 接着补了一句——我们有支撑 70% 增长的产能，但需求远高于此。CFO 再补一句——客户自己报上来的需求指向翻倍。</p>
+
+<div class="pull">市场当晚重新定价的不是这个季度赚了多少，是"卖不动"和"造不出来"这两种减速的区别。</div>
+
+<p>但那场电话会里还有第二句话，市场当晚基本没理会：毛利率会从现在的 75% 一路降到明年一季度的 71%–72%，然后才企稳。新闻稿上只写了下季度的 74%，完整的下滑路径是在电话会上才说的。</p>
+
+<p>我把新闻稿和同日提交的季度详表都从头到尾读了一遍，比率自己重算过。这份财报被劈成了不太搭调的两半：生意那一半好得没什么可说的，钱那一半这个季度发生了五件以前没发生过的事。而其中最大的那一件，只写在详表里。</p>
+
+<h2>需求：卡住的是产能，不是订单</h2>
+
+<div class="scroll">
+<table>
+<caption>营收与指引</caption>
+<thead><tr><th>项目</th><th class="num">数字</th><th>对比</th><th class="src">来源</th></tr></thead>
+<tbody>
+<tr><td class="lab">本季营收</td><td class="num">$962.2 亿</td><td>环比 <span class="up">+17.9%</span>，同比 <span class="up">+106%</span></td><td class="src">8-K</td></tr>
+<tr><td class="lab">其中数据中心</td><td class="num">$890.0 亿</td><td>占全部收入九成多，同比 +117%</td><td class="src">8-K</td></tr>
+<tr><td class="lab">下季度指引</td><td class="num">$1,080 亿</td><td>±2%，环比 +12.2%，比市场预期高 4.8%</td><td class="src">8-K</td></tr>
+<tr><td class="lab">下季度指引的前提</td><td class="num">中国 = 0</td><td>明确写着不含任何来自中国的数据中心算力收入</td><td class="src">8-K</td></tr>
+<tr><td class="lab">明年（FY2028）</td><td class="num">约 +70%</td><td>公司称此数受产能约束，客户报的需求指向翻倍</td><td class="src">电话会</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>指引那个 +12.2% 看着比本季的 +17.9% 慢，但这个数不该直接拿来当预期。上个季度公司指引 910 亿，实际做到 962 亿，比自己说的高出 5.7%。这家公司一贯这么说话。按老规律推，下季实际大概率落在 +17% 上下。</p>
+
+<p>更该看的是明年那个 70%。CFO 用的词是 supply-constrained——受产能约束。同一场电话会上她说客户报上来的需求指向翻倍。一个公司在展望里主动承认"我给的数字不是需求，是我能造出来的量"，含义和"我们预计需求增长 70%"完全是两回事。</p>
+
+<p>把 70% 换算成钱：本财年前三季加起来 2,858 亿，第四季按持平到 +15% 之间算，全年落在 <strong>3,940 亿到 4,100 亿</strong>。再乘 1.7，明年的营收规模是 <strong>6,700 亿到 7,000 亿美元</strong>。（第四季那个数是我自己假设的，公司没给全年指引。）</p>
+
+<p>这个量级本身就是一个问题：谁付得起。所以下一节比营收数字更值得看。</p>
+
+<h2>增量是谁买的</h2>
+
+<p>这个季度公司第一次把数据中心的客户结构拆开报了：</p>
+
+<div class="scroll">
+<table>
+<caption>数据中心客户拆分 · 本季</caption>
+<thead><tr><th>类别</th><th class="num">收入</th><th class="num">环比</th><th class="num">同比</th></tr></thead>
+<tbody>
+<tr><td class="lab">超大规模云厂</td><td class="num">$490 亿</td><td class="num">+13%</td><td class="num">—</td></tr>
+<tr><td class="lab">ACIE<br><span style="font-weight:400;font-size:13.5px;color:#5C6F82">主权 AI／区域云／工业／企业</span></td><td class="num">$400 亿</td><td class="num up">+25%</td><td class="num up">+138%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>两者相加正好是 890 亿，和 8-K 的数据中心总额对得上。反推上个季度，超大规模云厂约 434 亿、ACIE 约 320 亿——所以这个季度数据中心多出来的 138 亿里：</p>
+
+<div class="pull flag">大约 58% 来自 ACIE，只有 41% 来自超大规模云厂。</div>
+
+<p>这个区别很要紧。超大规模云厂拿自己的经营现金流买芯片，微软亚马逊谷歌不需要谁给它们垫钱。ACIE 里的区域云（也就是所谓 neocloud）不一样，那些公司的钱大多是融来的——而融资的来源，往下读会看到，有相当一部分就是英伟达自己。</p>
+
+<p>公平地说，ACIE 这个筐比"neocloud"大：它还装着主权 AI（韩国、日本那些国家级项目，花的是政府的钱）和普通企业客户。公司目前不拆这一层，所以"增量里有多少是被英伟达自己出钱买的"这个问题，从公开数字里答不出来。</p>
+
+<h2>利润率：75% 就是顶，这是公司自己说的</h2>
+
+<div class="scroll">
+<table>
+<caption>毛利率路径</caption>
+<thead><tr><th>期间</th><th class="num">毛利率</th><th>状态</th><th class="src">来源</th></tr></thead>
+<tbody>
+<tr><td class="lab">上季 FY27Q1</td><td class="num">74.9%</td><td>已实现</td><td class="src">8-K</td></tr>
+<tr><td class="lab">本季 FY27Q2</td><td class="num"><strong>75.0%</strong></td><td>已实现，历史高位</td><td class="src">8-K</td></tr>
+<tr><td class="lab">下季 FY27Q3</td><td class="num">74.0%</td><td>±50 基点</td><td class="src">8-K</td></tr>
+<tr><td class="lab">再下季 FY27Q4</td><td class="num dn">71%–72%</td><td>公司称在此见底</td><td class="src">电话会</td></tr>
+<tr><td class="lab">明年 FY2028</td><td class="num">72%–73%</td><td>企稳</td><td class="src">电话会（单一来源）</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>只看新闻稿会读成"降一个点"。听完电话会才知道完整路径是从 75.0% 掉到 71.5% 上下再回来，<strong>峰值到谷底三个半点</strong>。这是这场财报里唯一一条被公司主动承认会持续到明年的负面。</p>
+
+<p>原因只有一个：内存。CFO 用的词是"极端的价格状况"，并说涨幅"超出了公司此前的预期"，起因是别的 AI 基建也在抢同一批内存。</p>
+
+<p>这跟我事前的猜测不一样。我原本以为压毛利率的是新一代产品换代，那属于结构性问题，回不来。实际是买内存变贵了，属于周期性问题，内存跌价就会回来。归因不同，对后面几个季度的推断完全不同。</p>
+
+<p>但"毛利率见顶"这个说法要配着经营费用一起看，因为同一时间还有一股反向的力：<strong>费用占收入的比重也在往下走</strong>。</p>
+
+<div class="scroll">
+<table>
+<caption>毛利率在降，费用占比也在降</caption>
+<thead><tr><th>期间</th><th class="num">毛利率</th><th class="num">费用占收入</th><th class="num">经营利润率</th><th class="src">来源</th></tr></thead>
+<tbody>
+<tr><td class="lab">FY27Q1</td><td class="num">74.9%</td><td class="num">9.34%</td><td class="num">65.6%</td><td class="src">实际</td></tr>
+<tr><td class="lab">FY27Q2</td><td class="num">75.0%</td><td class="num">8.74%</td><td class="num"><strong>66.2%</strong></td><td class="src">实际</td></tr>
+<tr><td class="lab">FY27Q3</td><td class="num">74.0%</td><td class="num">8.52%</td><td class="num">65.5%</td><td class="src">按指引推算</td></tr>
+<tr><td class="lab">FY2028</td><td class="num">72.5%</td><td class="num">6.4%–6.9%</td><td class="num">65.6%–66.1%</td><td class="src">我的推算</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>下个季度这股力还不够看：毛利率掉 0.98 个点，费用占比只跟着掉 0.22 个点，经营利润率照样往下 0.76 个点。</p>
+
+<p>但把时间拉到明年，账就翻过来了。收入要涨七成，费用不会跟着涨七成——按费用增长 25% 到 35% 之间推，占比会从现在的 8.7% 掉到 6.4%–6.9%。这样一来<strong>毛利率从峰值掉 2.5 个点，经营利润率只掉 0.3 到 0.8 个点</strong>，绝大部分被摊薄吃掉了。</p>
+
+<p>毛利额本身更是照涨：下季度按 74% 算是 799 亿，比本季的 722 亿多 10.7%。</p>
+
+<p>所以这条的分量比它听上去小一档，但也别反过来当成没事——被否掉的是"利润率还能继续往上走"这种假设。72%–73% 仍是全行业罕见的水平，只是 75% 那个峰不会再来了。费用能不能真按上面那个速度摊薄，是这条账成不成立的全部前提，我把它记进了后面的观察清单。</p>
+
+<h2>现金流：利润是真的，钱没落袋</h2>
+
+<p>账面净利 597 亿，经营带回来的现金只有 241 亿。差额在这三笔：</p>
+
+<div class="scroll">
+<table>
+<caption>本季现金占用</caption>
+<thead><tr><th>科目</th><th class="num">金额</th><th>含义</th></tr></thead>
+<tbody>
+<tr><td class="lab">应收账款</td><td class="num dn">−$223.5 亿</td><td>货发出去了，钱还没收回来</td></tr>
+<tr><td class="lab">库存</td><td class="num dn">−$57.8 亿</td><td>备货压在仓库里</td></tr>
+<tr><td class="lab">预付款</td><td class="num dn">−$55.0 亿</td><td>提前付钱给上游锁产能</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>如果客户欠的钱没有增加，本季经营现金流会是 464 亿，而不是 241 亿。</p>
+
+<p>客户平均欠款天数从上季的 45.4 天拉到了 <strong>59.6 天</strong>，去年同期是 54.1 天。应收账款余额环比涨 54.9%，而同期收入只涨 17.9%，欠条涨得比生意快三倍。</p>
+
+<p>库存从 214 亿涨到 316 亿，增了 47.5%，相当于 1.3 个季度的成本量。在一家下季度要冲一千零八十亿的公司身上，这是备货不是滞销。但它同时也是万一需求转弯时最先出问题的地方。</p>
+
+<p>买设备厂房只花了 27 亿，占收入 2.8%。这家公司不自己建厂，永远不会像微软亚马逊那样把钱砸进水泥里。这一条没变，也是它跟云厂商在财务结构上最根本的区别。</p>
+
+<h2>它借钱了</h2>
+
+<div class="scroll">
+<table>
+<caption>债务</caption>
+<thead><tr><th>项目</th><th class="num">半年前</th><th class="num">现在</th></tr></thead>
+<tbody>
+<tr><td class="lab">长期债务</td><td class="num">$74.7 亿</td><td class="num dn">$323.7 亿</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>本季一次性发了 <strong>249 亿美元</strong>的债。这家公司过去基本是零负债的。要看懂这笔债，得把半年的资金进出摆在一起：</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">经营赚回来</span><span class="in">+744 亿</span></div>
+<div class="row"><span class="lbl">发债借入</span><span class="in">+249 亿</span></div>
+<div class="row sum"><span class="lbl">买设备厂房</span><span class="out">−44 亿</span></div>
+<div class="row"><span class="lbl">回购自己股票</span><span class="out">−390 亿</span></div>
+<div class="row"><span class="lbl">分红</span><span class="out">−63 亿</span></div>
+<div class="row"><span class="lbl">买别家公司股权</span><span class="out">−424 亿</span></div>
+<div class="row gap"><span class="lbl">自己赚的不够用，缺口</span><span>−178 亿</span></div>
+</div>
+
+<p>一边花 390 亿回购自己的股票、424 亿去买别人的股权，一边借了 249 亿。</p>
+
+<p>这不是缺钱。手上现金加短期债券还有 566 亿，扣掉全部债务仍然是净现金 232 亿，财务上一点压力都没有。变的是钱的形状：从躺着收现金，变成举债扩表。</p>
+
+<h2>那四百二十四亿投给了谁</h2>
+
+<div class="scroll">
+<table>
+<caption>持有的别家公司股权</caption>
+<thead><tr><th>类别</th><th class="num">半年前</th><th class="num">现在</th></tr></thead>
+<tbody>
+<tr><td class="lab">上市公司股权</td><td class="num">$128.9 亿</td><td class="num">$427.8 亿</td></tr>
+<tr><td class="lab">非上市股权</td><td class="num">$222.5 亿</td><td class="num">$511.6 亿</td></tr>
+<tr><td class="lab">合计</td><td class="num"><strong>$351.4 亿</strong></td><td class="num"><strong>$939.4 亿</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>半年现金买入 424 亿。黄仁勋在电话会上说，公司已经投了接近 500 亿到前沿 AI 实验室。这不是担保，但风险的性质挺接近：客户拿不出钱，英伟达出钱入股，客户拿这笔钱回来买英伟达的芯片。</p>
+
+<p>把这条和上面那条客户拆分放一起看，形状就出来了：增量的大头来自 ACIE，而 ACIE 里的区域云和 AI 实验室，正是英伟达在拿真金白银入股的那批人。</p>
+
+<p>还有一个副作用值得单独拎出来——这些股权的账面涨价被算进了利润：</p>
+
+<div class="pull flag">半年 1,180 亿的净利里，有 237 亿（20.1%）是股权浮盈，不是卖芯片赚的。</div>
+
+<p>这部分是纸面数字，不产生任何现金，股市跌回去还会反向冲销。所以这个季度出现了一个平常见不到的现象：GAAP 净利 597 亿反而<em>高于</em>非 GAAP 的 540 亿，EPS 2.46 高于 2.22。看这家公司真实的赚钱能力，得把这块剔掉。</p>
+
+<p>另一条路子是把钱推到表外。公司同时宣布跟阿波罗、贝莱德、黑石、Brookfield、高盛、KKR 一起建独立的算力融资平台，动员超过 <strong>5,000 亿美元</strong>的第三方资本。原文写着 subject to definitive agreements，最终协议还没签。</p>
+
+<h2>那份新闻稿没说的一千零五十亿</h2>
+
+<p>新闻稿里有这么一句，读起来像一条普通的产能新闻：</p>
+
+<div class="pull">通过与 SB Energy 合作，在俄亥俄 PORTS-Pike 园区取得土地、电力和厂房产能，用于托管英伟达算力。</div>
+
+<p>同一天提交的季度详表里，这件事是这样写的：</p>
+
+<div class="pull flag">2026 年 8 月，我们签订了上限合计 <strong>1,050 亿美元</strong>的担保，为土地、电力、厂房建设提供信用支持，<strong>代表一位客户——OpenAI 的一家关联方</strong>——涉及约 <strong>4.25 吉瓦</strong> IT 负载的租约。</div>
+
+<div class="scroll">
+<table>
+<caption>担保的最大敞口</caption>
+<thead><tr><th>项目</th><th class="num">上限</th></tr></thead>
+<tbody>
+<tr><td class="lab">给 AI 云的土地／电力／厂房担保</td><td class="num">$35 亿</td></tr>
+<tr><td class="lab">SB Energy 担保（代 OpenAI 关联方）</td><td class="num dn"><strong>$1,050 亿</strong></td></tr>
+<tr><td class="lab">合计</td><td class="num"><strong>$1,085 亿</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>条款值得逐条看，因为它们决定了这笔担保到底有多重：</p>
+
+<ul>
+<li>分<strong>九期</strong>，随每期建设完成担保额递增，第一期预计在 FY2029</li>
+<li>只在<strong>租户违约</strong>时触发，每期 20 年租期内金额逐年递减</li>
+<li>只担保<strong>约定部分的租金和电费</strong>，不是整个场地成本，也不是租户的全部义务</li>
+<li><strong>OpenAI 拿到满意的信用评级后，担保终止</strong></li>
+<li>作为交换，该园区<strong>独家托管英伟达的 AI 基础设施</strong></li>
+<li>英伟达另外持有一个自主选择权，可为额外约 <strong>3.8 吉瓦</strong>再提供信用支持——用满就是约 8 吉瓦</li>
+</ul>
+
+<p>这些条款说明它不是一张说给就给的空头支票：有封顶、有触发条件、有退出机制。但它也确确实实是一家芯片公司<strong>替客户的房租和电费做担保</strong>，规模是它一个季度营收的一倍多。</p>
+
+<p>同一份文件里还有两条同样形状的东西。一条是 <strong>360 亿美元的"AI 云协议"</strong>，原文的描述是：AI 云采购我们的数据中心产品，<strong>而我们承诺购买它们的云服务</strong>；若满足特定条件，我们还将<strong>参与 AI 云从第三方客户获得的收入分成</strong>。卖硬件给对方，同时承诺买回对方的服务——这是环形的，而且是公司自己这么写的。</p>
+
+<p>另一条是 <strong>200 亿美元替第三方签的数据中心租约</strong>：英伟达签下约十五年期的租约，然后"预期将这些租约转让给第三方"。</p>
+
+<p>把三张表摞在一起：</p>
+
+<div class="scroll">
+<table>
+<caption>表外的三层</caption>
+<thead><tr><th>类别</th><th class="num">规模</th><th>性质</th></tr></thead>
+<tbody>
+<tr><td class="lab">未来承诺</td><td class="num">$3,660 亿</td><td>供应与产能 2,790／云服务 290／未起租租约 250／股权投资承诺 250／capex 80</td></tr>
+<tr><td class="lab">额外承诺</td><td class="num">$560 亿</td><td>AI 云协议 360／替第三方签的租约 200</td></tr>
+<tr><td class="lab">担保</td><td class="num">$1,085 亿</td><td>或有，租户违约才触发</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>其中"供应与产能"这一项本季度从 1,190 亿跳到 <strong>2,790 亿</strong>，原文说主要是<strong>内存和制造设施</strong>——又回到了内存。</p>
+
+<h2>一条对我不利的证据</h2>
+
+<p>写到这里，"增长靠自己出钱买"这条线看着已经很硬了。但同一份文件里有一条方向相反的数据，得照记：</p>
+
+<div class="scroll">
+<table>
+<caption>直接客户集中度</caption>
+<thead><tr><th>期间</th><th class="num">最大直接客户占总收入</th></tr></thead>
+<tbody>
+<tr><td class="lab">去年同期 FY26Q2</td><td class="num">23%</td></tr>
+<tr><td class="lab">本季 FY27Q2</td><td class="num"><strong>16%</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>集中度在<strong>下降</strong>，不是上升。上半年前三大直接客户分别是 16%、15%、13%。如果收入是靠少数几个被输血的客户撑起来的，这个数应该往上走才对。</p>
+
+<p>不过同一节里还有一句：公司估计<strong>"一家 AI 研究与部署公司"通过向我们的客户购买云服务，间接贡献了可观的收入</strong>。直接集中度降了，间接敞口是另一回事，而且它不进这张表。</p>
+
+<h2>还有一句解释了应收账款</h2>
+
+<p>前面说客户欠款天数从 45.4 天拉到 59.6 天，我当时留了个口子：可能只是发货时点。季度详表把这个口子关上了：</p>
+
+<div class="pull flag">与某些投资级客户的融资安排，<strong>包括大额多季度协议下的延长付款期限，将继续影响我们经营现金流的时点。</strong></div>
+
+<p>是写进合同的<strong>延长付款期限</strong>，不是发货赶在季末。而且公司说了会<strong>继续</strong>。有一处限定词别漏看："投资级客户"——给得起信用的那批大客户，不包括拿融资过日子的区域云。</p>
+
+<h2>供应链：内存既是瓶颈也是账单</h2>
+
+<p>上游最明确的一条是内存厂受益。CFO 亲口说毛利率被内存涨价挤压、而且会持续到明年，还说涨幅超出了公司自己此前的预期。这笔钱直接进了 SK 海力士、三星、美光的口袋。公司同时宣布跟 SK 海力士签了多年的内存技术合作，看得出是想把量锁住。</p>
+
+<p>备货和预付也是给上游的确定性订单：库存增 47.5%，预付款多掏了 55 亿。但另一边，应付账款从 98 亿涨到 151 亿，增了 53.5%，账期被拉长了，供应商在替它垫资。</p>
+
+<p>下游这边，8-K 点名在跑新平台的云厂有 CoreWeave、谷歌云、微软 Azure、甲骨文云、Nebius，亚马逊承诺采购两百万颗 GPU 并采用新出的 Vera CPU。新一代 Vera Rubin 预计占下季度数据中心收入的两成左右，正在爬坡的中段。</p>
+
+<h3>散热、光模块、封装，公司各说了多少</h3>
+
+<p>既然整条链都在被重新安排，值得看看官方到底讲了哪些环节、哪些一个字没提。我把新闻稿和季度详表两份文件按关键词全扫了一遍：</p>
+
+<div class="scroll">
+<table>
+<caption>官方披露的分布</caption>
+<thead><tr><th>环节</th><th class="num">新闻稿</th><th class="num">季度详表</th><th>公司实际说了什么</th></tr></thead>
+<tbody>
+<tr><td class="lab">内存</td><td class="num">✓</td><td class="num">✓</td><td>毛利率归因、与 SK 海力士的多年合作、2,790 亿承诺的主体</td></tr>
+<tr><td class="lab">电力与土地</td><td class="num">✓</td><td class="num">✓</td><td>SB Energy 俄亥俄园区，约 4.25 吉瓦</td></tr>
+<tr><td class="lab">光模块</td><td class="num">一处</td><td class="num">—</td><td>见下</td></tr>
+<tr><td class="lab">封装</td><td class="num">—</td><td class="num">一处</td><td>只作为营业成本构成的一项被列举</td></tr>
+<tr><td class="lab"><strong>散热</strong></td><td class="num dn"><strong>0</strong></td><td class="num dn"><strong>0</strong></td><td>两份文件都没提，只有电话会上口头带过一次</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>光模块</strong>只有一句，但那一句有分量：Spectrum-6 交换机系统<strong>同时支持可插拔光模块和共封装光学</strong>，作为 Vera Rubin 平台的一部分正在进入各地的 AI 工厂。市场一直担心共封装会一刀切掉可插拔的需求，公司的表述是两条路并行。</p>
+
+<p><strong>封装</strong>没有被单独讲。唯一一次出现是在营业成本的标准描述里——"半导体成本（含晶圆制造、组装、测试与封装）"。两份文件全文都没有出现代工厂或先进封装产能的名字。</p>
+
+<p><strong>散热</strong>在两份正式文件里是零。唯一一次是黄仁勋在电话会上列举时带过：公司在越来越多地向上下游延伸，涉及内存供应商、发电、土地、电力、厂房外壳、散热、施工。</p>
+
+<p>这里得说清一件事：<strong>披露里没有，不等于不重要。</strong>新闻稿是营销文件，季度详表是法律文件，两者都没有义务讲清瓶颈在哪。封装产能紧张这类说法我看到的都是行业侧的信息，不是公司自己讲的，两者不能混着用。</p>
+
+<p>能确定的只有公司自己写下的那句：2,790 亿的供应承诺，<strong>主要是内存和制造设施</strong>。瓶颈已经从芯片挪到了这两样，再加上插座上有没有电。</p>
+
+<h2>我可能错在哪</h2>
+
+<p>写这篇之前我给自己列了两条判据，用来判断"需求是不是自己造出来的"：一条是客户欠款天数（来自资产负债表），一条是现金转化率（来自现金流量表）。我当时以为这是两条互相独立的证据链，能互相印证。</p>
+
+<p>这个想法是错的。现金流量表里那行"应收账款 −223 亿"，就是资产负债表上应收账款的变动本身。我剥掉它重算了一遍：</p>
+
+<div class="scroll">
+<table>
+<caption>把应收变动剥掉之后</caption>
+<thead><tr><th>口径</th><th class="num">实际</th><th class="num">剔除应收变动后</th></tr></thead>
+<tbody>
+<tr><td class="lab">经营现金流</td><td class="num">$240.8 亿</td><td class="num">$464.2 亿</td></tr>
+<tr><td class="lab">自由现金流</td><td class="num">$213.4 亿</td><td class="num">$436.9 亿</td></tr>
+<tr><td class="lab">自由现金流 / 净利</td><td class="num dn">0.36</td><td class="num">0.73</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>现金转化率崩掉的部分，大约三分之二就是应收账款本身。所以这两条不是两份证据，是<strong>同一件事被数了两遍</strong>。剩下真正独立的部分是库存和预付，那是备货，不是给客户融资的指纹。</p>
+
+<p>真正独立的第二条证据是这次新披露的客户拆分——增量 58% 来自 ACIE。它跟应收账款没有会计上的牵连，是两件可以分开成立的事。有了它，"增长靠自己出钱买"的说法才第一次有了两条腿；但它依然不是定论，因为 ACIE 这个筐里还有主权 AI 和普通企业。</p>
+
+<p>还有一处更蠢的错。我在前面几节反复写"这个要等季度详表"、"现在还看不到"——<strong>那份文件和新闻稿是同一天提交的，一直都在。</strong>我先入为主地按"新闻稿先出、详表过几周再补"的老习惯去假设，没去查。担保、客户集中度、供应承诺、应收账款的解释，全都在里面等着。这一类错的代价不是判断偏了，是<strong>把已经有答案的问题当成了悬案</strong>，然后据此下了一个"证据不足"的结论。</p>
+
+<p>还有一处我一开始读得太重。看到毛利率要从 75% 降到 71%–72%，我的第一反应是"利润要塌一块"，直到把经营费用那一列摆出来，才看见摊薄会把大部分吃掉——毛利率掉 2.5 个点，经营利润率只掉 0.3 到 0.8 个点。<strong>毛利率和经营利润率是两个口径，拿前者的降幅直接推后者，会把伤害放大三倍以上。</strong>这种错不容易自己发现，因为"毛利率下滑"听上去已经足够像个结论了。</p>
+
+<h2>接下来盯什么</h2>
+
+<p>把上面五条线各自的下一个观测点写死，免得事后拿模糊的印象倒推结论。</p>
+
+<div class="watch">
+
+<div class="item">
+<p class="h">需求</p>
+<p>公司口径是明年 +70% 且受产能约束，客户报的需求指向翻倍。这句话公司自己说了算，外人验证不了，只能等交付。</p>
+<div class="kill"><b>什么情况算这句话被打折</b>下季实际收入落在 1,080 亿指引区间的下沿，或者第四季的指引环比首次低于 +10%。真的产能受限时，实际值应该持续压着指引上沿走。</div>
+</div>
+
+<div class="item">
+<p class="h">收入</p>
+<p>下季 1,080 亿，前提是中国算零。中国是纯期权：给了不进模型，来了是白捡。按公司过去的说话方式，实际大概率在 1,130 亿上下。</p>
+<div class="kill"><b>什么情况算我读错了</b>实际落在 1,080 亿以下。那意味着"指引一贯往低了说"这个规律断了，后面所有按此外推的数都得重做。</div>
+</div>
+
+<div class="item">
+<p class="h">利润</p>
+<p>公司给了 74% → 71%–72% 见底 → 72%–73% 企稳的完整路径，唯一的原因是内存涨价。</p>
+<div class="kill"><b>什么情况算更糟</b>第四季实际跌破 71%，或者明年的企稳区间被下调。那说明内存不是唯一的压力来源，换代成本或者定价权也在往下走，从周期问题变成结构问题。<br>另一条同样要盯：<b style="display:inline;font-size:14.5px;letter-spacing:0;text-transform:none;color:inherit;font-family:inherit">费用占比</b>如果没有按预期从 8.7% 摊薄到 7% 以下，上面"毛利率掉 2.5 点、利润率只掉不到 1 点"那笔账就不成立。</div>
+</div>
+
+<div class="item">
+<p class="h">供应链</p>
+<p>内存是被卡的输入，也是账单的来源。瓶颈已经从芯片挪到电力和场地。这两条同时决定明年那 70% 兑不兑得现。</p>
+<div class="kill"><b>往哪看</b>内存合约价的涨速有没有减下来（决定毛利率能不能如期在第四季见底），以及新建数据中心的通电进度。芯片造出来插不上电，收入照样递延。</div>
+</div>
+
+<div class="item">
+<p class="h">循环担保</p>
+<p>问题已经从"有没有"变成"有多重"。1,050 亿的担保有封顶、有触发条件、有退出机制（OpenAI 拿到评级就终止），第一期还要等到 FY2029。真正的未知是它会不会继续扩大——公司手上还捏着对额外 3.8 吉瓦再担保的选择权。五千亿的第三方资本平台也还没签最终协议。</p>
+<div class="kill"><b>盯这几样</b>那个 3.8 吉瓦的选择权有没有被行使；担保总额下季是否再跳；第三方资本平台的最终协议什么时候签、英伟达在里面是纯撮合还是要出信用。再加一条跨季的：欠款天数如果继续往上走，配合股权投资继续加码，那就是模式在固化。</div>
+</div>
+
+</div>
+
+<h2>合起来看</h2>
+
+<p>生意本身极好，需求超过产能，下季指引再超预期，明年还要再涨七成。这部分没有争议。</p>
+
+<p>但这个季度同时发生了五件以前没发生过的事：客户欠款天数从 45 天拉到近 60 天，而且是写进合同的；半年拿 424 亿去买别家公司的股权，其中的账面浮盈占了净利的两成；第一次借了 249 亿的债；签下 1,085 亿的担保，其中 1,050 亿是替 OpenAI 的关联方担的房租和电费；以及公司自己承认 75% 的毛利率就是顶。</p>
+
+<p>单独看，每一件都能解释成高速扩张期的正常动作。合起来看，是这家公司正在从"卖铲子收现金"变成"给整个淘金生态提供资金"。</p>
+
+<div class="pull">这些不构成"需求是假的"的证据。收入是真的，产能是真卡住的，客户名单是真的。它们说明的是风险的位置换了地方——从"卖不卖得掉"，换成了"下游融资环境一收紧，欠条和股权会一起缩水"。</div>
+
+<p>季度详表把大部分悬案都答了：担保是真的、金额 1,085 亿、交易对手具名；应收账款拉长是写进合同的；客户集中度反而降了。<strong>剩下没答的只有一样——那 424 亿股权具体投给了谁，文件里只写"AI 模型开发者、基础设施融资方和其他私营公司"，没有名单。</strong></p>
+
+<p>如果你觉得我哪一条读反了，欢迎直接说。财务数字我都对过 8-K 原文，但电话会那部分我只有二手转述，尤其第四季 71%–72% 和明年 72%–73% 这两个数，我没拿到原始记录。</p>
+
+<footer>
+生成于 2026-08-27 23:54<br>
+财务数据：NVIDIA FY2027 Q2 的 8-K 与 10-Q（SEC EDGAR，两份均于 2026-08-26 提交），比率为本人复算<br>
+担保、表外承诺、客户集中度、付款期限四节全部引自 10-Q 原文<br>
+电话会内容（FY2028 增速、毛利率路径、客户拆分）为二手转述，已在表格中逐项标注来源<br>
+本文为财报拆解与个人记录，不构成任何投资建议
+</footer>
+
+</div>

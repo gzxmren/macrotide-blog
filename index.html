@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MacroTide 研究手记</title>
+<meta name="description" content="投资研究与系统排查手记：财报深读、估值模型、AI 与半导体周期、以及踩过的坑。">
+<style>
+  :root{
+    --bg:#fbfaf7; --card:#fff; --ink:#1f2328; --soft:#5b636e; --line:#e7e4dd;
+    --accent:#b0472f; --accent2:#2b6cb0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.8; font-size:17px;
+    padding:0 0 80px;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:0 22px;}
+  header{padding:64px 0 30px; border-bottom:2px solid var(--ink); margin-bottom:10px;}
+  .kicker{color:var(--accent); font-weight:700; font-size:13px; letter-spacing:1.6px; margin-bottom:14px;}
+  h1{font-size:34px; line-height:1.25; font-weight:800; letter-spacing:.3px;}
+  .dek{color:var(--soft); font-size:17px; margin-top:16px; max-width:56ch;}
+
+  h2{font-size:14px; font-weight:700; letter-spacing:1.4px; color:var(--soft);
+     margin:44px 0 4px; text-transform:uppercase;}
+
+  .item{display:block; text-decoration:none; color:inherit; padding:20px 0;
+        border-bottom:1px solid var(--line);}
+  .item:hover{background:#f5f2ec;}
+  .item .t{font-size:19px; font-weight:700; line-height:1.4; color:var(--ink);}
+  .item:hover .t{color:var(--accent);}
+  .item .d{color:var(--soft); font-size:15px; margin-top:7px; line-height:1.6;}
+  .item .m{color:#9aa1ac; font-size:13px; margin-top:9px;
+           font-variant-numeric:tabular-nums;}
+  .lang{display:inline-block; font-size:11px; font-weight:700; letter-spacing:.6px;
+        border:1px solid var(--line); border-radius:3px; padding:1px 6px;
+        color:var(--soft); margin-left:8px; vertical-align:2px;}
+
+  footer{margin-top:56px; padding-top:22px; border-top:1px solid var(--line);
+         color:#9aa1ac; font-size:14px; line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">MACROTIDE</div>
+  <h1>研究手记</h1>
+  <p class="dek">财报深读、估值模型、AI 与半导体周期，以及一个自建交易系统踩过的坑。
+  数字都来自真实运行记录。</p>
+</header>
+
+<h2>排查手记</h2>
+
+<a class="item" href="mootdx_five_wrong_root_causes_2026-08-30.html">
+  <div class="t">五版根因，前四版都说得通</div>
+  <div class="d">一个数据源挂了 49 个交易日，日志天天报警但监控全绿。我给出的前四个根因每一个当时都严丝合缝，
+  而真相是那个库的默认服务器列表过期了。</div>
+  <div class="m">2026-08-30</div>
+</a>
+
+<h2>财报与估值</h2>
+
+<a class="item" href="nvda_fy27q2_2026-08-27.html">
+  <div class="t">英伟达开始放贷了</div>
+  <div class="d">FY27Q2 财报深读：表外担保、循环融资的环形结构，以及它对现金流质量意味着什么。</div>
+  <div class="m">2026-08-27</div>
+</a>
+
+<a class="item" href="googl_q2_2026_xpost_zh.html">
+  <div class="t">GOOGL Q2'26 深读 + DCF + 半导体传导<span class="lang">中文</span></div>
+  <div class="d">拆开财报看资本开支的真实去向，以及它如何传导到半导体链条。</div>
+  <div class="m">2026-07-24</div>
+</a>
+
+<a class="item" href="googl_q2_2026_xpost_en.html">
+  <div class="t">GOOGL Q2'26 Deep-Read + DCF + Semi Read-Through<span class="lang">EN</span></div>
+  <div class="d">English version of the GOOGL Q2 2026 breakdown.</div>
+  <div class="m">2026-07-24</div>
+</a>
+
+<a class="item" href="be_dcf_valuation_explainer_2026-07-21.html">
+  <div class="t">算出来只值 9 块的股票，为什么卖 197？<span class="lang">中文</span></div>
+  <div class="d">用大白话讲透股票估值：当 DCF 给出的数字和市场价差了二十倍，是模型错了还是市场错了。</div>
+  <div class="m">2026-07-21</div>
+</a>
+
+<a class="item" href="be_dcf_valuation_explainer_2026-07-21_EN.html">
+  <div class="t">A $197 stock that's "worth" $9<span class="lang">EN</span></div>
+  <div class="d">A plain-English guide to stock valuation, and what a twenty-fold gap actually tells you.</div>
+  <div class="m">2026-07-21</div>
+</a>
+
+<h2>行业与周期</h2>
+
+<a class="item" href="ai_semiconductor_cycle_2024_2026.html">
+  <div class="t">从供给焦虑到回报拷问<span class="lang">中文</span></div>
+  <div class="d">2024–2026 AI 与半导体牛市的成因、转折与展望。市场关心的问题，正从"够不够用"变成"回报在哪"。</div>
+  <div class="m">2026-07-22</div>
+</a>
+
+<a class="item" href="ai_semiconductor_cycle_2024_2026_EN.html">
+  <div class="t">From Supply Anxiety to the Return Reckoning<span class="lang">EN</span></div>
+  <div class="d">What drove the 2024–2026 AI and semiconductor cycle, where it turned, and what comes next.</div>
+  <div class="m">2026-07-22</div>
+</a>
+
+<footer>
+  文中数字均来自真实运行与公开申报，未经修饰。<br>
+  本站内容仅为个人研究记录，不构成任何投资建议。
+</footer>
+
+</div>
+</body>
+</html>

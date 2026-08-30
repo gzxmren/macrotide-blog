@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A $197 stock that's "worth" $9 — a plain-English guide to stock valuation</title>
+<style>
+  :root{
+    --bg:#fbfaf7; --card:#ffffff; --ink:#1f2328; --soft:#5b636e; --line:#e7e4dd;
+    --accent:#c0392b; --accent2:#2b6cb0; --good:#1a8a4d; --goodbg:#e8f6ee; --goodline:#b9e3c9;
+    --badbg:#fdecec; --badline:#f4c3c3; --warnbg:#fff8e8; --warnline:#f0dfa8; --warnink:#8a6d1f;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.75;
+    font-size:17px; padding:0 0 80px;
+  }
+  .wrap{max-width:720px; margin:0 auto; padding:0 22px;}
+  header{padding:56px 0 30px; border-bottom:1px solid var(--line); margin-bottom:8px;}
+  .kicker{color:var(--accent); font-weight:700; font-size:13px; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:14px;}
+  h1{font-size:33px; line-height:1.25; font-weight:800; letter-spacing:.2px;}
+  .dek{color:var(--soft); font-size:18px; margin-top:16px; line-height:1.6;}
+  .meta{color:#9aa1ac; font-size:13px; margin-top:20px;}
+  h2{font-size:23px; font-weight:800; margin:44px 0 14px; letter-spacing:.2px; line-height:1.3;}
+  h3{font-size:18px; font-weight:700; margin:26px 0 10px; color:#2c3038;}
+  p{margin:14px 0;}
+  strong{font-weight:700;}
+  .lead{font-size:19px;}
+  em{font-style:italic;}
+  .hl{font-style:normal; background:#fbe9a7; padding:0 4px; border-radius:3px;}
+
+  .tw{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:20px 0;}
+  .tw table{margin:0;}
+  table{width:100%; border-collapse:collapse; margin:20px 0; font-size:15.5px; background:var(--card);
+        border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  .tw table{min-width:340px;}
+  th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{background:#f3f1ec; font-weight:700; font-size:14px;}
+  tr:last-child td{border-bottom:none;}
+  td.num{font-variant-numeric:tabular-nums; font-weight:600;}
+  .r{color:var(--accent); font-weight:700;}
+
+  .callout{border-radius:12px; padding:18px 20px; margin:24px 0; border:1px solid;}
+  .callout .h{font-weight:800; margin-bottom:6px; font-size:16px;}
+  .c-key{background:#eef3fb; border-color:#cddcf4;}
+  .c-key .h{color:var(--accent2);}
+  .c-good{background:var(--goodbg); border-color:var(--goodline);}
+  .c-good .h{color:var(--good);}
+  .c-bad{background:var(--badbg); border-color:var(--badline);}
+  .c-bad .h{color:var(--accent);}
+  .c-warn{background:var(--warnbg); border-color:var(--warnline);}
+  .c-warn .h{color:var(--warnink);}
+
+  .pull{font-size:22px; font-weight:800; line-height:1.45; color:#20242a;
+        border-left:4px solid var(--accent); padding:6px 0 6px 20px; margin:30px 0;}
+
+  .formula{background:#0f1720; color:#e8edf3; border-radius:10px; padding:16px 18px; margin:20px 0;
+        font-family:'SF Mono',Consolas,Menlo,monospace; font-size:14.5px; line-height:1.9;}
+  .formula > div{margin:3px 0;}
+  .formula .step{padding-left:1.4em;}
+  .formula b{color:#ffd479; white-space:nowrap;}
+
+  hr{border:none; border-top:1px solid var(--line); margin:40px 0;}
+  .disc{font-size:13px; color:#8b929c; background:#f4f2ed; border:1px solid var(--line);
+        border-radius:10px; padding:16px 18px; margin-top:36px; line-height:1.6;}
+  .foot{text-align:center; color:#9aa1ac; font-size:12.5px; margin-top:24px;}
+  @media (max-width:520px){
+    h1{font-size:27px;} body{font-size:16px;} .pull{font-size:19px;}
+    .formula{font-size:12.5px; padding:14px 14px;}
+    table{font-size:14.5px;} th,td{padding:9px 10px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Finance basics · a real case</div>
+  <h1>A $197 stock that's "worth" $9</h1>
+  <p class="dek">A plain-English guide to how stock valuation actually works — using Bloom Energy (BE) as a live example, and unpacking the two ideas inside DCF that trip most people up: the discount rate, and reverse-engineering the price.</p>
+  <div class="meta">As of 2026-07-21 · Educational walkthrough of a valuation method · Not investment advice</div>
+</header>
+
+<p class="lead">Here's a fact that makes people do a double-take.</p>
+
+<p>In July 2026, fuel-cell company <strong>Bloom Energy (ticker: BE)</strong> trades at <strong>$197 a share</strong> — a market cap of about <strong>$56 billion</strong>. But when you sit down and estimate what it's worth based on the cash it will actually generate, the number that comes out is roughly <strong class="r">$9 a share</strong>.</p>
+
+<p>A 20x gap. That's not a math error — it's two concepts most retail investors have never had explained cleanly. Let's use BE to walk through both.</p>
+
+<h2>1. What are we even calculating?</h2>
+
+<p>The classic way to value a stock is called <strong>DCF (Discounted Cash Flow)</strong>. The name sounds intimidating; the idea is dead simple:</p>
+
+<p>A company is worth however much real cash it will hand back to owners in the future. So we do three things: ① project how much spendable cash it earns each year for the next 10–15 years; ② translate that "future cash" into what it's worth <strong>today</strong> (future money is worth less than money in hand — this step is the whole game); ③ add it up, divide by the number of shares, and you get "what one share should be worth."</p>
+
+<p>Compare that to the market price, and you know whether it's cheap or expensive right now.</p>
+
+<h2>2. Running it forward: every version lands far below the price</h2>
+
+<p>I used a set of <strong>already-generous</strong> assumptions (BE grows fast for a decade and steadily gets more profitable), then changed exactly one thing — the "discount rate" — to get four versions of the value:</p>
+
+<div class="tw">
+<table>
+  <tr><th>Version</th><th>What it assumes</th><th>Value/share</th><th>vs $197 price</th></tr>
+  <tr><td>Lenient</td><td>"Treat it like a safe blue-chip"</td><td class="num">$52</td><td class="r">~74% below</td></tr>
+  <tr><td>Normal</td><td>"Standard growth-company treatment"</td><td class="num">$37</td><td class="r">~81% below</td></tr>
+  <tr><td>Strict</td><td>"Shakier than your average growth stock"</td><td class="num">$24</td><td class="r">~88% below</td></tr>
+  <tr><td>By real risk</td><td>"Just plug in its actual volatility"</td><td class="num">$9</td><td class="r">~95% below</td></tr>
+</table>
+</div>
+
+<div class="callout c-key">
+  <div class="h">Here's the counterintuitive part</div>
+  Across all four numbers, I never touched a single assumption about the business (growth, profitability — identical every time). The only thing that moved is one dial: the <strong>discount rate</strong>. That one dial swung the value from $52 down to $9 — nearly a 6x difference. Understand it, and you've grasped the heart of valuation.
+</div>
+
+<h2>3. What is the "discount rate"? And why is it applied every year, compounding?</h2>
+
+<p>Picture someone handing you an IOU: <strong>"I'll pay you $100 ten years from now."</strong> What's that worth today? Definitely not $100 — because you have to <strong>wait ten years</strong>, and it <strong>might never pay out</strong> (what if the company goes under?). So today you'd only pay something less than $100. <em>How much</em> less is the discount rate. <strong>The less you trust it and the riskier it is, the steeper the discount.</strong></p>
+
+<p>Is it a per-year rate? <strong>Yes — and it compounds, stacking year on year.</strong> Think of it as interest running in reverse: if $100 today grows at 12% a year, it becomes $310 in ten years; so, flipped around, "$310 ten years out" is worth only $100 today. Discounting is that process played backwards.</p>
+
+<p>The same <strong>$100</strong>, discounted at 12% a year, is worth this much today depending on when you get it:</p>
+
+<table>
+  <tr><th>When you get it</th><th>Math</th><th>Worth today</th></tr>
+  <tr><td>1 year out</td><td>100 ÷ 1.12</td><td class="num">$89</td></tr>
+  <tr><td>2 years out</td><td>100 ÷ 1.12²</td><td class="num">$80</td></tr>
+  <tr><td>3 years out</td><td>100 ÷ 1.12³</td><td class="num">$71</td></tr>
+  <tr><td>5 years out</td><td>100 ÷ 1.12⁵</td><td class="num">$57</td></tr>
+  <tr><td>10 years out</td><td>100 ÷ 1.12¹⁰</td><td class="num">$32</td></tr>
+</table>
+
+<p>Notice the pattern: it's not "12% total over ten years," it's "12% <strong>every year</strong>, layered on top of itself." So the further out the cash, the harder it gets hit — $100 ten years away is worth just $32 today.</p>
+
+<h2>4. Why does a small change in the discount rate swing value by 6x?</h2>
+
+<p>Two things stack into a "double whammy":</p>
+
+<p><strong>First, discounting compounds, so it punishes the far future exponentially.</strong> Cash ten years out is worth about 1/9 of face at a 25% rate, but about 1/2.6 at a 10% rate. The gap widens exponentially.</p>
+
+<p><strong>Second, for a growth stock like BE, almost all the value sits many years out.</strong> It barely earns anything now; most of its estimated worth rides on a big imagined pile of cash "ten-plus years from now." And that far-future cash is exactly what a high discount rate destroys.</p>
+
+<p>BE's stock swings about <strong>3.74x as hard as the market</strong> (that number is called <em>beta</em>, and the market computes it directly). More swing = more risk = a steeper discount rate. A company that "only earns later," meeting "high risk = high discount rate," gets hit from both sides. That's why $9 and $52 can be so far apart.</p>
+
+<h3>Going deeper: how does a beta of 3.74 turn into "about 25%"?</h3>
+
+<p>We said "more risk = higher discount rate." But how do you turn <em>risk</em> into an actual percentage? Wall Street uses a formula called <strong>CAPM</strong>, with just three ingredients. Keep one line in mind: <strong>the discount rate is really just the annual return investors demand to hold this stock — riskier means they demand more.</strong></p>
+
+<p>▪️ <strong>Ingredient 1 — Risk-free rate ≈ 4.3% (the floor):</strong> what you earn taking zero risk (a 10-year US Treasury). If even zero-risk pays 4.3%, any stock has to beat that or you'd just buy the bond.<br>
+▪️ <strong>Ingredient 2 — Equity risk premium ≈ 5.5% (the reward for holding stocks at all):</strong> historically, because stocks are volatile and can lose money, investors demand roughly 5.5% a year <em>above</em> Treasuries. This is the reward for owning an <em>average</em>, moves-with-the-market stock.<br>
+▪️ <strong>Ingredient 3 — Beta = 3.74 (the risk multiplier):</strong> how much wilder this stock is than the market. Beta = 1 moves with the market; BE at 3.74 is a beast that moves 3.74% when the market moves 1%.</p>
+
+<p>Stack them — start at the floor, then add the "reward for stock risk," scaled up by how wild this particular stock is:</p>
+
+<div class="formula">
+<div>Discount rate ＝ Risk-free rate ＋ Beta × Equity risk premium</div>
+<div class="step">＝ 4.3% ＋ 3.74 × 5.5%</div>
+<div class="step">＝ 4.3% ＋ 20.6% ＝ <b>~25%</b></div>
+</div>
+
+<p>In plain terms: an average stock (beta 1) earns a 5.5% risk reward; BE swings 3.74x as hard, so investors demand <strong>3.74x</strong> that reward = 20.6%; add the 4.3% floor and you're at <strong>~25%</strong>. One line — it's roughly 4x as violent as the market, so investors want nearly 4x the risk compensation of a normal stock, pushing the required return to 25%.</p>
+
+<p style="color:var(--soft); font-size:15.5px;">(Technical note: strictly, the rate used to value a company is the WACC — a blend of the cost of equity and cost of debt. But BE has almost no debt, so its WACC ≈ cost of equity ≈ 25%.)</p>
+
+<div class="callout c-warn">
+  <div class="h">⚠️ This step is exactly where DCF shows its soft underbelly</div>
+  Of the three ingredients, <strong>beta is the least reliable</strong> — it's <strong>backward-looking</strong>, and 3.74 is precisely what BE's recent wild run cooked up. Measure it over a different window and you might get 2.5, which drops the discount rate to ~18% and <em>doubles</em> the valuation. So 25% isn't "the one correct answer" — it's "<span class="hl">what the textbook tells you to use, given how insane its volatility is right now</span>." Which proves the point again: for a story stock, DCF can't hand you a trustworthy price target — the uncertainty in a single input can swing the value wildly. Its value is in the <strong>direction</strong>, not the precision.
+</div>
+
+<h2>5. Running it backward: "is it expensive?" → "what would it have to do?"</h2>
+
+<p>Running it forward, people can argue about assumptions forever ("I think it grows faster!" "the discount rate should be lower!"). So there's a sharper move — <strong>reverse it</strong>.</p>
+
+<p>Instead of asking what it's worth, you <strong>assume the $197 price is correct</strong>, then work backwards: what would this company actually have to achieve to deserve $197?</p>
+
+<p>I held "grows fast" fixed, used a normal 12% discount rate, and dialed up just one knob — "how profitable it eventually becomes" — until the math finally justified $197. The answer:</p>
+
+<p class="pull">This company would have to reach: for every $100 of sales, it keeps $60 in pure cash.</p>
+
+<p>"How much pure cash you keep per $100 of sales" (technically, <strong>free cash flow margin</strong>) means: sell $100 of product, and after paying to build it, pay salaries, build factories, pay taxes, and buy equipment, how much spendable cash is left. Measured against real companies:</p>
+
+<table>
+  <tr><th>Company type</th><th>Cash kept per $100 of sales</th></tr>
+  <tr><td>A hardware maker like BE (fuel cells / steel / components / installation)</td><td class="num">realistically $10–15</td></tr>
+  <tr><td>Apple (premium hardware)</td><td class="num">~$25</td></tr>
+  <tr><td>Microsoft, Visa (most profitable software/payments on earth)</td><td class="num">~$30–40</td></tr>
+  <tr><td><strong>What $197 requires of BE</strong></td><td class="num r">$60</td></tr>
+</table>
+
+<div class="callout c-bad">
+  <div class="h">That $60 is essentially unprecedented</div>
+  It asks a company that sells <strong>steel boxes of energy hardware to be twice as profitable as Microsoft</strong>. Businesses that make physical equipment have basically never hit a 60% free-cash-flow margin. So $197 is betting on a level of profitability with almost no real-world precedent.
+</div>
+
+<h3>Can "insane growth" rescue it instead?</h3>
+
+<p>I tried the other path: skip the margin, lean on growth — assume revenue <strong>13x's</strong> over a decade (to $27 billion) with a respectable $15-per-$100 margin. The implied price is still only <strong>$78 — 60% below $197</strong>. Translation: growth alone can't save it; you'd need <em>both</em> insane growth <em>and</em> an impossible margin to reach $197.</p>
+
+<div class="callout c-good">
+  <div class="h">Why reverse-DCF is so useful</div>
+  It converts a squishy argument about assumptions into a single, checkable claim: "paying $197 means betting it hits a 60% cash margin." Then you just ask yourself one thing — <span class="hl">can a company that builds fuel cells be twice as profitable as Microsoft?</span> That's a far easier question than arguing over discount rates, and the bubble pops on contact.
+</div>
+
+<h2>6. The bottom line: are you buying a story, or cash flow?</h2>
+
+<p>Put both ends together: run it forward, BE is worth $9–$52; run it backward, $197 demands an impossible level of profitability. <strong>Four versions, two directions, all saying the same thing: on the math of cash, the price is far out of reach.</strong></p>
+
+<p>So where does $197 come from? A very seductive story — <strong>"AI data centers are starved for power, the grid can't keep up, and Bloom's fuel cells can generate electricity on-site."</strong> The story might be true, and the stock might keep climbing on it. But be clear-eyed: <strong>at this point you're betting on narrative and momentum, not discounted cash flow.</strong></p>
+
+<div class="callout c-warn">
+  <div class="h">This is not a call that "it will crash"</div>
+  Momentum stocks can detach from fundamentals for a long time, and if the story delivers, they can run even higher. This method also won't hand you a "buy price." What it really does is act as a <strong>ruler</strong> — measuring just how wild the expectations baked into today's price are. Read that ruler, and at least you know what you're betting on.
+</div>
+
+<hr>
+
+<p><strong>The whole thing in three lines:</strong></p>
+<p>① The <strong>discount rate</strong> shrinks future cash "every year, compounding" — the further out and the riskier, the harder the hit.<br>
+② <strong>Forward</strong> asks "what is it worth"; <strong>reverse</strong> asks "what would it have to do to be worth this" — and the second is much harder to hand-wave.<br>
+③ When no reasonable calculation gets near the price, <strong>you're mostly buying a story, not cash flow</strong>. Know that, then decide whether to make the bet.</p>
+
+<div class="disc">
+  <strong>Disclaimer:</strong> This is an educational walkthrough of a valuation method. Bloom Energy is used purely as a teaching example, and nothing here is investment advice or a recommendation to buy or sell. Share price, market cap, beta, and financials are as of 2026-07-21 and will change; DCF outputs depend heavily on assumptions, and different inputs can produce wildly different conclusions, so none of this should drive a decision. Investing carries risk — do your own research and consult a licensed professional.
+</div>
+<div class="foot">Finance basics, in plain English · 2026-07-21</div>
+
+</div>
+</body>
+</html>

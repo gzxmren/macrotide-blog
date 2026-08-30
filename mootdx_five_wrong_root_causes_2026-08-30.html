@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>五版根因，前四版都说得通</title>
+<style>
+  :root{
+    --bg:#fbfaf7; --card:#ffffff; --ink:#1f2328; --soft:#5b636e; --line:#e7e4dd;
+    --accent:#b0472f; --accent2:#2b6cb0; --ok:#1b6b4a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.85;
+    font-size:17px; padding:0 0 80px;
+  }
+  .wrap{max-width:720px; margin:0 auto; padding:0 22px;}
+  header{padding:56px 0 28px; border-bottom:1px solid var(--line); margin-bottom:8px;}
+  .kicker{color:var(--accent); font-weight:700; font-size:13px; letter-spacing:1.5px; margin-bottom:14px;}
+  h1{font-size:31px; line-height:1.32; font-weight:800; letter-spacing:.3px;}
+  .dek{color:var(--soft); font-size:17px; margin-top:16px; line-height:1.7;}
+  .meta{color:#9aa1ac; font-size:13px; margin-top:20px;}
+  h2{font-size:22px; font-weight:800; margin:46px 0 14px; letter-spacing:.3px; line-height:1.35;}
+  h3{font-size:18px; font-weight:700; margin:28px 0 10px; color:#2c3038;}
+  p{margin:14px 0;}
+  .lead{font-size:18.5px;}
+  ul{margin:14px 0 14px 4px; padding-left:22px;}
+  li{margin:9px 0;}
+
+  table{width:100%; border-collapse:collapse; margin:22px 0; font-size:15px; background:var(--card);
+        border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  th,td{padding:11px 13px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{background:#f3f1ec; font-weight:700; font-size:14px;}
+  tr:last-child td{border-bottom:none;}
+
+  pre{background:#f7f5f0; border:1px solid var(--line); border-radius:8px; padding:14px 16px;
+      overflow-x:auto; margin:18px 0; font-size:14px; line-height:1.7;
+      font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
+  code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.92em;
+       background:#f0ece4; padding:1px 5px; border-radius:4px;}
+  pre code{background:none; padding:0;}
+
+  blockquote{border-left:3px solid var(--accent); background:#faf7f3; margin:20px 0;
+             padding:14px 18px; color:#3a3f47;}
+  blockquote p{margin:8px 0;}
+  .ask{border-left-color:var(--accent2); background:#f4f7fb;}
+  .ask .who{font-size:13px; color:var(--accent2); font-weight:700; margin-bottom:6px;}
+
+  hr{border:none; border-top:1px solid var(--line); margin:44px 0;}
+  footer{margin-top:52px; padding-top:22px; border-top:1px solid var(--line);
+         color:#9aa1ac; font-size:14px; line-height:1.75;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">排查手记</div>
+  <h1>五版根因，前四版都说得通</h1>
+  <p class="dek">一个 A 股数据源挂了 49 个交易日。日志每天都在打警告，信号每天照常推送，
+  监控全绿。而我给出的前四个根因，每一个当时都严丝合缝。</p>
+  <div class="meta">2026-08-30</div>
+</header>
+
+<p class="lead">先说结论：真相是那个库的默认服务器列表过期了。扫完整个池子 141 台，
+21 台完全正常。我花了大半天，绕了四个弯才走到这一步，而这四个弯每一个当时都有证据支撑。</p>
+
+<p>这篇记的不是"怎么修好的"——那部分两行就说完了。记的是我怎么四次确信自己找到了答案，
+又怎么四次被推翻。</p>
+
+<h2>背景：一个不吵不闹的故障</h2>
+
+<p>我有一套 A 股行业 ETF 轮动的影子信号，每个工作日早上 8:30 跑一次。数据源分三层：
+mootdx（通达信 TCP 协议）打头，失败降级到 AKShare，再降级到 BaoStock。</p>
+
+<p>从 6 月 17 日开始，mootdx 每天失败。降级链正常工作，信号照常算出来、照常推到 Telegram。
+日志里每天有十行警告，但日志没人读。</p>
+
+<p>这个状态持续了 <strong>49 个交易日</strong>。两个半月。系统的输出和一切正常时一模一样，
+唯一的差别是那个"主源"从来没供过一次数——备源写在代码里，实际上单腿在跑。</p>
+
+<h2>第一版：网络不通</h2>
+
+<p>我先跑了个探针，结果看着很干脆：</p>
+
+<pre><code>L1 汇总：TCP 通 8/8　协议层真正响应 0/8
+L2 mootdx 客户端：❌ bestip 和默认服务器都 TimeoutError</code></pre>
+
+<p>TCP 全通、协议层零响应。我写下"这个数据源不可访问"。</p>
+
+<blockquote class="ask">
+  <div class="who">追问</div>
+  <p>「mootdx 不是网络层不可访问，是在协议层被屏蔽了」</p>
+</blockquote>
+
+<p>这句订正看着只是措辞，实际上把问题往下推了一层。"不可访问"是个笼统词，
+它把 TCP 和协议糊在一起；一旦说清是"哪一层"，后面的排查方向就完全不同了——
+网络不通该去查路由和防火墙，协议不通该去查协议本身。</p>
+
+<h2>第二版：海外 IP 被拒</h2>
+
+<p>顺着"协议层"这条线，我找到一个 GitHub 上的 A 股数据工具集，9300 多颗星。
+它的文档里有这么一句：</p>
+
+<blockquote><p>海外 IP 用户：mootdx 走通达信 TCP 7709，海外环境通常全部超时……
+表现为「TCP 可达但返回空 / 被 reset」</p></blockquote>
+
+<p>和我看到的一字不差。我去查本机出口，是东京的一个云厂 IP。证据链闭合了：
+海外 IP → 通达信在应用层拒绝 → TCP 通但协议不响应。</p>
+
+<p>我把这个结论写进了记录。</p>
+
+<blockquote class="ask">
+  <div class="who">追问</div>
+  <p>「我当前通过代理连东京 IP。你能解决多 IP 共存吗，例如访问 mootdx 的时候就用深圳电信的网络 IP，
+  其他时候都用 tokyo IP」</p>
+</blockquote>
+
+<p>这个问题顺着我的结论提了个需求，本身没有质疑的意思。但要回答它，我得先搞清楚现在的流量到底怎么走。
+一查代理配置，路由规则第 11 条写着 <code>geoip:cn → direct</code>。我做了个对照：</p>
+
+<pre><code>访问国内服务  →  广东深圳，中国电信
+访问国外服务  →  东京</code></pre>
+
+<p>分流一直在正常工作。我又把代理的 geoip 数据库解出来（17.6MB，中国段 5806 条），
+逐个核对那些通达信服务器的 IP——全部命中 <code>geoip:cn</code>。</p>
+
+<p><strong>mootdx 的流量从来没走过东京，一直是深圳电信直连。</strong>第二版塌了。</p>
+
+<p>我错在哪儿？我测的是"访问 ipinfo.io"的出口，然后拿它推断"访问 mootdx"的出口。
+而这台机器恰恰是<em>按目标分流</em>的，两个不同目标的出口本来就不一样。
+一个连接的表现，代表不了另一个连接。</p>
+
+<h2>第三版：服务端拒绝响应</h2>
+
+<p>既然走的是国内直连还失败，那问题只能在服务端了。我又一次觉得自己想通了。</p>
+
+<blockquote class="ask">
+  <div class="who">追问</div>
+  <p>「那么问题根源是服务端修改了 api 接口？因此访问出错？」</p>
+</blockquote>
+
+<p>这个"为什么"问得很具体，具体到我没法再用笼统词回答。我只好去做字节级抓包——
+手工构造通达信的握手包发过去，看服务器到底回了什么。</p>
+
+<pre><code>119.97.185.59    → 收到 98 字节  b1cb7400 1c02189300000d005200bd00...
+124.70.133.119   → 收到 205 字节 b1cb7400 0c02189300000d00bd00bd00...
+110.41.147.114   → 收到 98 字节  b1cb7400 1c02189300000d005200bd00...</code></pre>
+
+<p><code>b1cb7400</code> 是通达信协议的标准响应头。服务器 0.03 秒就正常应答了。</p>
+
+<p>协议层根本没被屏蔽。第三版也塌了——而且塌得比前两版更彻底，因为"被屏蔽"这个说法
+（连同我上一轮接受的那句订正）从头就是错的。</p>
+
+<h2>第四版：K 线接口被停供</h2>
+
+<p>协议通、握手正常，那就往里再拆一层，逐个 API 试：</p>
+
+<pre><code>connect()                  ✅ 0.32s
+get_security_count(0 深)    ✅ 24132
+get_security_count(1 沪)    ✅ 27842      ← 真实的股票数量
+get_security_bars(...)     ❌ None
+get_index_bars(...)        ❌ None</code></pre>
+
+<p>连接正常、鉴权正常、股票数量查询返回的是真值，唯独 K 线拿不到。
+我又扫了 12 个周期参数、两个市场、个股指数 ETF 三类标的，全是 None。</p>
+
+<p>然后抓 K 线请求的原始字节，发现更精确的东西：</p>
+
+<pre><code>→发 38 字节   0c01086401011c001c002d050100 303030303031 09 ...
+←收 16 字节   b1cb7400 ...        ← 协议头正常，能解析
+←收  2 字节   2003                ← 数据体，uint16 = 800</code></pre>
+
+<p>我请求 1 根、5 根、100 根、800 根，返回的数据体<strong>永远是同一个 <code>2003</code></strong>。
+真实数据会随请求变化，固定不变的只能是常量响应。</p>
+
+<p>于是我下了第四个结论：接口和协议都没变，是服务端不再返回 K 线内容了。
+这次我甚至觉得自己做得很扎实——毕竟都抓到字节级了。</p>
+
+<blockquote class="ask">
+  <div class="who">追问</div>
+  <p>「那那个 github 项目也应该无法访问 mootdx 的 k 线数据，对不对」</p>
+</blockquote>
+
+<p>这一问是全程最致命的。</p>
+
+<p>它没有质疑我的证据，而是把我的结论<strong>推成了一个可以检验的预测</strong>：
+如果"服务端停供 K 线"成立，那所有人、所有服务器都该拿不到。这是能验的。</p>
+
+<p>我去扫了完整的服务器池——mootdx 自带 38 台加上底层库的 104 台，去重后 141 台：</p>
+
+<pre><code>可连且 get_security_count 正常：47/141
+能取到 K 线：                   21/141</code></pre>
+
+<p>21 台完全正常。第四版当场死亡。</p>
+
+<h2>真相：默认列表过期了</h2>
+
+<p>把能用和不能用的分开一看，规律很干净：</p>
+
+<table>
+  <tr><th>状态</th><th>服务器</th></tr>
+  <tr><td>失效</td><td>清一色云中转服务器（几个公有云的网段）</td></tr>
+  <tr><td>正常</td><td>传统电信主站与券商：上海电信、杭州电信、北京联通、国泰君安、安信</td></tr>
+</table>
+
+<p>而 mootdx 的默认服务器池，恰好全是前者。所以默认配置必然失败，和网络、和地理位置、
+和协议版本都没关系。</p>
+
+<p>我用能用的那几台重测了真正需要的标的：</p>
+
+<pre><code>CSI300 指数   2026-08-28  收 4609.18
+ETF 515000   2026-08-28  收 1.279
+ETF 512400   2026-08-28  收 1.982</code></pre>
+
+<p>和我同一天接进来的另一个数据源（腾讯财经 HTTP）返回的数字逐位一致。两个独立源交叉验证，
+这个数据源从头到尾都是好的。</p>
+
+<h2>最毒的一环：验活验了个寂寞</h2>
+
+<p>还剩一个问题没解释：这个库有 <code>bestip</code> 机制，启动时会测速选最快的服务器，
+而且它不只测 TCP 延迟，还会做一次真实的协议调用来验活。既然会验活，为什么每次都选中一台取不到数的？</p>
+
+<p>因为它验活用的是 <code>get_security_count</code>。</p>
+
+<p>回头看那台坏服务器的表现：<code>get_security_count</code> 返回 <strong>27842</strong>，
+一个完全正确的股票数量；<code>get_security_bars</code> 返回空。</p>
+
+<p>验活必然通过，取数必然为空。这就是 49 个交易日的全部答案。</p>
+
+<blockquote>
+  <p>一个对目标故障没有分辨力的检查，比没有检查更糟——因为它让人以为验过了。</p>
+</blockquote>
+
+<p>修法很简单，把验活换成真正拉一根 K 线：</p>
+
+<pre><code>def _validate_client(c):
+    df = c.bars(symbol="000001", category=4, offset=1)
+    return df is not None and not df.empty</code></pre>
+
+<p>加上一份实测可用的服务器列表，逐台试到验活通过为止。建连从原来的 15 秒（还必然失败）
+变成 0.45 秒，取数 0.04 秒。</p>
+
+<p>顺带说一句：那个 9300 星的项目文档里，硬编码了 10 台"实测可用"的服务器，
+标注的验证时间是 2026 年 6 月。我实测这 10 台，<strong>0/10 可用</strong>——
+和我自己踩的是同一个坑。所以真正该做对的不是列表，是验活机制：列表总会过期，
+而一个正确的验活会在过期时立刻报错降级，不会静默地供空数据。</p>
+
+<hr>
+
+<h2>顺手捡到的一个坑：TUN 下的 connect() 会骗人</h2>
+
+<p>排查中途我做过一个对照，本意是想看走不走代理有没有区别：</p>
+
+<pre><code>默认路径（经 TUN）   TCP ✅ 0.00s
+绑定物理网卡         TCP ✅ 0.03s</code></pre>
+
+<p>两条都"连上了"，但耗时差了一个数量级。0.03 秒是真实的往返延迟，
+0.00 秒是 TUN 设备在本地直接应答了——连接请求还没出机器。</p>
+
+<p>也就是说，在 TUN 模式下 <code>connect()</code> 返回成功，<em>不代表</em>真的连到了远端。
+我前面报的那句"TCP 通 8/8"，全是假象。这条对以后任何在代理环境下做网络诊断都适用。</p>
+
+<h2>我到底错在哪儿</h2>
+
+<p>五个版本，前四个都有证据、都自洽、都能解释我当时看到的现象。但它们全错。</p>
+
+<p>复盘下来，我的毛病是同一个：<strong>观察到现象，找到一个能说明它的解释，就停下来宣布这是根因。</strong>
+从来不主动问"如果这个解释是对的，它还必然意味着什么"。</p>
+
+<p>四次推翻我的，都是外面来的追问，一共四种：</p>
+
+<table>
+  <tr><th>追问方式</th><th>它逼我做了什么</th></tr>
+  <tr><td>订正措辞精度<br>「不是网络层，是协议层」</td><td>逼我分层。笼统词恰好掩盖了"哪一层"这个关键信息</td></tr>
+  <tr><td>基于我的结论提个需求<br>「那你能做分流吗」</td><td>逼我验证结论的可操作后果，一查发现分流早就在做</td></tr>
+  <tr><td>问"为什么"而不是"是什么"<br>「为什么协议层回错」</td><td>逼我从现象下到机制，才有了字节级抓包</td></tr>
+  <tr><td>把结论推成预测<br>「那那个项目也该拿不到吧」</td><td>最致命的一招，一验就塌</td></tr>
+</table>
+
+<p>最后这一招是可以自己对自己用的，而且成本极低。当我第四次宣布"服务端停供 K 线"时，
+只要多问一句"那所有服务器都该取不到"，然后扫一遍池子——几分钟的事，
+整条错误链就断在那里了。</p>
+
+<p>我没扫。倒不是嫌贵——压根没往"我的样本能代表全体吗"这个方向想过。
+测了 10 台就当成了 141 台。</p>
+
+<h2>留下来的三个问句</h2>
+
+<p>这次之后，我把三句话钉在了"我正要宣布根因"这个时刻：</p>
+
+<ul>
+  <li><strong>如果这个解释是对的，它还必然意味着什么？</strong>——然后去验那个推论。
+  不是"它能解释我看到的"，而是"它预测了我还没看的什么"。</li>
+  <li><strong>已有的记录里，有没有跟它冲突的观测？</strong>——第二版塌掉之前，
+  我自己两个月前写的排查笔记里就白纸黑字记着"出口是国内电信 IP"，直接和"海外 IP"冲突，我没去对。</li>
+  <li><strong>我的样本是几个？能代表全体吗？</strong>——不能就去穷尽。
+  判断标准是穷尽的成本对比结论错误的代价：这次扫全池几分钟，而错误结论的代价是白白弃用一个可用数据源两个半月。</li>
+</ul>
+
+<p>三问都答完了才算停，这是"穷尽即停"。我原来的模式是"够用即停"——找到一个说得通的就收工。</p>
+
+<p>真正有效的动作也只有三类，都很朴素：分层拆解（TCP、握手、逐个 API，每一层的"正常"
+都在切分搜索空间）、穷尽样本（141 台而不是 10 台）、对照实验（绑物理网卡对比默认路径，
+一次排除掉代理、路由、出口 IP 全部嫌疑）。</p>
+
+<hr>
+
+<p>最后留一个也许更值得琢磨的事实：这个故障能藏 49 个交易日，不是因为它隐蔽，
+而是因为<strong>系统在故障状态下的输出，和正常时完全一样</strong>。信号照出、消息照推、
+日志照打。降级链设计得很好，好到把主源已经死了这件事完全吸收掉了。</p>
+
+<p>冗余的价值在于备源能顶上。但如果没人验证主源还活着，那所谓的三层降级，
+实际上跑的是单腿。</p>
+
+<footer>
+  文中所有数字均来自这次排查的真实运行记录，未经修饰。<br>
+  服务器 IP 为通达信公开行情服务器；本机出口地址已略去。
+</footer>
+
+</div>
+</body>
+</html>

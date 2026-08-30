@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 说「找到原因了」的那一刻</title>
+<meta name="description" content="和 AI 协作查问题，人不必全程盯着，也不必懂技术细节——只需要在它宣布结论时问对问题。">
+<style>
+  :root{
+    --bg:#fbfaf7; --card:#ffffff; --ink:#1f2328; --soft:#5b636e; --line:#e7e4dd;
+    --accent:#b0472f; --accent2:#2b6cb0; --ok:#1b6b4a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.85;
+    font-size:17px; padding:0 0 80px;
+  }
+  .wrap{max-width:720px; margin:0 auto; padding:0 22px;}
+  header{padding:56px 0 28px; border-bottom:1px solid var(--line); margin-bottom:8px;}
+  .kicker{color:var(--accent); font-weight:700; font-size:13px; letter-spacing:1.5px; margin-bottom:14px;}
+  h1{font-size:31px; line-height:1.32; font-weight:800; letter-spacing:.3px;}
+  .dek{color:var(--soft); font-size:17px; margin-top:16px; line-height:1.7;}
+  .meta{color:#9aa1ac; font-size:13px; margin-top:20px;}
+  h2{font-size:22px; font-weight:800; margin:46px 0 14px; letter-spacing:.3px; line-height:1.35;}
+  h3{font-size:18px; font-weight:700; margin:30px 0 10px; color:#2c3038;}
+  p{margin:14px 0;}
+  .lead{font-size:18.5px;}
+  ul{margin:14px 0 14px 4px; padding-left:22px;}
+  li{margin:9px 0;}
+
+  table{width:100%; border-collapse:collapse; margin:22px 0; font-size:15px; background:var(--card);
+        border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  th,td{padding:11px 13px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{background:#f3f1ec; font-weight:700; font-size:14px;}
+  tr:last-child td{border-bottom:none;}
+
+  pre{background:#f7f5f0; border:1px solid var(--line); border-radius:8px; padding:14px 16px;
+      overflow-x:auto; margin:18px 0; font-size:14px; line-height:1.7;
+      font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
+  code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.92em;
+       background:#f0ece4; padding:1px 5px; border-radius:4px;}
+  pre code{background:none; padding:0;}
+
+  blockquote{border-left:3px solid var(--accent); background:#faf7f3; margin:20px 0;
+             padding:14px 18px; color:#3a3f47;}
+  blockquote p{margin:8px 0;}
+  .say{border-left-color:var(--accent2); background:#f4f7fb; font-size:16.5px;}
+  .say .who{font-size:13px; color:var(--accent2); font-weight:700; margin-bottom:6px;}
+
+  hr{border:none; border-top:1px solid var(--line); margin:44px 0;}
+  footer{margin-top:52px; padding-top:22px; border-top:1px solid var(--line);
+         color:#9aa1ac; font-size:14px; line-height:1.75;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">与 AI 协作</div>
+  <h1>AI 说「找到原因了」的那一刻</h1>
+  <p class="dek">前一篇记了一次真实排查：AI 连给五版根因，前四版全错。这篇讲那件事教给我的
+  协作方法——人不必全程盯着，也不必懂技术细节，只需要在它宣布结论时问对问题。</p>
+  <div class="meta">2026-08-30</div>
+</header>
+
+<p class="lead">上一篇写了整个过程：一个数据源挂了 49 个交易日，Claude 给出五个根因，
+前四个都有证据、都自洽、也都是错的。四次推翻它的都是我，而我一句通达信协议都不懂。</p>
+
+<p>这件事之后我对"怎么用好 AI"的理解具体了不少，所以单独写一篇。</p>
+
+<h2>先把分工说清楚</h2>
+
+<p>那次排查里它实际干的活：并发扫描 141 台服务器并对每台做两级验证、
+按二进制协议手工拼包再 hook 底层 socket 抓收发字节、手写一个 protobuf 解析器
+拆开 17.6MB 的数据库比对 5806 个网段、修完代码自己写测试再故意改坏确认测试会红。</p>
+
+<p>这些活我自己做，要么做不了，要么做到一半开始抽样偷懒。而抽样恰恰是错误的来源。</p>
+
+<p>但"该往哪看"这件事，四次都是我给的。它有能力三分钟扫完 141 台，
+只是没想到要扫。所以分工可以这么概括：</p>
+
+<blockquote>
+  <p>AI 极擅长「验证」，不擅长「决定该验证什么」。</p>
+</blockquote>
+
+<p>这个分工有个很实用的推论：<strong>人的介入不需要连续，只需要卡在特定节点。</strong>
+你不用盯着它每一步怎么跑，那部分它做得比你好。你要盯的是它<em>下结论</em>的那一刻。</p>
+
+<h2>交接点：它说「所以问题是……」的时候</h2>
+
+<p>回看那次的四轮对话，我每次开口的时机完全一样——它刚宣布一个根因。</p>
+
+<p>这个时刻之所以关键，是因为 AI 在这里有个很稳定的行为模式：
+<strong>观察到现象，找到一个能说明现象的解释，然后停下来。</strong>
+它不会自动去问"如果这个解释是对的，还必然意味着什么"。</p>
+
+<p>用它自己后来的话讲，它的默认模式是"够用即停"——找到一个说得通的就收工。
+而说得通的门槛，比你想象的低得多。</p>
+
+<h3>一个反直觉的观察</h3>
+
+<p>那四个错误版本，证据质量是<strong>递增</strong>的：</p>
+
+<pre><code>第一版  跑了个连通性探针
+第二版  查了出口 IP，还找到一份文档佐证
+第三版  解开 17.6MB 数据库，逐条比对 5806 个网段
+第四版  手工构造协议包，抓到了字节级的原始收发</code></pre>
+
+<p>到第四版，它已经能给出这样的东西：</p>
+
+<pre><code>→发 38 字节   0c01086401011c001c002d050100 ...
+←收 16 字节   b1cb7400 ...        ← 协议头正常
+←收  2 字节   2003                ← 数据体，固定不变</code></pre>
+
+<p>看着极其扎实。但它仍然是错的。</p>
+
+<p>所以有一条要记住：<strong>证据越来越精细，不代表结论越来越可靠。</strong>
+精细的证据能证明"我看到的现象确实存在"，但证明不了"我的解释是唯一能产生这个现象的"。
+这两件事差得很远。</p>
+
+<h2>四句话</h2>
+
+<p>下面这四句是那次实际用的，按当时的顺序。共同点是：都不需要懂具体技术，
+而且都很短。</p>
+
+<h3>一、把笼统的词换成精确的词</h3>
+
+<blockquote class="say">
+  <div class="who">当时说的</div>
+  <p>不是网络层不可访问，是在协议层被屏蔽了。</p>
+</blockquote>
+
+<p>它原话是"这个数据源不可访问"。"不可访问"听起来像个结论，实际上是个筐——
+网络不通是它，协议不应答也是它，服务端拒绝还是它。一个能同时兼容好几种互斥机制的说法，
+听起来永远是对的。</p>
+
+<p>把它换成精确的层级之后，排查方向立刻分岔：网络不通该查路由和防火墙，
+协议不应答该查协议本身。</p>
+
+<p>用起来很简单：听到笼统词就往下追一层。"有问题"、"不稳定"、
+"有实质影响"、"性能瓶颈"——这类词出现时，问一句"具体是哪一层／哪个环节／多少"，
+通常就有东西掉出来。</p>
+
+<h3>二、顺着它的结论提一个具体需求</h3>
+
+<blockquote class="say">
+  <div class="who">当时说的</div>
+  <p>我当前通过代理连东京 IP。你能解决多 IP 共存吗，例如访问 mootdx 的时候就用深圳电信的网络 IP？</p>
+</blockquote>
+
+<p>这句话里没有一个字是质疑。它刚说"海外 IP 被拒"，我就顺着提了个需求：那能不能分流。</p>
+
+<p>但要回答这个需求，它必须先搞清楚当前流量到底怎么走的。一查发现：
+分流规则早就配好了，那些服务器的 IP 全部命中国内段，流量从来没走过东京。
+它自己把自己的结论推翻了。</p>
+
+<p>这招管用的道理在于：结论错的时候，按它去做事比质疑它更快撞到墙。
+质疑会得到辩解，动手会得到事实。</p>
+
+<p>句式也简单：它说"问题是 X"，你就说"那我们按 X 来办，具体怎么做"。
+如果 X 是错的，这一步通常会露馅。</p>
+
+<h3>三、问"为什么会这样"，而不是"是什么问题"</h3>
+
+<blockquote class="say">
+  <div class="who">当时说的</div>
+  <p>那么问题根源是服务端修改了 api 接口？因此访问出错？</p>
+</blockquote>
+
+<p>这句问的是机制。它当时的说法是"协议层被屏蔽"，而"被屏蔽"只描述了现象。
+要回答"为什么会回错"，它必须去看服务器实际回了什么——于是有了字节级抓包，
+然后发现服务器根本是正常应答的。</p>
+
+<p>做法就是把"是什么"换成"为什么"。
+"所以是缓存的问题" → "为什么缓存会导致这个现象"。
+后者没法用笼统词糊过去，只能去看更底层的东西。</p>
+
+<h3>四、把它的结论推成一个可以检验的预测</h3>
+
+<blockquote class="say">
+  <div class="who">当时说的</div>
+  <p>那那个 github 项目也应该无法访问 mootdx 的 k 线数据，对不对？</p>
+</blockquote>
+
+<p>这一句最有效，而且成本最低。</p>
+
+<p>它刚说"服务端不再返回 K 线数据了"。我没有质疑任何证据，只是把这句话顺着往下说了一步：
+如果服务端真的停供，那所有人、所有服务器都该拿不到。</p>
+
+<p>这就变成了一个能验的东西。它去扫了完整的服务器池，141 台里有 21 台完全正常。</p>
+
+<p>它之所以最有效，是因为错误的解释在它自己的地盘上总是说得通——
+它本来就是为了解释你看到的现象才被造出来的。但一旦推导出去，
+它就会预测一些你还没看过的事情，而那些预测很容易和事实对不上。</p>
+
+<p>句式基本是固定的——"如果是 X，那么 Y 也该成立吧？"
+然后去看 Y。你甚至不需要知道 Y 该怎么验证，AI 会去做。</p>
+
+<h2>如果想让它自己做这件事</h2>
+
+<p>上面四句是人来问。同样的东西也可以变成一段固定要求，让它在下结论前自问。
+那次之后我把三个问句写进了给它的长期指令：</p>
+
+<ul>
+  <li><strong>如果这个解释是对的，它还必然意味着什么？</strong>
+  重点在"还"字——不是"它能解释我看到的"，而是"它预测了我还没看的什么"。</li>
+  <li><strong>已有的记录里，有没有跟它冲突的观测？</strong>
+  那次第二版被推翻之前，它自己两个月前写的排查笔记里就白纸黑字记着一条直接冲突的事实，
+  它没去翻。</li>
+  <li><strong>我的样本是几个？能代表全体吗？</strong>
+  它报"TCP 通 8/8"的时候，那个池子一共 141 台。</li>
+</ul>
+
+<p>要补一句：这三条写进去之后，它并没有立刻变得可靠。规则写下来和行为改变之间隔着很远，
+第一篇里那个"复盘写完第二天就被自己证伪"的例子就是证据。所以人的介入仍然需要，
+只是可以更省力——问的次数少了，问的时机准了。</p>
+
+<h2>让它的输出可以被检验</h2>
+
+<p>四轮推翻能进行得那么快，有个前提常被忽略：<strong>它每个结论下面都挂着能重跑的代码和原始输出。</strong></p>
+
+<p>所以推翻它不需要争论。数据摆在那里，跑一遍就知道。如果它给的是
+"我认为可能是海外 IP 的问题"，那我除了信或不信没有第三个选择。</p>
+
+<p>这一点可以直接变成要求：</p>
+
+<ul>
+  <li>结论要附上得出结论的那条命令和它的原始输出，不要只给转述</li>
+  <li>数字要说清楚分母。"通了 8 台"和"141 台里通了 8 台"是两个完全不同的意思</li>
+  <li>改完代码要能证明改动生效——最简单的办法是故意改坏一次，确认测试会失败，再改回来</li>
+</ul>
+
+<p>最后一条特别值得坚持。很多测试写完之后从来没有失败过，
+那你其实不知道它在不在做事。</p>
+
+<h2>它反而不容易犯的错</h2>
+
+<p>公平地讲，有几类错它基本不犯，而人在长时间排查里几乎一定会犯：</p>
+
+<ul>
+  <li>算错数、抄错数字</li>
+  <li>忘记自己十步之前说过什么、结论前后矛盾</li>
+  <li>嫌麻烦，141 台只跑 10 台就下结论（它跑全量的成本和跑 10 台差不多）</li>
+  <li>觉得"这一步应该没问题"就跳过验证</li>
+</ul>
+
+<p>所以分工是清楚的：方向判断和"要不要继续挖"归人，密集的验证和执行归它。
+把这两件事对调，两头都会做得很差。</p>
+
+<h2>这套方法的边界</h2>
+
+<p>有三点要说明，免得把它用过头。</p>
+
+<p><strong>它治的是"过早收敛"，不治"完全不懂"。</strong>
+那四句话之所以有效，是因为 AI 已经把技术工作做到了位——探针、抓包、扫描都是它跑的。
+人提供的是"要不要接受这个结论"的判断。如果它连基本的调查都做不了，
+再会问也问不出东西。</p>
+
+<p><strong>不是每个结论都值得追四轮。</strong>
+判断标准我觉得是：结论错了的代价有多大，验证一次的成本有多低。
+那次扫全池只要三分钟，而结论错误的代价是白白弃用一个可用的数据源两个多月——
+这种性价比下没有任何理由不验。反过来，如果验证要跑一整天而结论错了也无所谓，
+那就别折腾。</p>
+
+<p><strong>追问不等于抬杠。</strong>
+那四句里没有一句是"你确定吗"或者"我觉得不对"。全都是往前推一步：
+换个精确的说法、按你的结论做点事、问机制、推个预测。
+"你确定吗"只会得到一句"我确定"，没有任何新信息。</p>
+
+<hr>
+
+<p>把这次的经验压成一句话：<strong>AI 会在找到第一个说得通的解释时停下来，
+而人的价值就在于知道那里还不是终点。</strong></p>
+
+<p>好消息是，识别"那里还不是终点"不需要领域知识。你只需要在它说"所以问题是……"的时候，
+花十秒钟问一句：如果这是真的，还有什么也该是真的？</p>
+
+<footer>
+  本文所述过程与数字均来自 2026-08-30 的真实排查记录，完整经过见
+  <a href="mootdx_five_wrong_root_causes_2026-08-30.html">《AI 给了我五版根因，前四版都说得通》</a>。<br>
+  协作方为 Claude（Anthropic）。
+</footer>
+
+</div>
+</body>
+</html>

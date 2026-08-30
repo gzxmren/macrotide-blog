@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你的健康检查可能什么都没在查</title>
+<meta name="description" content="一个数据源挂了 49 个交易日，健康检查每天都是绿的。四个让检查失去分辨力的具体坑。">
+<style>
+  :root{
+    --bg:#fbfaf7; --card:#ffffff; --ink:#1f2328; --soft:#5b636e; --line:#e7e4dd;
+    --accent:#b0472f; --accent2:#2b6cb0; --ok:#1b6b4a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.85;
+    font-size:17px; padding:0 0 80px;
+  }
+  .wrap{max-width:720px; margin:0 auto; padding:0 22px;}
+  header{padding:56px 0 28px; border-bottom:1px solid var(--line); margin-bottom:8px;}
+  .kicker{color:var(--accent); font-weight:700; font-size:13px; letter-spacing:1.5px; margin-bottom:14px;}
+  h1{font-size:31px; line-height:1.32; font-weight:800; letter-spacing:.3px;}
+  .dek{color:var(--soft); font-size:17px; margin-top:16px; line-height:1.7;}
+  .meta{color:#9aa1ac; font-size:13px; margin-top:20px;}
+  h2{font-size:22px; font-weight:800; margin:46px 0 14px; letter-spacing:.3px; line-height:1.35;}
+  h3{font-size:18px; font-weight:700; margin:30px 0 10px; color:#2c3038;}
+  p{margin:14px 0;}
+  .lead{font-size:18.5px;}
+  ul{margin:14px 0 14px 4px; padding-left:22px;}
+  li{margin:9px 0;}
+
+  table{width:100%; border-collapse:collapse; margin:22px 0; font-size:15px; background:var(--card);
+        border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  th,td{padding:11px 13px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{background:#f3f1ec; font-weight:700; font-size:14px;}
+  tr:last-child td{border-bottom:none;}
+
+  pre{background:#f7f5f0; border:1px solid var(--line); border-radius:8px; padding:14px 16px;
+      overflow-x:auto; margin:18px 0; font-size:14px; line-height:1.7;
+      font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
+  code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.92em;
+       background:#f0ece4; padding:1px 5px; border-radius:4px;}
+  pre code{background:none; padding:0;}
+
+  blockquote{border-left:3px solid var(--accent); background:#faf7f3; margin:20px 0;
+             padding:14px 18px; color:#3a3f47; font-size:17.5px;}
+  blockquote p{margin:8px 0;}
+
+  hr{border:none; border-top:1px solid var(--line); margin:44px 0;}
+  footer{margin-top:52px; padding-top:22px; border-top:1px solid var(--line);
+         color:#9aa1ac; font-size:14px; line-height:1.75;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">工程笔记</div>
+  <h1>你的健康检查可能什么都没在查</h1>
+  <p class="dek">一个数据源挂了 49 个交易日，期间健康检查每天都返回正常，而且它检查的东西
+  确实是真的。四个让检查失去分辨力的具体坑，都是这次排查里踩到的。</p>
+  <div class="meta">2026-08-30</div>
+</header>
+
+<p class="lead">前两篇写了那次排查的经过和从中总结的协作方法。这篇只讲技术：
+四个坑，每一个的共同点都是——检查跑了，返回了，结果看着完全正常，而它压根没在检查你以为的那件事。</p>
+
+<h2>坑一：验活调了一个必然成功的接口</h2>
+
+<p>那个数据源是通达信行情协议，客户端库带一个 <code>bestip</code> 机制：
+启动时测速挑最快的服务器。它不只测 TCP 延迟，还会发一次真实的协议请求来确认服务器可用。</p>
+
+<p>听起来很周全。问题在于它发的那个请求是 <code>get_security_count</code>——查股票总数。</p>
+
+<p>而一台坏服务器的表现是这样的：</p>
+
+<pre><code>get_security_count(1)  →  27842      ← 完全正确的沪市股票数
+get_security_bars(...)  →  None       ← 要的 K 线，拿不到</code></pre>
+
+<p>验活必然通过，取数必然为空。选出来的"最快服务器"从来没被验证过能不能取到数据。</p>
+
+<p>再往下抓字节，能看到更清楚的东西。K 线请求发出去之后：</p>
+
+<pre><code>→发 38 字节   0c01086401011c001c002d050100 ...
+←收 16 字节   b1cb7400 ...        ← 协议头正确，能正常解析
+←收  2 字节   2003                ← 数据体，就这两个字节</code></pre>
+
+<p>请求 1 根、5 根、100 根、800 根，数据体永远是同一个 <code>2003</code>。
+真实数据会随请求变化，固定不变的只能是常量响应。</p>
+
+<p>所以这台服务器在协议层是完全健康的：连接正常、握手正常、部分接口返回真实数据。
+它只是不再返回 K 线内容。而验活恰好选中了那个还正常的接口。</p>
+
+<blockquote>
+  <p>一个对目标故障没有分辨力的检查，比没有检查更糟——它让人以为验过了。</p>
+</blockquote>
+
+<p>修法很直接，验活换成真正拉一根 K 线：</p>
+
+<pre><code>def _validate_client(c):
+    df = c.bars(symbol="000001", category=4, offset=1)
+    return df is not None and not df.empty</code></pre>
+
+<p>判断一个健康检查有没有用，可以问一句：<strong>如果被检查的东西现在就是坏的，
+这个检查会不会变红？</strong>答不上来，就说明它对这类故障没有分辨力。</p>
+
+<p>放到这个例子里：如果服务器取不到 K 线，<code>get_security_count</code> 会失败吗？
+不会。那它就不该被用来验活。</p>
+
+<h2>坑二：TUN 环境下 connect() 成功不代表连上了</h2>
+
+<p>排查中途做过一个对照，本意是看走不走代理有没有区别：</p>
+
+<pre><code>默认路径（经 TUN）   TCP ✅ 0.00s
+绑定物理网卡         TCP ✅ 0.03s</code></pre>
+
+<p>两条都"连上了"，但耗时差了一个数量级。0.03 秒是真实的往返延迟，
+0.00 秒是 TUN 设备在本地直接应答的——连接请求还没离开这台机器。</p>
+
+<p>这意味着在 TUN 模式下，<code>connect()</code> 返回成功<em>不代表</em>真的连到了远端。
+前面那句"TCP 通 8/8"因此完全是假象，而它当时被当成了"网络层没问题"的证据。</p>
+
+<p>怎么绕开：用 <code>SO_BINDTODEVICE</code> 强制走物理网卡，跳过 TUN 的默认路由。</p>
+
+<pre><code>s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_BINDTODEVICE, b"eth0")
+s.connect((ip, port))</code></pre>
+
+<p>两条路径跑同一个测试，结果一致才说明代理不是变量。这次跑下来两边一字不差，
+一次就排除掉了代理、路由、出口地址的全部嫌疑。</p>
+
+<p>另外一个连带教训：<strong>连接耗时本身就是信息</strong>。同一批目标里
+有的 0.00 秒有的 0.03 秒，这个差异比"通了几台"更值得看一眼。</p>
+
+<h2>坑三：硬编码的服务器列表一定会过期</h2>
+
+<p>这次的真正根因，说穿了很朴素：那个库默认的服务器池整体失效了。
+扫完 141 台，21 台完全正常，而失效的清一色是云中转服务器，正常的是传统电信主站和券商。
+默认池恰好全是前者。</p>
+
+<p>更有意思的是另一个发现。排查中参考过一个 9300 星的开源工具集，
+它的文档里硬编码了 10 台"实测可用"的服务器，标注的验证时间是两个月前。</p>
+
+<p>实测这 10 台：<strong>0/10 可用</strong>。</p>
+
+<p>所以维护一份服务器名单是没有出路的——名单总会过期，写它的人也知道，
+所以那份文档里还写着一句"列表失效时请自行更新"。</p>
+
+<p>真正该做对的是这个：<strong>列表过期时，程序应该立刻报错降级，而不是静默地供空数据。</strong></p>
+
+<pre><code>for server in SERVERS:
+    try:
+        c = connect(server)
+    except Exception:
+        continue                  # 连不上，换下一台
+    if validate(c):               # ★用真实业务请求验活
+        return c
+raise RuntimeError("全部候选都取不到数据——列表可能已过期")</code></pre>
+
+<p>这段代码里，名单只是加速用的候选，验活才是保证正确性的那一层。
+名单全挂的时候它会抛错，上层会降级到别的数据源。而原来的实现在这种情况下
+返回一个"连上了但取不到数"的客户端，静默返回空表。</p>
+
+<h2>坑四：字段顺序错位不会报错</h2>
+
+<p>修完之后接了一个新的 HTTP 数据源做主力，那边返回的日线长这样：</p>
+
+<pre><code>["2026-08-27", "4594.480", "4630.280", "4631.350", "4584.990", "..."]
+    日期          开           收           高           低</code></pre>
+
+<p><strong>收盘价在索引 2，不是标准 OHLC 的第 4 位。</strong>按惯性读会把最高价当成收盘价。</p>
+
+<p>这类错误的麻烦在于它不会抛异常：拿到的仍是合法的浮点数、仍在合理区间、
+仍然能画出一条看着正常的曲线，只是每一天都系统性偏高。等到有人发现的时候，
+已经不知道错了多久。</p>
+
+<p>能兜住它的办法是加一个恒等式检查——OHLC 之间有天然的约束：</p>
+
+<pre><code>if high < max(open, close) - 1e-6 or low > min(open, close) + 1e-6:
+    raise ValueError(f"OHLC 自洽校验失败（疑似字段错位）{code} {date}")</code></pre>
+
+<p>最高价必须不低于开盘和收盘，最低价必须不高于两者。列读错了，这个约束立刻破。
+成本是三行代码，换掉的是一整类静默错误。</p>
+
+<p>顺便提一句，写完这个检查之后我故意把索引改成 3 跑了一次，确认测试确实会失败，
+再改回来确认变绿。不这么做的话，你并不知道那个检查在不在做事——这和坑一是同一个问题。</p>
+
+<h2>把四个坑串起来</h2>
+
+<p>它们的形状完全一样：</p>
+
+<table>
+  <tr><th>检查</th><th>返回</th><th>实际没在查的</th></tr>
+  <tr><td><code>get_security_count</code> 验活</td><td>真实股票数 27842</td><td>能不能取到 K 线</td></tr>
+  <tr><td>TUN 下的 <code>connect()</code></td><td>成功，0.00s</td><td>能不能真的连到远端</td></tr>
+  <tr><td>硬编码服务器名单</td><td>名单里有 10 台</td><td>这 10 台今天还活着吗</td></tr>
+  <tr><td>解析出来的价格</td><td>合法浮点数、区间合理</td><td>读的是不是那一列</td></tr>
+</table>
+
+<p>每一个都返回了真实的、正确的信息。它们没有说谎，只是回答的不是你真正想问的问题。</p>
+
+<p>所以设计任何检查的时候，值得先花十秒钟回答一句：</p>
+
+<blockquote>
+  <p>如果被检查的东西现在就是坏的，我在这个信号上会看到什么不同？</p>
+</blockquote>
+
+<p>答不出差别，这个检查就不该被信任。而验证这一点的办法也很朴素——
+把被检查的东西真的弄坏一次，看它会不会红。</p>
+
+<hr>
+
+<p>最后说回那 49 个交易日。这个故障能藏这么久，不是因为它隐蔽。
+信号照常算出来、消息照常推送、日志照常记录，降级链工作得很好，
+好到把主源已经死了这件事完全吸收掉了。</p>
+
+<p>而那个本该发现问题的验活机制，因为选错了一个接口，每天都在如实地报告
+一件真实但无关的事情。</p>
+
+<footer>
+  完整排查经过见
+  <a href="mootdx_five_wrong_root_causes_2026-08-30.html">《AI 给了我五个根因，前四个都说得通》</a>；
+  协作方法见
+  <a href="ai_collaboration_four_questions_2026-08-30.html">《AI 说「找到原因了」的那一刻》</a>。<br>
+  文中数字与代码均来自 2026-08-30 的真实排查记录。
+</footer>
+
+</div>
+</body>
+</html>

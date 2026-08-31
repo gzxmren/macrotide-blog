@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>按现价买苹果，隐含年化回报 6.2%</title>
+<style>
+
+  :root{
+    --paper:#FAFBFC;
+    --panel:#EDF1F5;
+    --panel-warm:#F5F1EC;
+    --ink:#15212E;
+    --muted:#5C6F82;
+    --accent:#0B5E7D;
+    --flag:#A34527;
+    --good:#1E6F4E;
+    --rule:#D5DEE6;
+    --rule-soft:#E6ECF1;
+
+    --serif:"Source Serif 4","Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Serif SC","Source Serif 4",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    font-size:17px;
+    line-height:1.78;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:720px;margin:0 auto;padding:56px 24px 96px}
+
+  .kicker{
+    font-family:var(--mono);font-size:11.5px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+    margin:0 0 18px;
+  }
+  h1{
+    font-family:var(--sans);font-weight:700;
+    font-size:clamp(28px,5vw,40px);line-height:1.24;
+    letter-spacing:-.01em;text-wrap:balance;
+    margin:0 0 16px;
+  }
+  .standfirst{font-size:19px;line-height:1.7;color:var(--muted);margin:0 0 26px}
+  .byline{
+    font-family:var(--mono);font-size:12px;color:var(--muted);
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:11px 0;margin:0 0 44px;
+  }
+  .byline span{white-space:nowrap}
+  .byline i{font-style:normal;color:var(--rule);padding:0 8px}
+
+  h2{
+    font-family:var(--sans);font-weight:700;
+    font-size:24px;line-height:1.35;text-wrap:balance;
+    margin:56px 0 4px;padding-top:22px;
+    border-top:2px solid var(--ink);
+  }
+  h3{font-family:var(--sans);font-weight:600;font-size:18.5px;margin:34px 0 2px}
+  p{margin:14px 0}
+  a{color:var(--accent)}
+  strong{font-weight:600}
+  .lede{font-size:18.5px}
+
+  .pull{
+    font-family:var(--sans);font-weight:600;
+    font-size:20px;line-height:1.6;
+    border-left:3px solid var(--accent);
+    padding:4px 0 4px 20px;margin:30px 0;
+  }
+  .pull.flag{border-left-color:var(--flag)}
+
+  .scroll{overflow-x:auto;margin:26px 0;
+    border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+  table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+  caption{
+    caption-side:top;text-align:left;
+    font-family:var(--mono);font-size:11.5px;font-weight:500;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+    padding:0 0 8px;
+  }
+  th{
+    font-family:var(--sans);font-weight:600;font-size:13.5px;
+    text-align:left;color:var(--muted);
+    padding:10px 14px 10px 0;border-bottom:1px solid var(--rule);white-space:nowrap;
+  }
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{font-family:var(--mono);font-size:14.5px;font-weight:500;white-space:nowrap}
+  td.lab{font-family:var(--sans);font-weight:600;font-size:14.5px}
+  .up{color:var(--good)}
+  .dn{color:var(--flag)}
+  .src{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+
+  .ledger{
+    background:var(--panel);border:1px solid var(--rule);
+    padding:22px 24px;margin:28px 0;
+    font-family:var(--mono);font-size:14.5px;line-height:2.05;
+    font-variant-numeric:tabular-nums;
+  }
+  .ledger .row{display:flex;justify-content:space-between;gap:16px}
+  .ledger .row.sum{border-top:1px solid var(--rule);margin-top:8px;padding-top:8px;font-weight:600}
+  .ledger .row.gap{border-top:2px solid var(--ink);margin-top:10px;padding-top:10px;
+    font-weight:600;color:var(--flag)}
+  .ledger .lbl{font-family:var(--sans);font-weight:400}
+  .ledger .in{color:var(--good)}
+  .ledger .out{color:var(--flag)}
+
+  .note{
+    background:var(--panel-warm);border-left:3px solid var(--muted);
+    padding:14px 18px;margin:26px 0;font-size:15px;line-height:1.7;
+  }
+  .note .tag{
+    display:block;font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;
+  }
+
+  .watch{margin:30px 0;border-top:1px solid var(--rule)}
+  .watch .item{padding:20px 0;border-bottom:1px solid var(--rule)}
+  .watch .h{
+    font-family:var(--sans);font-weight:700;font-size:17px;margin:0 0 6px;
+  }
+  .watch p{margin:8px 0}
+  .watch .kill{
+    font-size:14.5px;line-height:1.65;color:var(--ink);
+    background:var(--panel);border-left:3px solid var(--flag);
+    padding:10px 14px;margin:12px 0 0;
+  }
+  .watch .kill b{
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--flag);display:block;margin-bottom:3px;
+  }
+
+  ul{margin:14px 0;padding-left:22px}
+  li{margin:7px 0}
+  footer{
+    margin-top:56px;padding-top:20px;border-top:2px solid var(--ink);
+    font-family:var(--mono);font-size:12px;line-height:1.9;color:var(--muted);
+  }
+  ::selection{background:#CFE3EC;color:var(--ink)}
+  a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  @media (max-width:640px){
+    body{font-size:16.5px}
+    .wrap{padding:36px 18px 72px}
+    h2{font-size:21px}
+    .pull{font-size:18px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="kicker">估值拆解 · AAPL FY2026</p>
+
+<h1>按现价买苹果，隐含年化回报 6.2%</h1>
+
+<p class="standfirst">三档现金流折现模型分别给出每股 116.50 / 151.82 / 197.74 美元，现价 319.70。但"贵"这个结论我已经连着说了三次——微软、英伟达、现在是苹果。所以这一轮我先查的不是苹果，是我自己的折现率口径。</p>
+
+<p class="byline">
+<span>2026-08-31</span><i>·</i><span>基本面数据：SEC EDGAR XBRL</span><i>·</i><span>价格：Twelve Data</span><i>·</i><span>基期 FY2026E</span>
+</p>
+
+<p class="lede">先把数字摆出来。折现率取 9.89%，显式期五年（FY2027–FY2031），终值用永续增长。三档的差别只在增长、利润率、资本开支三条路径上。</p>
+
+<div class="scroll">
+<table>
+<caption>三档估值 vs 现价</caption>
+<thead><tr><th>情景</th><th class="num">每股价值</th><th class="num">对现价</th><th class="num">终值占企业价值</th><th class="num">隐含年化回报</th></tr></thead>
+<tbody>
+<tr><td class="lab">悲观</td><td class="num">$116.50</td><td class="num dn">−63.6%</td><td class="num">70.3%</td><td class="num">5.08%</td></tr>
+<tr><td class="lab">中性</td><td class="num">$151.82</td><td class="num dn">−52.5%</td><td class="num">73.0%</td><td class="num">6.19%</td></tr>
+<tr><td class="lab">乐观</td><td class="num">$197.74</td><td class="num dn">−38.1%</td><td class="num">75.8%</td><td class="num">7.41%</td></tr>
+<tr><td class="lab">现价（2026-08-28 收盘）</td><td class="num">$319.70</td><td class="num">—</td><td class="num">—</td><td class="num">十年期美债 4.67%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>最右边那一栏才是这篇文章的重点，我会在第五节讲它为什么比左边三栏更有用。</p>
+
+<h2>骨架先定：五年还是十年</h2>
+
+<p>换一个新标的时，第一步不是填假设，是定模型骨架——显式期几年，决定了表有几列、终值怎么接、敏感性表长什么样。填完再改等于返工。</p>
+
+<p>这个判断有两条机械判据：终值占企业价值超过 85%，说明前几年的预测根本没在干活；末年资本开支比稳态所需高出 5 个百分点以上，说明缺一段过渡期，价值是靠终值补丁撑着的。任一条触发就得拉长到十年。</p>
+
+<p>我此前做的两个模型给出了完全相反的答案，原因也完全不同。微软的资本开支占收入 46.5%，而稳态只需要约 27%，中间 20 个百分点的落差必须用过渡期消化，所以要十年；英伟达是无晶圆厂模式，资本开支只占收入 2.8%，根本没有落差，五年就够。</p>
+
+<p>苹果跑出来是这样：</p>
+
+<div class="scroll">
+<table>
+<caption>骨架诊断（五年显式期）</caption>
+<thead><tr><th>情景</th><th class="num">终值占企业价值</th><th class="num">末年资本开支落差</th><th>判据①&gt;85%</th><th>判据②&gt;5pp</th></tr></thead>
+<tbody>
+<tr><td class="lab">悲观</td><td class="num">70.3%</td><td class="num">+0.42pp</td><td>否</td><td>否</td></tr>
+<tr><td class="lab">中性</td><td class="num">73.0%</td><td class="num">+0.27pp</td><td>否</td><td>否</td></tr>
+<tr><td class="lab">乐观</td><td class="num">75.8%</td><td class="num">+0.18pp</td><td>否</td><td>否</td></tr>
+<tr><td class="lab">参照：英伟达（已定五年）</td><td class="num">65.2 / 70.0 / 73.7%</td><td class="num">+1.6pp</td><td>否</td><td>否</td></tr>
+<tr><td class="lab">参照：微软（已定十年）</td><td class="num">96.0 / 87.4 / 84.9%</td><td class="num">+15.6 / +7.7 / +2.2pp</td><td>触发</td><td>触发</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>两条判据都没触发，但也不算干净地落进"安全"那一档——安全线要求终值占比低于 75%，乐观档的 75.8% 差了 0.8 个百分点。诊断脚本给出的判定是"中间地带，人工判断"。</p>
+
+<h3>人工判断我是怎么做的</h3>
+
+<p>不靠感觉裁决。我把"五年够用"这个判断推成一个可以证伪的预测：<strong>如果它成立，那么把显式期延长到十年，每股价值就不该有显著变化。</strong>这个推论可以直接去验。</p>
+
+<div class="scroll">
+<table>
+<caption>同一套故事，五年 vs 十年</caption>
+<thead><tr><th>情景</th><th class="num">五年</th><th class="num">十年</th><th class="num">差异</th><th>末年增速 vs 永续增长率</th></tr></thead>
+<tbody>
+<tr><td class="lab">悲观</td><td class="num">$116.50</td><td class="num">$115.62</td><td class="num">−0.75%</td><td>2.5% vs 2.5%，已收敛</td></tr>
+<tr><td class="lab">中性</td><td class="num">$151.82</td><td class="num">$152.13</td><td class="num">+0.20%</td><td>3.5% vs 3.0%，差 0.5pp</td></tr>
+<tr><td class="lab">乐观</td><td class="num">$197.74</td><td class="num">$201.27</td><td class="num">+1.79%</td><td>5.0% vs 3.5%，差 1.5pp</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>预测被证实，骨架选择不改变结论，所以定五年——少编五年数字。而且乐观档那 1.79% 的来源也查清楚了：只有它的末年增速还没收敛到永续增长率。</p>
+
+<div class="note">
+<span class="tag">一条要说清楚的话</span>
+第二条判据用的是<strong>绝对百分点</strong>，而这个阈值当初是按微软那种 46% 资本开支强度的工况定的。苹果的资本开支只有 2%–3%，绝对差天然到不了 5 个百分点——三档的相对差其实是 +9.4% / +12.1% / +16.1%，并不算小。<strong>对低资本开支的公司，第二条判据是"必然通过"的，那个对勾不携带信息。</strong>结论只能靠第一条判据加上面那个延长期实验独立支撑。同样的问题在英伟达上已经出现过一次，这次是复现。
+</div>
+
+<h2>三处会改结论的口径</h2>
+
+<p>基本面数据我一律取 SEC 的 XBRL 接口。做英伟达那次踩过教训：yfinance 有三处错——股数给的是基本股数而不是稀释股数，固定资产净值高了 28%（因为混进了经营租赁使用权资产），应收账款字段差了 30 倍。从那以后这个项目不再用它取基本面。</p>
+
+<h3>其一：折旧口径，这次差 46%</h3>
+
+<p>现金流量表里的"折旧与摊销"和固定资产附注里的"折旧"是两个数。微软和英伟达上我都在这里栽过，各差 18.5%。苹果的缺口最大：</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">Depreciation（纯固定资产折旧，正确口径）</span><span>$8,000M</span></div>
+<div class="row"><span class="lbl">DepreciationDepletionAndAmortization（含摊销）</span><span class="out">$11,698M</span></div>
+<div class="row gap"><span class="lbl">差异</span><span>+46%</span></div>
+</div>
+
+<p>英伟达那次的教训是：只核对反推出来的折损年限这一个结果，会得出"没问题"的结论——当时分子分母同时错，结果只差 0.02 年。所以这次我用了一条独立的检验，固定资产滚动表：</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">期初 45,680 + 资本开支 12,715 − 折旧 8,000</span><span class="in">= 50,395</span></div>
+<div class="row"><span class="lbl">期初 45,680 + 资本开支 12,715 − 折旧摊销 11,698</span><span class="out">= 46,697</span></div>
+<div class="row sum"><span class="lbl">实际期末固定资产净值</span><span>49,834</span></div>
+</div>
+
+<p>用纯折旧算差 1.1%（差额是处置），用折旧摊销算低了 6.3%。滚动表把口径选择独立判死了——这不是同一个事实换个写法数两遍，它是一条能失败的检验。据此反推的折损年限是 6.50 年。</p>
+
+<h3>其二：稀释股数，取哪个时点差 2.3%</h3>
+
+<p>苹果每年回购约 2.6% 的股本，这让"用哪个时点的股数"从细节变成了一个真问题。</p>
+
+<div class="scroll">
+<table>
+<caption>四种口径</caption>
+<thead><tr><th>口径</th><th class="num">股数（百万）</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td class="lab">FY2025 全年加权稀释</td><td class="num">15,004.7</td><td>太旧，用它会低估每股价值 2.3%</td></tr>
+<tr><td class="lab">FY26Q3 当季加权稀释</td><td class="num">14,714.7</td><td>季度平均，约当五月中</td></tr>
+<tr><td class="lab">封面基本股数（2026-07-17）</td><td class="num">14,594.2</td><td>硬数据</td></tr>
+<tr><td class="lab">本模型采用</td><td class="num">14,673</td><td>插值到 6/27 得 14,614.7，再乘实测稀释缺口 1.0040</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>稀释缺口最近五个季度实测是 0.41% / 0.30% / 0.42% / 0.36% / 0.40%，相当稳定。股数和净现金我取的是同一个时点（2026-06-27），这样口径才自洽。</p>
+
+<h3>其三：营运资本的符号我确定不了，所以取 0</h3>
+
+<p>苹果的营运资本长期为负——应付账款一直大于应收加存货，等于占用上游供应商的资金。但模型需要的不是水平值，是<strong>边际率</strong>：每多一块钱收入，占用多少营运资本。这个数的符号不稳定。</p>
+
+<div class="scroll">
+<table>
+<caption>营运资本边际率，六个区间</caption>
+<thead><tr><th>区间</th><th class="num">营运资本变动</th><th class="num">收入变动</th><th class="num">边际率</th><th>方向</th></tr></thead>
+<tbody>
+<tr><td class="lab">FY2018 → FY2025</td><td class="num">+4,381</td><td class="num">+150,566</td><td class="num">+2.91%</td><td>消耗现金</td></tr>
+<tr><td class="lab">FY2019 → FY2025</td><td class="num">−5,161</td><td class="num">+155,987</td><td class="num">−3.31%</td><td>释放现金</td></tr>
+<tr><td class="lab">FY2020 → FY2025</td><td class="num">−2,250</td><td class="num">+141,646</td><td class="num">−1.59%</td><td>释放现金</td></tr>
+<tr><td class="lab">FY2021 → FY2025</td><td class="num">−2,460</td><td class="num">+50,344</td><td class="num">−4.89%</td><td>释放现金</td></tr>
+<tr><td class="lab">FY2024 → FY2025（单年）</td><td class="num">+3,899</td><td class="num">+25,126</td><td class="num">+15.51%</td><td>消耗现金</td></tr>
+<tr><td class="lab">FY2023 → FY2024（单年）</td><td class="num">−1,492</td><td class="num">+7,750</td><td class="num">−19.25%</td><td>释放现金</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>单年读数在正负 19% 之间摆，因为分母有时极小——FY2024 的收入只增长了 77.5 亿。换一个口径更麻烦：从现金流量表倒推的营运资本变动是收入的 −1.42% / +0.36% / −2.88% / −0.23% / −6.05%（FY2021 至 FY2025），量级大得多，但这个残差里混进了没有单独披露的递延所得税，不能直接采信。</p>
+
+<div class="pull">证据不足以断定方向，所以这一项取 0，并在敏感性表里给出正负 5% 的带宽。全带宽对估值只有正负 0.6% 的影响。</div>
+
+<p>这是"不知道就说不知道"，不是漏填。把它估到小数点后两位是浪费力气——真正的杠杆在贝塔系数和股权风险溢价上，各能动 10%–13%。</p>
+
+<h2>反推：现价要什么才成立</h2>
+
+<p>比"模型说它值多少"更有用的问法是：<strong>保持其余假设不变，某一条假设要变成多少，模型才等于 319.70？</strong>每一条都必须配一个硬参照——参照系只能是这家公司自己的历史实际值，或者算术上限，不能凭印象写"行业平均"。</p>
+
+<div class="scroll">
+<table>
+<caption>四条路，每次只动一条</caption>
+<thead><tr><th>需要变成</th><th>硬参照</th><th>可信吗</th></tr></thead>
+<tbody>
+<tr><td class="lab">贝塔系数降到 0.328</td><td>实测四种口径 1.062 / 1.081 / 1.156 / 1.176</td><td class="dn">跌出全部四种口径，只有实测最低值的 31%</td></tr>
+<tr><td class="lab">永续增长率升到 7.13%</td><td>名义 GDP 增速上限约 4%</td><td class="dn">高出上限 3.1pp，等于假设苹果永远比整个名义经济快近一倍</td></tr>
+<tr><td class="lab">长期 EBITDA 利润率到 73.3%</td><td>FY2017–25 史上最高 33.89%；FY2026 预计 35.44%</td><td class="dn">需要比它史上最好的水平再高 39.4pp</td></tr>
+<tr><td class="lab">五年收入增速连续 22.5% 每年</td><td>FY2016–25 九年复合增速 7.57%，它史上最好的九年</td><td class="dn">需要是那个水平的 3.0 倍</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>四条路都不通。但四条都不通这件事本身，反而提示了另一种可能。</p>
+
+<h2>连着三次说贵，所以我查了自己的框架</h2>
+
+<p>微软、英伟达、现在苹果——同一套框架连续三次得出"现价越过模型天花板"。这时候该问的不是第四个标的，而是：<strong>如果这个结论是对的，它还必然意味着什么？</strong></p>
+
+<p>答案有两种。要么大型科技股确实整体贵，要么<strong>我的折现率口径有系统性的向下偏差</strong>。第二种可能必须自己查，不能等着被市场推翻。</p>
+
+<p>我用的做法是把问题反过来问，绕开整个贝塔系数和风险溢价的争论：不问"按我设定的折现率它值多少"，而问<strong>"在现价买入、按各档现金流，隐含的年化回报是多少"</strong>。这个数是解出来的，不是我设的——它不依赖我选的任何一个折现率参数。</p>
+
+<div class="scroll">
+<table>
+<caption>现价买入的隐含年化回报</caption>
+<thead><tr><th>情景</th><th class="num">每股价值</th><th class="num">隐含年化回报</th><th class="num">相对十年期美债 4.67% 的风险补偿</th></tr></thead>
+<tbody>
+<tr><td class="lab">悲观</td><td class="num">$116.50</td><td class="num">5.08%</td><td class="num">+0.41pp</td></tr>
+<tr><td class="lab">中性</td><td class="num">$151.82</td><td class="num">6.19%</td><td class="num">+1.52pp</td></tr>
+<tr><td class="lab">乐观</td><td class="num">$197.74</td><td class="num">7.41%</td><td class="num">+2.74pp</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>这样一换，命题就变了，而且变得可以检验：</p>
+
+<div class="pull flag">现价隐含的股权风险溢价大约是 1.36%，而本模型用的是 4.75%。</div>
+
+<p>所以这不是"模型说苹果一文不值"，而是"现价把长期年化回报压到了无风险利率加 1.5 个百分点"。同一个口径对微软和英伟达同样适用——三次说贵不是我参数选择上的偶然，它就是同一句话：<strong>大型科技股现价隐含的风险溢价已经接近于零。</strong></p>
+
+<p>这句话是可以证伪的：<strong>如果未来十年苹果的年化总回报显著高于 6%，上面这个判断就被推翻了。</strong>我把它写在这里，将来不许改口。</p>
+
+<h3>还有一条自查：结论有没有只朝一个方向</h3>
+
+<p>三档全部低于市价，那会不会是我在单向地压低？判据是——<strong>如果同一条证据指向相反方向，我会照改吗？</strong>会。这一轮取数里方向本来就是混的，我全部照单采纳了：</p>
+
+<div class="scroll">
+<table>
+<caption>同一批修正，方向是混的</caption>
+<thead><tr><th>方向</th><th>改动</th><th>对每股价值</th></tr></thead>
+<tbody>
+<tr><td class="lab up">向上</td><td>基期从 FY2025 换成 FY2026 预计（收入 4,161.61 亿 → 4,833.71 亿）</td><td>大幅提高</td></tr>
+<tr><td class="lab up">向上</td><td>稀释股数 15,005 → 14,673（回购）</td><td class="num">+2.3%</td></tr>
+<tr><td class="lab up">向上</td><td>净现金 337.63 亿 → 496.83 亿</td><td class="num">+$1.08</td></tr>
+<tr><td class="lab dn">向下</td><td>税率 15.6% → 17.6%（FY2026 前三季实际）</td><td class="num">−2.4%</td></tr>
+<tr><td class="lab dn">向下</td><td>营运资本从"释放 5.85%"改为 0</td><td class="num">−0.6%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>如果只采纳向下的修正、把向上的都推给"乐观档"，那就是反向的单向棘轮——同样是造假，只是方向讨人喜欢。</p>
+
+<h2>苹果的资本开支在往下走</h2>
+
+<p>这是做模型时顺手撞见的一件事，和估值结论无关，但我觉得比估值结论更值得盯。</p>
+
+<div class="scroll">
+<table>
+<caption>FY2026 前三季实际 vs 去年同期</caption>
+<thead><tr><th>项目</th><th class="num">FY2025 前三季</th><th class="num">FY2026 前三季</th><th class="num">同比</th></tr></thead>
+<tbody>
+<tr><td class="lab">收入</td><td class="num">3,136.95 亿</td><td class="num">3,643.57 亿</td><td class="num up">+16.15%</td></tr>
+<tr><td class="lab">经营现金流</td><td class="num">817.54 亿</td><td class="num">1,169.96 亿</td><td class="num up">+43.1%</td></tr>
+<tr><td class="lab">资本开支</td><td class="num">94.73 亿</td><td class="num">67.99 亿</td><td class="num dn">−28.2%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>收入涨 16%，资本开支反而降 28%。资本开支占收入的比例从 FY2025 的 3.06% 掉到 FY2026 预计的 1.97%。前三季的经营现金流已经超过了 FY2025 全年。</p>
+
+<p>在所有同行都在为 AI 基础设施加杠杆的时候，苹果在往相反方向走。这有两种读法，我倾向于把它当成一个待观察项而不是结论：一种是它真的更轻资产——把算力压力交给了合作方和端侧芯片；另一种是它在这一轮的投入不足，而账单会晚几年到。<strong>如果是后者，我这个模型用历史资本开支路径外推，会系统性低估它未来的资本需求。</strong>这一条我已经记进模型的缺陷登记里了。</p>
+
+<h2>这个模型的已知缺陷</h2>
+
+<p>一共登记了九条，这里挑四条说。<strong>第四条对模型是偏宽松的，不是偏保守的</strong>——只登记对自己有利的缺陷，等于没登记。</p>
+
+<div class="watch">
+<div class="item">
+<p class="h">一、股权激励没有加回</p>
+<p>模型把股权激励（FY2025 是 128.63 亿美元）当作真实成本留在营业利润里。这是有意的——它确实稀释股东。但代价是：<strong>本模型算出的自由现金流会系统性低于"经营现金流减资本开支"这个常见口径，差额大约就是一个股权激励的量级。</strong>看到别处引用的苹果自由现金流数字比我这里高，多半是这个原因，两种口径不能混着比。</p>
+</div>
+<div class="item">
+<p class="h">二、折损年限在漂</p>
+<p>反推出来的隐含折损年限八年里单调上行：4.12 → 4.23 → 4.45 → 5.15 → 5.60 → 5.91 → 6.50。用 FY2025 的 6.50 去预测 FY2024 的折旧，会偏低 9.1%。对估值影响很小（把年限从 6.50 改到 8.00 也只动 +0.3%），但这个趋势本身值得盯——它意味着资产结构在往长寿命的方向变。</p>
+</div>
+<div class="item">
+<p class="h">三、监管风险没有进参数</p>
+<p>谷歌为默认搜索位置支付给苹果的费用，量级在每年两百亿美元上下，而且几乎是纯利润。如果反垄断救济措施让它中断，会直接冲击利润率假设。我没有把它写进任何一档情景——因为我无法可靠地量化它中断的概率和幅度，硬填一个数字只会制造精确的假象。它只作为缺陷登记。</p>
+</div>
+<div class="item">
+<p class="h">四、终值的再投资假设偏宽松</p>
+<p>中性档终值隐含的投入资本回报率是 240%——也就是说，模型假设苹果只要把 1.25% 的税后经营利润再投进去，就能永远保持 3% 的增长。对苹果来说这不算离谱（它的投入资本本来就极少），但必须说清楚：<strong>这一维度上模型是站在乐观一侧的。</strong></p>
+<p class="kill"><b>如果换成更常规的假设</b>把终值投入资本回报率压到 30%，再投资率就要从 1.25% 提到 10%，中性档大约会从 151.82 掉到 142 附近。</p>
+</div>
+</div>
+
+<h2>方法是可以复核的</h2>
+
+<p>这个模型不是一次性测算，它是一套会长期维护的工作簿——每次财报后按同一口径更新，观察<strong>价值假设</strong>怎么变，而不是股价怎么变。为了让它不至于悄悄坏掉，写盘之后有四步校验：把基期输入读回来对脚本、用<strong>读回来的</strong>输入重算再对表内快照、核对表结构、最后求值表里的 Excel 公式链去对 Python 引擎。</p>
+
+<p>最后那一步是后来补的，起因是我发现前三步有一个共同的盲区：它们只把假设读回来喂给 Python 引擎，<strong>从来没有碰过表里的公式</strong>。公式写错、引用错行，前三步照样全绿。我做过一次验证：把某一年折旧公式里的折损年限误引成税率，前三步全部通过，只有第四步报出 2.77 美元的偏差。</p>
+
+<p>这类"看起来在保护、实际没接上"的护栏，我在这个项目里已经攒到第九例了。判据只有一个：<strong>如果它现在就是坏的，我看到的会有什么不同？</strong>答不出差别，那个对勾就不携带信息。</p>
+
+<p>如果你觉得我哪一条读反了，欢迎直接说。财务数字我都对过 SEC 的原始申报，但 FY2026 第四季度还没有申报，那部分是我用三种方法各估了一次取中位数，带宽正负 0.46%——这一段是估计值，不是实际值。</p>
+
+<footer>
+生成于 2026-08-31 16:10<br>
+基本面数据：SEC EDGAR XBRL companyconcept 接口（CIK 0000320193），FY2025 10-K 与 FY2026 前三季 10-Q<br>
+价格：Twelve Data，2026-08-28 收盘 $319.70（Yahoo 该日收盘字段为空，故换源）<br>
+基期 FY2026E 为前三季实际加第四季估计，第四季用三种独立方法取中位数<br>
+折现率 9.89%：无风险利率 4.67%、贝塔 1.12、股权风险溢价 4.75%<br>
+本文为估值拆解与个人记录，不构成任何投资建议
+</footer>
+
+</div>
+</body>
+</html>

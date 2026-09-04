@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
 <title>GPU 租赁的真实毛利率</title>
 <style>
 
   :root{
+  color-scheme: light;
+
     --paper:#FAFBFC;
     --panel:#EDF1F5;
     --panel-warm:#F5F1EC;
@@ -280,24 +283,6 @@
 
 <p>超出的部分要从资产负债表出。也就是说，<strong>利率对 AI 建设的影响，不再只作用于新云和 AI 实验室那条腿。</strong></p>
 
-<h2>那么该盯什么</h2>
-
-<p>顺着上面这些，作者把能长期跟踪、且来自申报文件的数字收敛成三条。它们都是季度节拍，都能被证伪：</p>
-
-<div class="scroll">
-<table>
-<caption>三个可查的慢变量</caption>
-<thead><tr><th>盯什么</th><th class="num">现在</th><th>什么读数说明它变坏了</th></tr></thead>
-<tbody>
-<tr><td class="lab">英伟达毛利率</td><td class="num">75.0%</td><td>较 AI 周期峰值 78.35% 回落 8 个百分点以上，且连续两季。这既是它现在赢的证据，也正是买方继续投钱做定制芯片的理由</td></tr>
-<tr><td class="lab">出租层含折旧真毛利</td><td class="num">11.5%</td><td>转负，说明在当前租金水平下这门生意不成立</td></tr>
-<tr><td class="lab">债务期限减合同期限</td><td class="num">约 2 年</td><td>缺口继续扩大，意味着残值假设承担得更多。这一条不必等财报，每笔新融资公告就是一次读数</td></tr>
-</tbody>
-</table>
-</div>
-
-<p>需求这一侧没有问题。CoreWeave 收入同比 112%，英伟达数据中心 117%，博通的 AI 收入 221%。<strong>出问题的是把这些需求变成利润的那一步，而它最先出现在杠杆最高的那一环。</strong></p>
-
 <h2>作者拿不到的东西</h2>
 
 <p>为了让上面的结论可以被检验，把缺口一并列出来：</p>
@@ -310,6 +295,39 @@
 </ul>
 
 <p class="note">本文所有比率均由作者从 SEC 的 XBRL 原始数据自行计算，未使用第三方汇总口径。取数时按 80 到 100 天的区间长度筛选原生单季，并对累计披露做了差分还原；同一期间存在多次申报时取最新一次，以吸收追溯重述。</p>
+<h2>结论</h2>
+
+<p>三条，按确定性从高到低排：</p>
+
+<p><strong>一、需求没有问题，出问题的是把需求变成利润的那一步。</strong>CoreWeave 收入同比 112%、英伟达数据中心 117%、博通 AI 收入 221%，需求这一侧看不到任何减速。但整条链上利润的分布在快速变化：往有真实稀缺性的元器件那一端集中，从组装商和出租商身上离开。</p>
+
+<p><strong>二、这一步最先出问题的地方，是杠杆最高的那一环。</strong>出租算力的公司把折旧算回成本之后毛利率 11.5%，再减掉利息是负数；债务增速是收入增速的两倍；新做的贷款期限比它背后的客户合同长约两年，中间那一段由 GPU 残值假设承担。</p>
+
+<p><strong>三、利率不再只影响新云。</strong>谷歌、亚马逊、Meta 已经把当季全部经营现金流花在资本开支上，超出的部分要从资产负债表出。「四大云厂用自己赚的钱买单、不受利率影响」这个说法，在 2026 年二季度的数字面前不再成立。</p>
+
+<div class="pull">这些数字不说明 AI 建设要停。它们说明的是另一件事：这轮建设越来越依赖外部融资，而外部融资的条件是会变的。</div>
+
+<h2>后续跟进</h2>
+
+<p>作者把能长期跟踪、来自申报文件、且能被证伪的数字收敛成四条。每一条都写清楚了什么读数算变坏，以及下一次读数在什么时候。</p>
+
+<div class="scroll">
+<table>
+<caption>四个跟进变量与下次读数时间</caption>
+<thead><tr><th>盯什么</th><th class="num">现在</th><th>什么读数说明它变坏了</th><th class="src">下次读数</th></tr></thead>
+<tbody>
+<tr><td class="lab">四大云厂资本开支指引</td><td class="num">占经营现金流 65–119%</td><td>上调幅度明显收窄，或不再上调。在「逢报必上调」的基线下，维持不变本身就是负面意外</td><td class="src">10-28 / 10-29</td></tr>
+<tr><td class="lab">英伟达毛利率</td><td class="num">75.0%</td><td>较周期峰值 78.35% 回落 8 个百分点以上，且连续两季。这个数既是它现在赢的证据，也正是买方继续投钱做定制芯片的理由</td><td class="src">11 月</td></tr>
+<tr><td class="lab">出租层含折旧真毛利</td><td class="num">11.5%</td><td>转负，说明在当前租金水平下这门生意不成立</td><td class="src">11 月</td></tr>
+<tr><td class="lab">债务期限减合同期限</td><td class="num">约 2 年</td><td>缺口继续扩大，意味着残值假设承担得更多</td><td class="src">随时</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>最近一次密集读数是 <strong>10 月 28 日</strong>（微软、谷歌、Meta）和 <strong>10 月 29 日</strong>（亚马逊），届时四家会同时给出下一年的资本开支口径。英伟达与 CoreWeave 的下一季在 11 月。第四条不必等财报，<strong>每一笔新的 GPU 抵押融资公告就是一次读数</strong>——利差、期限、以及背后合同覆盖多长，都写在公告里。</p>
+
+<p>作者会在这四个数上逐季回填，写成同一张表的下一行。如果其中任何一条走到了上面写死的那个读数，本文的结论就该被推翻，而不是被解释。</p>
+
 <footer>
 初稿 2026-09-04 17:20<br>
 基本面数据：美国证监会 EDGAR XBRL companyfacts / companyconcept 接口，各公司最新已报季<br>

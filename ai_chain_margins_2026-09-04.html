@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPU 租赁的真实毛利率</title>
+<style>
+
+  :root{
+    --paper:#FAFBFC;
+    --panel:#EDF1F5;
+    --panel-warm:#F5F1EC;
+    --ink:#15212E;
+    --muted:#5C6F82;
+    --accent:#0B5E7D;
+    --flag:#A34527;
+    --good:#1E6F4E;
+    --rule:#D5DEE6;
+    --rule-soft:#E6ECF1;
+
+    --serif:"Source Serif 4","Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Serif SC","Source Serif 4",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    font-size:17px;
+    line-height:1.78;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:720px;margin:0 auto;padding:56px 24px 96px}
+
+  .kicker{
+    font-family:var(--mono);font-size:11.5px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+    margin:0 0 18px;
+  }
+  h1{
+    font-family:var(--sans);font-weight:700;
+    font-size:clamp(28px,5vw,40px);line-height:1.24;
+    letter-spacing:-.01em;text-wrap:balance;
+    margin:0 0 16px;
+  }
+  .standfirst{font-size:19px;line-height:1.7;color:var(--muted);margin:0 0 26px}
+  .byline{
+    font-family:var(--mono);font-size:12px;color:var(--muted);
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:11px 0;margin:0 0 44px;
+  }
+  .byline span{white-space:nowrap}
+  .byline i{font-style:normal;color:var(--rule);padding:0 8px}
+
+  h2{
+    font-family:var(--sans);font-weight:700;
+    font-size:24px;line-height:1.35;text-wrap:balance;
+    margin:56px 0 4px;padding-top:22px;
+    border-top:2px solid var(--ink);
+  }
+  h3{font-family:var(--sans);font-weight:600;font-size:18.5px;margin:34px 0 2px}
+  p{margin:14px 0}
+  a{color:var(--accent)}
+  strong{font-weight:600}
+  .lede{font-size:18.5px}
+
+  .pull{
+    font-family:var(--sans);font-weight:600;
+    font-size:20px;line-height:1.6;
+    border-left:3px solid var(--accent);
+    padding:4px 0 4px 20px;margin:30px 0;
+  }
+  .pull.flag{border-left-color:var(--flag)}
+
+  .scroll{overflow-x:auto;margin:26px 0;
+    border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+  table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+  caption{
+    caption-side:top;text-align:left;
+    font-family:var(--mono);font-size:11.5px;font-weight:500;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+    padding:0 0 8px;
+  }
+  th{
+    font-family:var(--sans);font-weight:600;font-size:13.5px;
+    text-align:left;color:var(--muted);
+    padding:10px 14px 10px 0;border-bottom:1px solid var(--rule);white-space:nowrap;
+  }
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{font-family:var(--mono);font-size:14.5px;font-weight:500;white-space:nowrap}
+  td.lab{font-family:var(--sans);font-weight:600;font-size:14.5px}
+  .up{color:var(--good)}
+  .dn{color:var(--flag)}
+  .src{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+
+  .ledger{
+    background:var(--panel);border:1px solid var(--rule);
+    padding:22px 24px;margin:28px 0;
+    font-family:var(--mono);font-size:14.5px;line-height:2.05;
+    font-variant-numeric:tabular-nums;
+  }
+  .ledger .row{display:flex;justify-content:space-between;gap:16px}
+  .ledger .row.sum{border-top:1px solid var(--rule);margin-top:8px;padding-top:8px;font-weight:600}
+  .ledger .row.gap{border-top:2px solid var(--ink);margin-top:10px;padding-top:10px;
+    font-weight:600;color:var(--flag)}
+  .ledger .lbl{font-family:var(--sans);font-weight:400}
+  .ledger .in{color:var(--good)}
+  .ledger .out{color:var(--flag)}
+
+  .note{
+    background:var(--panel-warm);border-left:3px solid var(--muted);
+    padding:14px 18px;margin:26px 0;font-size:15px;line-height:1.7;
+  }
+  .note .tag{
+    display:block;font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;
+  }
+
+  .watch{margin:30px 0;border-top:1px solid var(--rule)}
+  .watch .item{padding:20px 0;border-bottom:1px solid var(--rule)}
+  .watch .h{
+    font-family:var(--sans);font-weight:700;font-size:17px;margin:0 0 6px;
+  }
+  .watch p{margin:8px 0}
+  .watch .kill{
+    font-size:14.5px;line-height:1.65;color:var(--ink);
+    background:var(--panel);border-left:3px solid var(--flag);
+    padding:10px 14px;margin:12px 0 0;
+  }
+  .watch .kill b{
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--flag);display:block;margin-bottom:3px;
+  }
+
+  ul{margin:14px 0;padding-left:22px}
+  li{margin:7px 0}
+  footer{
+    margin-top:56px;padding-top:20px;border-top:2px solid var(--ink);
+    font-family:var(--mono);font-size:12px;line-height:1.9;color:var(--muted);
+  }
+  ::selection{background:#CFE3EC;color:var(--ink)}
+  a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  @media (max-width:640px){
+    body{font-size:16.5px}
+    .wrap{padding:36px 18px 72px}
+    h2{font-size:21px}
+    .pull{font-size:18px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="kicker">行业与周期 · AI 链条拆解</p>
+
+<h1>把折旧算回成本，租 GPU 这门生意的毛利率是 11.5%</h1>
+
+<p class="standfirst">英伟达最新一季的数据中心收入里，靠融资买单的那一桶已经和靠经营现金流买单的那一桶一样大，而且长得快一倍。作者顺着这条线把整条链的毛利率从 SEC 申报里逐家拉了出来，得到一个和预期相反的结果，以及一个更值得盯的数字。</p>
+
+<p class="byline">
+<span>2026-09-04</span><i>·</i><span>数字取自 SEC XBRL 与公司 8-K 原文</span><i>·</i><span>非投资建议</span>
+</p>
+
+<p class="lede">先看一组作者没想到会长成这样的数字。</p>
+
+<p>英伟达 FY2027 第二季（季末 2026 年 7 月 26 日）的数据中心收入是 890 亿美元。公司把它拆成两桶报了出来：</p>
+
+<div class="scroll">
+<table>
+<caption>数据中心收入两桶 · FY27Q2</caption>
+<thead><tr><th>类别</th><th class="num">收入</th><th class="num">环比</th><th class="num">同比</th></tr></thead>
+<tbody>
+<tr><td class="lab">超大规模云厂</td><td class="num">$487.0 亿</td><td class="num">+13.1%</td><td class="num">+101.5%</td></tr>
+<tr><td class="lab">ACIE</td><td class="num">$403.1 亿</td><td class="num"><span class="up">+25.2%</span></td><td class="num"><span class="up">+138.1%</span></td></tr>
+<tr><td class="lab">合计</td><td class="num">$890.1 亿</td><td class="num">+18%</td><td class="num">+117%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>ACIE 这个桶，公司在季度详表里的原话是「AI natives、企业、主权客户，以及使用 AI 云的超大规模厂」。注意这份文件里<strong>没有出现「NeoCloud」这个词</strong>——很多二手报道把 ACIE 直接写成新云，那是加了工的。</p>
+
+<p>但把桶里的成分列出来，会看到一个共同点：<strong>超大规模云厂那一桶是用经营现金流付钱的，ACIE 这一桶不是。</strong>AI 实验室靠融资，新云靠债，主权靠财政，企业靠预算。这两桶现在一样大，而且后者增速快一倍。</p>
+
+<div class="pull">同一份收入表里，靠自己赚的钱买单的那半，正在被靠借来的钱买单的那半追上。</div>
+
+<h2>作者先猜错了一次</h2>
+
+<p>顺着这条线，作者当时的假设是：英伟达守着 75% 的毛利率，等于从整条链身上抽走利润，所以链条上其他环节的毛利率应该在被压缩。博通刚好提供了一个像样的证据——它的 AI 收入同比涨了 221%，股价却跌，跌在毛利率指引从去年同期的 78% 降到 73%。</p>
+
+<p>为了验证，作者把 26 家链条公司的季度毛利率从 SEC 的 XBRL 接口里逐家拉了出来，用同一套口径算同比。结果是<strong>反的，14 家证伪、5 家支持</strong>。</p>
+
+<div class="scroll">
+<table>
+<caption>链条毛利率同比变化 · 各家最新已报季</caption>
+<thead><tr><th>公司</th><th class="num">营收同比</th><th class="num">毛利率</th><th class="num">毛利率同比</th></tr></thead>
+<tbody>
+<tr><td class="lab">美光 MU</td><td class="num">+345.7%</td><td class="num">84.6%</td><td class="num"><span class="up">+46.9pp</span></td></tr>
+<tr><td class="lab">闪迪 SNDK</td><td class="num">+251.0%</td><td class="num">78.4%</td><td class="num"><span class="up">+55.8pp</span></td></tr>
+<tr><td class="lab">西部数据 WDC</td><td class="num">+45.5%</td><td class="num">50.2%</td><td class="num"><span class="up">+10.5pp</span></td></tr>
+<tr><td class="lab">AMD</td><td class="num">+50.1%</td><td class="num">53.8%</td><td class="num"><span class="up">+14.0pp</span></td></tr>
+<tr><td class="lab">英伟达 NVDA</td><td class="num">+105.9%</td><td class="num">75.0%</td><td class="num"><span class="up">+2.6pp</span></td></tr>
+<tr><td class="lab">博通 AVGO</td><td class="num">+47.9%</td><td class="num">69.5%</td><td class="num"><span class="up">+1.5pp</span></td></tr>
+<tr><td class="lab">CoreWeave CRWV</td><td class="num">+112.5%</td><td class="num">65.9%</td><td class="num"><span class="dn">−8.3pp</span></td></tr>
+<tr><td class="lab">戴尔 DELL</td><td class="num">+87.5%</td><td class="num">17.8%</td><td class="num"><span class="dn">−3.4pp</span></td></tr>
+<tr><td class="lab">伊顿 ETN</td><td class="num">+21.4%</td><td class="num">33.5%</td><td class="num"><span class="dn">−3.5pp</span></td></tr>
+<tr><td class="lab">Arista ANET</td><td class="num">+37.7%</td><td class="num">62.9%</td><td class="num"><span class="dn">−2.3pp</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>整条链的毛利率是在<strong>扩张</strong>的，不是被压缩。英伟达涨了，但别人涨得更多。存储那一段尤其夸张：美光的单季毛利率从一年前的 37.7% 到现在的 84.6%，一家 DRAM 厂做到 84.6% 的毛利率，历史上没有过。</p>
+
+<p>假设被推翻，但推翻它的数据指向了一个更清楚的机制。看那 5 家毛利率下滑的公司是谁：CoreWeave（出租算力）、戴尔（组装服务器）、Arista（组装交换机）、Credo（买芯片再卖）、伊顿（组装电气设备）。再加上毛利率本来就极薄、涨不动的超微（9.9%）、Fabrinet（11.9%）、安靠（14.2%）。</p>
+
+<div class="pull">利润在往有真实稀缺性的元器件那一端集中，同时被从组装商和出租商身上挤出去。</div>
+
+<p>换句话说，把博通那件事读成「英伟达抽走了链条的利润」是读错了。博通的毛利率下降有它自己的原因（定制加速器和高带宽存储在收入里占比上升，这两样本身毛利率低）。整条链真正在发生的，是元器件涨价，而涨价的成本由组装层和出租层承担。</p>
+
+<h2>出租层：把折旧算回成本</h2>
+
+<p>出租层里唯一的上市纯样本是 CoreWeave。它的报告毛利率是 65.9%，看着很健康。但这个数字<strong>不包含它出租的那些 GPU 的折旧</strong>。</p>
+
+<p>对一门租赁生意，机队折旧就是它的销货成本。把折旧放回去：</p>
+
+<div class="scroll">
+<table>
+<caption>CoreWeave 单位经济</caption>
+<thead><tr><th>季末</th><th class="num">收入</th><th class="num">报告毛利率</th><th class="num">折旧/收入</th><th class="num">含折旧真毛利</th><th class="num">利息/收入</th></tr></thead>
+<tbody>
+<tr><td class="lab">2024-09</td><td class="num">$5.8 亿</td><td class="num">75.5%</td><td class="num">43.3%</td><td class="num"><strong>32.2%</strong></td><td class="num">17.5%</td></tr>
+<tr><td class="lab">2025-09</td><td class="num">$13.6 亿</td><td class="num">73.0%</td><td class="num">45.5%</td><td class="num">27.5%</td><td class="num">20.8%</td></tr>
+<tr><td class="lab">2026-03</td><td class="num">$20.8 亿</td><td class="num">65.5%</td><td class="num">52.9%</td><td class="num">12.6%</td><td class="num">20.5%</td></tr>
+<tr><td class="lab">2026-06</td><td class="num">$25.8 亿</td><td class="num">65.9%</td><td class="num">54.4%</td><td class="num"><strong>11.5%</strong></td><td class="num">21.7%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>收入这一年涨了 4.4 倍，含折旧的真毛利率从 32.2% 降到 11.5%，掉了 20.7 个百分点。再减掉占收入 21.7% 的利息，剩下的是负数。这个季度的经营利润是 −0.49 亿美元，净亏损 6.26 亿。</p>
+
+<p>作者认为这里最值得注意的不是绝对水平，是<strong>折旧占收入的比例从 43.3% 一路升到 54.4%，而累计折旧只占总固定资产的 11.2%</strong>——机队还很新。这说明这条上升曲线不是机队变老带来的，是新增的 GPU 带回来的边际收入盖不住它自己的折旧。</p>
+
+<h2>钱是怎么借的</h2>
+
+<p>CoreWeave 的债务一年从 111.7 亿涨到 355.5 亿美元，增幅 218%；同期收入增幅 112%，利息支出增幅 118%。<strong>债务增速大约是收入增速的两倍。</strong>股东权益 50.2 亿，而单季净亏损 6.26 亿。现金 55.2 亿，一年内到期的本金 61.8 亿。</p>
+
+<p>抵押结构里有一个变化，写在公司自己的公告里。公司今年新做的一笔 26 亿美元贷款（DDTL 5.5），定价 SOFR 加 550 个基点，期限约五年，而<strong>背后客户合同的平均长度只有约三年</strong>。公告里明确写了：此前的同类贷款是由「期限覆盖到债务到期日」的客户合同支撑的，这一笔不是。</p>
+
+<div class="pull">最后大约两年，出钱的一方承担的是 GPU 的残值和再签约风险，不再是合同现金流风险。</div>
+
+<p>这和另一个数字是同一件事的两面。作者用总固定资产除以年化折旧反推 CoreWeave 的折旧年限，得到 7.3 到 9.4 年（不同口径）。作为对照，几家超大规模云厂公开的折旧年限是 5 到 6 年。而 GPU 的产品世代大约两年一换。</p>
+
+<p class="note">这里有一个必须说明的口径边界：固定资产里混着数据中心建筑，建筑折 20 到 30 年是合理的，作者<strong>无法从公开数据里把 GPU 单独拆出来</strong>，所以 7.3 年是一个混合值，不是 GPU 的政策年限。另外机队季度增长 29%，季中新增的资产没折满一个季度，也会把反推值拉长。要拿到准确数字得读年报附注。</p>
+
+<p>把三个期限并排放：<strong>账上按七年摊，合同只有三年，产品世代约两年。</strong>中间的差额由残值假设承担。</p>
+
+<h2>云厂那条腿也不再是纯自有现金流</h2>
+
+<p>作者原本认为，四大云厂用经营现金流买单的那部分需求是无条件的，不受利率影响。把 SEC 的数字拉出来之后，这个说法需要修正：</p>
+
+<div class="scroll">
+<table>
+<caption>资本开支占经营现金流的比例（单季）</caption>
+<thead><tr><th>季末</th><th class="num">微软</th><th class="num">谷歌</th><th class="num">亚马逊</th><th class="num">Meta</th></tr></thead>
+<tbody>
+<tr><td class="lab">2025-03</td><td class="num">45%</td><td class="num">48%</td><td class="num">147%</td><td class="num">54%</td></tr>
+<tr><td class="lab">2025-09</td><td class="num">43%</td><td class="num">49%</td><td class="num">99%</td><td class="num">63%</td></tr>
+<tr><td class="lab">2026-06</td><td class="num">65%</td><td class="num"><strong>115%</strong></td><td class="num"><strong>119%</strong></td><td class="num">95%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>谷歌、亚马逊、Meta 已经把当季全部经营现金流花光或花超。只有微软还留着余量。单季经营现金流有季节性（亚马逊一季度天然偏低），但四家同向、连续两年往上，这个趋势不是季节性能解释的。</p>
+
+<p>超出的部分要从资产负债表出。也就是说，<strong>利率对 AI 建设的影响，不再只作用于新云和 AI 实验室那条腿。</strong></p>
+
+<h2>那么该盯什么</h2>
+
+<p>顺着上面这些，作者把能长期跟踪、且来自申报文件的数字收敛成三条。它们都是季度节拍，都能被证伪：</p>
+
+<div class="scroll">
+<table>
+<caption>三个可查的慢变量</caption>
+<thead><tr><th>盯什么</th><th class="num">现在</th><th>什么读数说明它变坏了</th></tr></thead>
+<tbody>
+<tr><td class="lab">英伟达毛利率</td><td class="num">75.0%</td><td>较 AI 周期峰值 78.35% 回落 8 个百分点以上，且连续两季。这既是它现在赢的证据，也正是买方继续投钱做定制芯片的理由</td></tr>
+<tr><td class="lab">出租层含折旧真毛利</td><td class="num">11.5%</td><td>转负，说明在当前租金水平下这门生意不成立</td></tr>
+<tr><td class="lab">债务期限减合同期限</td><td class="num">约 2 年</td><td>缺口继续扩大，意味着残值假设承担得更多。这一条不必等财报，每笔新融资公告就是一次读数</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>需求这一侧没有问题。CoreWeave 收入同比 112%，英伟达数据中心 117%，博通的 AI 收入 221%。<strong>出问题的是把这些需求变成利润的那一步，而它最先出现在杠杆最高的那一环。</strong></p>
+
+<h2>作者拿不到的东西</h2>
+
+<p>为了让上面的结论可以被检验，把缺口一并列出来：</p>
+
+<ul>
+<li><strong>台积电、阿斯麦、Nebius 拿不到。</strong>它们是外国发行人，不按美国会计准则申报，本文用的接口完全取不到数据。台积电是先进封装这一段的咽喉，这是最要紧的一块缺口。</li>
+<li><strong>CoreWeave 的 GPU 与建筑固定资产无法拆分</strong>，所以折旧年限只有混合值。</li>
+<li><strong>存储合约价拿不到。</strong>毛利率只是它的下游代理，会被产品组合、以及此前减记过的库存高价卖出所影响，不能直接当合约价读。</li>
+<li><strong>xAI 没有财务申报。</strong>它在 EDGAR 上只有四份私募备案，最后一份停在 2025 年 2 月，之后的融资没有进 EDGAR。作者把它从所有计算里排除了。</li>
+</ul>
+
+<p class="note">本文所有比率均由作者从 SEC 的 XBRL 原始数据自行计算，未使用第三方汇总口径。取数时按 80 到 100 天的区间长度筛选原生单季，并对累计披露做了差分还原；同一期间存在多次申报时取最新一次，以吸收追溯重述。</p>
+<footer>
+初稿 2026-09-04 17:20<br>
+基本面数据：美国证监会 EDGAR XBRL companyfacts / companyconcept 接口，各公司最新已报季<br>
+英伟达两桶拆分：FY2027 Q2 的 8-K 季度详表原文（季末 2026-07-26，报告日 2026-08-26）<br>
+贷款条款：CoreWeave 公开公告与同日提交的 8-K 附件<br>
+单季数据按 80–100 天区间长度筛选；累计披露以差分还原为原生单季；同一期间多次申报时取最新一次<br>
+台积电、阿斯麦、Nebius 不按美国会计准则申报，本文接口取不到，相关环节缺失已在正文标注<br>
+本文为行业结构拆解与个人记录，不构成任何投资建议
+</footer>
+
+</div>
+</body>
+</html>

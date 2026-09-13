@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>甲骨文一个季度花了 285 亿美元，收入 193 亿</title>
+<style>
+  :root{
+  color-scheme: light;
+    --paper:#FAFBFC;
+    --panel:#EDF1F5;
+    --panel-warm:#F5F1EC;
+    --ink:#15212E;
+    --muted:#5C6F82;
+    --accent:#0B5E7D;
+    --flag:#A34527;
+    --good:#1E6F4E;
+    --rule:#D5DEE6;
+    --rule-soft:#E6ECF1;
+    --serif:"Source Serif 4","Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Serif SC","Source Serif 4",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+    font-size:17px;line-height:1.78;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:0 auto;padding:56px 24px 96px}
+  .kicker{font-family:var(--mono);font-size:11.5px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 18px;}
+  h1{font-family:var(--sans);font-weight:700;font-size:clamp(28px,5vw,40px);
+    line-height:1.24;letter-spacing:-.01em;text-wrap:balance;margin:0 0 16px;}
+  .standfirst{font-size:19px;line-height:1.7;color:var(--muted);margin:0 0 26px}
+  .byline{font-family:var(--mono);font-size:12px;color:var(--muted);
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:11px 0;margin:0 0 44px;}
+  .byline span{white-space:nowrap}
+  .byline i{font-style:normal;color:var(--rule);padding:0 8px}
+  h2{font-family:var(--sans);font-weight:700;font-size:24px;line-height:1.35;
+    text-wrap:balance;margin:56px 0 4px;padding-top:22px;border-top:2px solid var(--ink);}
+  h3{font-family:var(--sans);font-weight:600;font-size:18.5px;margin:34px 0 2px}
+  p{margin:14px 0}
+  a{color:var(--accent)}
+  strong{font-weight:600}
+  .lede{font-size:18.5px}
+  .pull{font-family:var(--sans);font-weight:600;font-size:20px;line-height:1.6;
+    border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:30px 0;}
+  .pull.flag{border-left-color:var(--flag)}
+  .scroll{overflow-x:auto;margin:26px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+  table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+  caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:11.5px;
+    font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:0 0 8px;}
+  th{font-family:var(--sans);font-weight:600;font-size:13.5px;text-align:left;color:var(--muted);
+    padding:10px 14px 10px 0;border-bottom:1px solid var(--rule);white-space:nowrap;}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{font-family:var(--mono);font-size:14.5px;font-weight:500;white-space:nowrap}
+  td.lab{font-family:var(--sans);font-weight:600;font-size:14.5px}
+  .up{color:var(--good)}
+  .dn{color:var(--flag)}
+  .ledger{background:var(--panel);border:1px solid var(--rule);padding:22px 24px;margin:28px 0;
+    font-family:var(--mono);font-size:14.5px;line-height:2.05;font-variant-numeric:tabular-nums;}
+  .ledger .row{display:flex;justify-content:space-between;gap:16px}
+  .ledger .row.gap{border-top:2px solid var(--ink);margin-top:10px;padding-top:10px;
+    font-weight:600;color:var(--flag)}
+  .ledger .lbl{font-family:var(--sans);font-weight:400}
+  .ledger .in{color:var(--good)}
+  .ledger .out{color:var(--flag)}
+  .note{background:var(--panel-warm);border-left:3px solid var(--muted);padding:14px 18px;
+    margin:26px 0;font-size:15px;line-height:1.7;}
+  .note .tag{display:block;font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+  .quote{font-family:var(--mono);font-size:14px;line-height:1.75;background:var(--panel);
+    border:1px solid var(--rule);padding:16px 18px;margin:22px 0;}
+  ul{margin:14px 0;padding-left:22px}
+  li{margin:7px 0}
+  footer{margin-top:56px;padding-top:20px;border-top:2px solid var(--ink);
+    font-family:var(--mono);font-size:12px;line-height:1.9;color:var(--muted);}
+  ::selection{background:#CFE3EC;color:var(--ink)}
+  @media (max-width:640px){
+    body{font-size:16.5px}.wrap{padding:36px 18px 72px}h2{font-size:21px}.pull{font-size:18px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="kicker">公司与申报 · 甲骨文 FY27Q1</p>
+
+<h1>甲骨文一个季度花了 285 亿美元，收入 193 亿</h1>
+
+<p class="standfirst">市场普遍讨论的那位大客户，在甲骨文的 SEC 申报里一次都没有出现过。这条线索本身说明不了什么——但顺着它查下去，公司自己披露的订单确认节奏、单季资本开支的量级，以及这一季真正的资金来源，拼出了一个和直觉不同的图景。</p>
+
+<p class="byline">
+<span>初稿 2026-09-11</span><i>·</i><span>修订 2026-09-13 · 补入摊薄测算、市场反应、RPO 参照系与 9/12 取消售股公告</span><i>·</i><span>数字取自 SEC 原文与 XBRL</span><i>·</i><span>非投资建议</span>
+</p>
+
+<p class="lede">甲骨文 2027 财年第一季（季末 2026 年 8 月 31 日）的财报在 9 月 10 日盘后发布。收入端的数字相当好看。</p>
+
+<div class="scroll">
+<table>
+<caption>甲骨文 FY27Q1 主要收入项</caption>
+<thead><tr><th>项目</th><th class="num">金额</th><th class="num">同比</th></tr></thead>
+<tbody>
+<tr><td class="lab">总收入</td><td class="num">$193.45 亿</td><td class="num"><span class="up">+30%</span></td></tr>
+<tr><td class="lab">云收入合计</td><td class="num">$116.07 亿</td><td class="num"><span class="up">+62%</span></td></tr>
+<tr><td class="lab">其中：云基础设施</td><td class="num">$74 亿</td><td class="num"><span class="up">+121%</span></td></tr>
+<tr><td class="lab">其中：云应用</td><td class="num">$42 亿</td><td class="num">+10%</td></tr>
+<tr><td class="lab">传统软件</td><td class="num">$55 亿</td><td class="num"><span class="dn">−3%</span></td></tr>
+<tr><td class="lab">剩余履约义务（RPO）</td><td class="num">$6,640 亿</td><td class="num">较去年同期 +$2,090 亿</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>云基础设施翻了一倍多，总收入增速从去年同期的 12.2% 抬到 29.6%，是在加速的。股价盘后涨了约 7%。</p>
+
+<h2>一个没有出现的名字</h2>
+
+<p>市场对这家公司的讨论，很大一部分绕着一份体量极大的算力长约展开。合理的预期是：财报里总该提到它。</p>
+
+<p>实际情况是没有。把四份文件的正文取下来逐一做词频统计（去 HTML 标签后的可见文本，非只读新闻稿摘要）：</p>
+
+<div class="scroll">
+<table>
+<caption>四份 SEC 文件全文词频命中次数</caption>
+<thead><tr><th>文件</th><th class="num">"OpenAI"</th><th class="num">"Stargate"</th></tr></thead>
+<tbody>
+<tr><td class="lab">本季 8-K（2026-09-10）</td><td class="num">0</td><td class="num">0</td></tr>
+<tr><td class="lab">上季 8-K（2026-06-10）</td><td class="num">0</td><td class="num">0</td></tr>
+<tr><td class="lab">FY26 年报 10-K 全文</td><td class="num">0</td><td class="num">0</td></tr>
+<tr><td class="lab">本季 10-Q（2026-09-11）</td><td class="num">0</td><td class="num">0</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>四份全是零，包括上一个季度和整份年报。所以"本季没提"并不是一个变化——这家公司在 SEC 申报里本来就不点名客户。</p>
+
+<p class="pull">没有对照组，"没有出现"就不构成信号。这一步应该在下任何结论之前做。</p>
+
+<h2>年报里那句按规则必须写的话</h2>
+
+<p>不点名不等于不披露。美国的申报规则要求：当单一客户占到总收入的 10% 或以上时，公司必须披露这一事实。甲骨文在 FY26 年报里的原话是：</p>
+
+<div class="quote">"No single customer accounted for 10% or more of our total revenues in fiscal 2026, 2025 or 2024."</div>
+
+<p>同一份年报的风险提示里另有一句，承认云基础设施业务的客户结构确实偏集中：</p>
+
+<div class="quote">"In certain OCI offerings, we are more concentrated among a number of large customers, which could increase these risks."</div>
+
+<p>而 RPO 的增长，年报的措辞是 <code>primarily attributable to certain significant cloud contracts that were entered into during the period</code>（主要归因于本期新签的若干重大云合同）。</p>
+
+<p>把这三句话放在一起，公司的处理方式就清楚了：收入口径按规则声明"没有 10% 以上的客户"，订单口径用"若干重大合同"带过，全程不点名。</p>
+
+<h2>这笔订单什么时候变成收入</h2>
+
+<p>要先说清一件容易误读的事：<strong>"单一客户是否超过 10%"是年度披露，季度报告不重复它。</strong>本季的 10-Q 里，<code>concentration</code> 和 <code>single customer</code> 都是零命中——这不代表本季没有客户过线，只代表季报本来就不讲这件事。真正能验证它的下一份文件是 FY2027 年报，大约要等到 2027 年年中。</p>
+
+<p>顺带说一句：本文初稿曾经从"季报没披露"这件事推断"履约才刚起步"。那个推理不成立——季报本来就不写这一项，从它的沉默里读不出任何方向。下面换成公司自己给出的数字。</p>
+
+<p>公司在本季 10-Q 里给出了订单积压的确认节奏，原文是：</p>
+
+<div class="quote">"Remaining performance obligations were $664 billion as of August 31, 2026, of which we expect to recognize approximately <b>13%</b> as revenues over the next twelve months, <b>37%</b> over the subsequent month 13 to month 36, <b>34%</b> over the subsequent month 37 to month 60 and the remainder thereafter."</div>
+
+<p>把这个比例乘出来：未来十二个月要确认的收入约 863 亿美元（6,640 亿 × 13%）。作为对照，本季营收年化后约 774 亿美元（193.45 亿 × 4）。</p>
+
+<p>不过在被这个数字说服之前，先给 6,640 亿本身一个参照系。单看"较去年同期 +2,090 亿、增幅 46%"印象很猛，把逐季序列摊开则是另一幅图：</p>
+
+<div class="scroll">
+<table>
+<caption>剩余履约义务 · 逐季（取自 SEC XBRL）</caption>
+<thead><tr><th>季末</th><th class="num">RPO</th><th class="num">单季增量</th></tr></thead>
+<tbody>
+<tr><td class="lab">2025-05-31</td><td class="num">$1,378 亿</td><td class="num">+$76 亿</td></tr>
+<tr><td class="lab"><strong>2025-08-31</strong></td><td class="num"><strong>$4,553 亿</strong></td><td class="num"><strong><span class="up">+$3,175 亿</span></strong></td></tr>
+<tr><td class="lab">2025-11-30</td><td class="num">$5,233 亿</td><td class="num">+$680 亿</td></tr>
+<tr><td class="lab">2026-02-28</td><td class="num">$5,526 亿</td><td class="num">+$293 亿</td></tr>
+<tr><td class="lab">2026-05-31</td><td class="num">$6,380 亿</td><td class="num">+$854 亿</td></tr>
+<tr><td class="lab"><strong>2026-08-31（本季）</strong></td><td class="num"><strong>$6,640 亿</strong></td><td class="num"><strong>+$260 亿</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>那个 3,175 亿的跳变发生在<strong>一年前</strong>，不是本季。而"同比 +46%"之所以好看，正因为分母（4,553 亿）本身已经包含了那次跳变。本季单季净增 260 亿，是那次跳变之后五个季度里最小的一个。</p>
+
+<p>两种讲法说的是同一件事：<strong>同比 +46%</strong>，和 <strong>单季 +4.1%、五个季度以来最慢</strong>。选哪一个当标题，故事的方向就不一样。</p>
+
+<p class="pull">也就是说，仅订单积压这一项在未来一年要转成的收入，就已经超过这家公司当前的全年收入规模。</p>
+
+<p>这个节奏是明显后置的——第一年只确认 13%，而不是平均分摊的 20%。后面两段（13–36 月 37%、37–60 月 34%）才是大头。所以"钱先花、收入后到"在时间上是成立的，只不过依据是公司自己披露的曲线，不是从任何一份文件的沉默里推出来的。</p>
+
+<p>顺带说明 10% 门槛这个数。按本季营收静态年化 774 亿计，门槛约合每年 77.4 亿美元。需要标明这是个<em>下限近似</em>：若收入真如订单节奏所示加速，FY2027 全年实收会高于 774 亿，门槛也跟着上移。</p>
+
+<p>至于那位大客户占多大比重，公开信息并不一致，而且都不是公司披露：卖方机构 Jefferies 在本次财报<em>发布前</em>的预览里给出约 47%，该机构今年 3 月给过 57%，另有机构称"过半"。47% 这个数与「3,000 亿合同 ÷ <em>上一季</em> RPO 6,380 亿 = 47.0%」吻合到小数点后一位；若换成本季的 6,640 亿基数则约为 45.2%。财报发布后另有分析认为非该客户的积压增长更快，集中度正在被稀释。</p>
+
+<p>好在结论对这个比例并不敏感。按公司披露的首年 13% 节奏推算：</p>
+
+<div class="scroll">
+<table>
+<caption>客户占比取不同值时的首年确认额 · 对照 10% 门槛 77.4 亿</caption>
+<thead><tr><th>假设占比</th><th class="num">绑定金额</th><th class="num">首年确认(13%)</th><th class="num">相对门槛</th></tr></thead>
+<tbody>
+<tr><td class="lab">30%</td><td class="num">1,992 亿</td><td class="num">259 亿</td><td class="num">3.3 倍</td></tr>
+<tr><td class="lab">45%</td><td class="num">2,988 亿</td><td class="num">388 亿</td><td class="num">5.0 倍</td></tr>
+<tr><td class="lab">57%</td><td class="num">3,785 亿</td><td class="num">492 亿</td><td class="num">6.4 倍</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>即使按最保守的 30% 算，首年确认额仍是门槛的三倍以上。所以 FY2027 年报大概率会是这家公司第一次必须点名披露单一大客户的时点——这是一个可以事前记下、事后对账的具体检验，而它成立与否不取决于上面那几个互相打架的百分比。</p>
+
+<p>与此同时，为这些合同准备产能的钱，已经在花了。下面这组数字取自 SEC XBRL，是同口径的六至八月季，可以逐年直接比较：</p>
+
+<div class="scroll">
+<table>
+<caption>资本开支 · 每年的六至八月季</caption>
+<thead><tr><th>期间</th><th class="num">资本开支</th><th class="num">同比</th></tr></thead>
+<tbody>
+<tr><td class="lab">2023 年</td><td class="num">$13.1 亿</td><td class="num">—</td></tr>
+<tr><td class="lab">2024 年</td><td class="num">$23.0 亿</td><td class="num">+75%</td></tr>
+<tr><td class="lab">2025 年</td><td class="num">$85.0 亿</td><td class="num">+269%</td></tr>
+<tr><td class="lab">2026 年（本季）</td><td class="num">$284.99 亿</td><td class="num"><span class="dn">+235%</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>三年时间，同一个季度的资本开支从 13 亿变成 285 亿。把本季的收支摆成一张简表：</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">本季总收入</span><span>$193.45 亿</span></div>
+<div class="row"><span class="lbl">本季经营现金流</span><span>$231.03 亿</span></div>
+<div class="row"><span class="lbl">本季资本开支</span><span class="out">−$284.99 亿</span></div>
+<div class="row gap"><span class="lbl">自由现金流</span><span>−$53.96 亿</span></div>
+</div>
+
+<p>经营现金流同比增长 184%，看起来是一个很强的改善。但这个数字需要拆开看。</p>
+
+<h3>那 231 亿里，有一半不是经营挣来的</h3>
+
+<p>翻到现金流量表的经营活动部分，其中有一行：</p>
+
+<div class="quote">Increase in deferred revenues from customer prepayments with significant financing component &nbsp;&nbsp; 11,363 &nbsp;&nbsp; —</div>
+
+<p>客户预付款带来的递延收入增加 <strong>113.63 亿美元</strong>，而去年同期这一项是零。科目名称里的 <code>with significant financing component</code> 是会计准则的措辞，意思是这笔预付款<strong>本身带有融资性质</strong>——公司自己承认，这是客户提前把钱交过来，而不是经营活动挣到的。</p>
+
+<p>把它剔掉之后，两个关键比值都会变样：</p>
+
+<div class="scroll">
+<table>
+<caption>两种口径 · 本季</caption>
+<thead><tr><th>项目</th><th class="num">含预付款</th><th class="num">剔除预付款</th></tr></thead>
+<tbody>
+<tr><td class="lab">经营现金流</td><td class="num">$231.03 亿</td><td class="num">$117.40 亿</td></tr>
+<tr><td class="lab">同比增速</td><td class="num">+184%</td><td class="num">+44%</td></tr>
+<tr><td class="lab">经营现金流 ÷ 营收</td><td class="num">119%</td><td class="num">61%</td></tr>
+<tr><td class="lab">资本开支 ÷ 经营现金流</td><td class="num">123%</td><td class="num"><span class="dn">243%</span></td></tr>
+<tr><td class="lab">自由现金流</td><td class="num">−$53.96 亿</td><td class="num"><span class="dn">−$167.59 亿</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>"经营现金流 ÷ 营收 = 119%"这个数本身就该引起警觉：现金流入超过当期收入，正常的软件生意做不到这一点。剔除预付款后是 <strong>61%</strong>，正好落回这家公司过去八个财年同一财季（六至八月）的 55%–73% 区间。（必须点明是同季度比较：甲骨文的收入与现金流季节性很强，若改用整个财年口径，这个比值的历史区间是 22%–48%，对不上。）</p>
+
+<p class="pull flag">所以真实的经营性缺口是 168 亿，不是财报上那个 54 亿。</p>
+
+<h3>同一笔钱，公司在另一边也扣了一次</h3>
+
+<p>上面这段是把预付款从<strong>经营现金流</strong>里剔除。而在 9 月 10 日盘后那份新闻稿里，公司把同一笔 113.63 亿从<strong>资本开支</strong>那一侧也扣掉了，做成一个非 GAAP 指标：</p>
+
+<div class="scroll">
+<table>
+<caption>新闻稿里的"资本开支净现金支出" · FY27Q1</caption>
+<thead><tr><th>项目</th><th class="num">金额</th></tr></thead>
+<tbody>
+<tr><td class="lab">资本开支（GAAP）</td><td class="num">$285.00 亿</td></tr>
+<tr><td class="lab">减：与资本开支相关的其他短期融资</td><td class="num">+$8.30 亿</td></tr>
+<tr><td class="lab">减：带融资性质的客户预付款</td><td class="num">−$113.63 亿</td></tr>
+<tr><td class="lab"><strong>资本开支的"净现金支出"</strong></td><td class="num"><strong>$179.66 亿</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>于是新闻稿里并排躺着两个数，而它们对同一笔 113.63 亿的处理方向是相反的——一个把它算进来，一个把它扣出去：</p>
+
+<div class="scroll">
+<table>
+<caption>三种口径 · 同一个季度</caption>
+<thead><tr><th>口径</th><th class="num">经营现金流</th><th class="num">资本开支</th><th class="num">缺口</th></tr></thead>
+<tbody>
+<tr><td class="lab">公司给的 GAAP 自由现金流</td><td class="num">231.03（<strong>含</strong>）</td><td class="num">285.00</td><td class="num"><span class="dn">−$53.96 亿</span></td></tr>
+<tr><td class="lab">把新闻稿两个数直接相减</td><td class="num">231.03（<strong>含</strong>）</td><td class="num">179.66（<strong>已扣</strong>）</td><td class="num"><span class="up">+$51.37 亿</span></td></tr>
+<tr><td class="lab">一致口径（两边都剔除）</td><td class="num">117.40（<strong>已剔</strong>）</td><td class="num">285.00</td><td class="num"><span class="dn">−$167.59 亿</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="pull flag">中间那行是错的——同一笔钱算了两次——但它是新闻稿里两个并列数字直接相减的结果，而它把答案从负 168 亿变成正 51 亿。两端差 219 亿美元。</p>
+
+<div class="note">
+<p><strong>这里要把话说公允。</strong>三件事都核过：其一，那个非 GAAP 指标<strong>不是本季新造的</strong>——上一季（2026-06-10）的新闻稿里"Net Cash Outlay"已出现 5 次，整个 FY26 都在用这个口径；其二，调整项是<strong>逐行列出</strong>的，没有藏；其三，公司自己给出的自由现金流用的是 <strong>GAAP 口径</strong>（231.03 − 285.00 = −53.96），并没有拿 179.66 去凑一个正数。会算出 +51 亿的是读者，不是公司。</p>
+<p>所以这不是错误，也不构成误导，是合规范围内的呈现选择。真正值得盯的是另一个数：这个抵减项上一季首次出现时是 45.92 亿，本季是 113.63 亿——<strong>一个季度放大到 2.5 倍</strong>。指标是旧的，被它抵掉的金额正在快速变大。</p>
+</div>
+
+<h3>顺带一个方法论上的坑</h3>
+
+<p>本文初稿曾拿这个比值和四家超大规模云厂横向比较（微软 65%、Meta 95%、谷歌 115%、亚马逊 119%），并断言"它们都不含这种一次性预付款，所以只有 243% 才可比"。<strong>这个断言是错的，而且错在最该查的那一家。</strong></p>
+
+<p>微软最近一期（FY2026 第四财季，2026 年 4–6 月）的经营现金流是 554.41 亿美元，其中"递延收入"一项增加了 224.28 亿——占该季经营现金流的 <strong>40.5%</strong>，量级与甲骨文本季的 49% 相当接近。若对微软套用同一套剔除逻辑，它的"资本开支 ÷ 经营现金流"会从 65% 跳到 108%。</p>
+
+<p>而且这不是偶发事件：微软 FY26 全年递延收入净增 93.61 亿，前三个季度合计是 <em>负</em> 130.67 亿——也就是说这笔钱高度集中在第四财季流入（六月是其企业协议集中续约的时点）。换成年度口径，同一项只占全年经营现金流的 5.1%，季节性就被抹平了。</p>
+
+<div class="scroll">
+<table>
+<caption>同一家公司、同一个指标 · 换个口径换个结论</caption>
+<thead><tr><th>微软 FY2026</th><th class="num">单季（4–6月）</th><th class="num">全年</th></tr></thead>
+<tbody>
+<tr><td class="lab">资本开支 ÷ 经营现金流</td><td class="num">64.6%</td><td class="num">63.4%</td></tr>
+<tr><td class="lab">递延收入占经营现金流</td><td class="num"><span class="dn">40.5%</span></td><td class="num">5.1%</td></tr>
+<tr><td class="lab">按同口径剔除后</td><td class="num"><span class="dn">108.4%</span></td><td class="num">—</td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="pull flag">所以真正的教训不是"甲骨文比别人差多少倍"，而是：用单季快照去跨公司比这个指标，本身就不可靠。</p>
+
+<p>本文因此<strong>不再给出跨公司的倍数结论</strong>。上面那 243% 只用于和甲骨文自己的 123% 对照——说明同一家公司、同一个季度，换个口径就是两个故事。至于它和别家孰高孰低，需要五家统一按年度或滚动十二个月重算，那是另一篇文章的工作量。</p>
+
+<h2>钱从哪里来：本季的答案和上一年不一样</h2>
+
+<p>差额要靠融资补。先看过去几年的债务轨迹——年报写得很直白：FY26 发行了 430 亿美元优先票据，FY25 是 140 亿美元。</p>
+
+<div class="scroll">
+<table>
+<caption>总债务（含一年内到期部分）与利息费用 · 财年末口径</caption>
+<thead><tr><th>财年</th><th class="num">总债务</th><th class="num">同比</th><th class="num">利息费用</th><th class="num">同比</th></tr></thead>
+<tbody>
+<tr><td class="lab">2024</td><td class="num">$869 亿</td><td class="num">−4.0%</td><td class="num">$35.1 亿</td><td class="num">+0.3%</td></tr>
+<tr><td class="lab">2025</td><td class="num">$926 亿</td><td class="num">+6.6%</td><td class="num">$35.8 亿</td><td class="num">+1.8%</td></tr>
+<tr><td class="lab">2026</td><td class="num">$1,295 亿</td><td class="num"><span class="dn">+39.9%</span></td><td class="num">$46.0 亿</td><td class="num">+28.5%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>需要说明口径：这一列取自 SEC XBRL 的 <code>DebtLongtermAndShorttermCombinedAmount</code>，含义是<strong>总债务，包含一年内到期的部分</strong>，不是单纯的长期债务。FY26 末拆开是流动 72 亿 + 非流动 1,223 亿。</p>
+
+<p>一个财年之内债务增加约 370 亿美元。如果故事停在这里，结论会是"靠借债扩张"。</p>
+
+<h3>但本季度的资金来源换了</h3>
+
+<p>翻到本季的现金流量表和 8-K 的"资本投入与资金筹措"一节，这一季真正的边际资金来源是股权：</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">ATM 增发普通股，扣发行费用后</span><span class="in">+$199.09 亿</span></div>
+<div class="row"><span class="lbl">员工持股计划净额</span><span class="in">+$0.41 亿</span></div>
+<div class="row"><span class="lbl">商业票据净偿还</span><span>$0</span></div>
+<div class="row"><span class="lbl">派发股息</span><span class="out">−$15.65 亿</span></div>
+<div class="row"><span class="lbl">资本开支相关短期融资，净偿还</span><span class="out">−$8.30 亿</span></div>
+<div class="row"><span class="lbl">偿还优先票据、定期贷款及其他借款</span><span class="out">−$42.02 亿</span></div>
+<div class="row"><span class="lbl">其他融资活动</span><span class="out">−$2.42 亿</span></div>
+<div class="row gap"><span class="lbl">融资活动净流入</span><span>+$131.11 亿</span></div>
+</div>
+
+<p>这是本季现金流量表"融资活动"下的全部七个科目，逐项列全是为了说明一件事：<strong>整段里没有任何一项是债务发行的流入</strong>，与债务有关的三项全部是偿还。同期资产负债表上的票据及其他借款，从 5 月 31 日的 1,295.41 亿降到 8 月 31 日的 1,253.37 亿。</p>
+
+<p>10-Q 原文的那一行是 <code>Proceeds from issuances of common stock via at-the-market program, net of issuance costs 19,909</code>（单位百万美元）。</p>
+
+<p class="pull flag">所以本季的实际情况是：股权融资填了缺口，而总债务在下降。</p>
+
+<p>这和上一财年"发债 430 亿"的图景是反向的。把两者放在一起看，更准确的说法是：资金来源的结构在本季发生了切换——从债务转向股权。至于这是主动选择（利率已高到不愿再发债）还是被动调整，公开文件里没有给出理由，本文不做猜测。</p>
+
+<h3>这一次的稀释：一个季度 4.97%</h3>
+
+<p>"股权融资填了缺口"听上去是个中性的技术描述。把它换算成股数，含义就具体了：</p>
+
+<div class="scroll">
+<table>
+<caption>流通股数 · 取自 SEC 申报封面（dei:EntityCommonStockSharesOutstanding）</caption>
+<thead><tr><th>申报日</th><th>文件</th><th class="num">流通股数</th></tr></thead>
+<tbody>
+<tr><td class="lab">2025-09-05</td><td>FY26Q1 10-Q</td><td class="num">28.42 亿股</td></tr>
+<tr><td class="lab">2026-03-05</td><td>FY26Q3 10-Q</td><td class="num">28.76 亿股</td></tr>
+<tr><td class="lab">2026-06-12</td><td>FY26 年报 10-K</td><td class="num">28.80 亿股</td></tr>
+<tr><td class="lab"><strong>2026-09-07</strong></td><td><strong>FY27Q1 10-Q</strong></td><td class="num"><strong>30.24 亿股</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>前面三年，股数每年爬升一两个百分点，是员工股权激励的常态节奏。<strong>本季一个季度增加 1.43 亿股，稀释 4.97%</strong>——比过去两年半的累计增幅还多。</p>
+
+<p>把增发金额和股数相除，可以反推出发行价：199.09 亿 ÷ 1.43 亿股 ≈ <strong>每股 140 美元</strong>。而这个财季（六至八月）的股价，从 6 月初的 240 一路跌到 7 月下旬的 115，再回到 8 月底的 150。也就是说——</p>
+
+<p class="pull flag">这 200 亿美元，是在股价从高点腰斩之后发出去的。</p>
+
+<div class="scroll">
+<table>
+<caption>同样融 200 亿，发行价决定要交出多少股</caption>
+<thead><tr><th>发行价</th><th class="num">需发股数</th><th class="num">对应稀释</th></tr></thead>
+<tbody>
+<tr><td class="lab">$240（本财季最高附近）</td><td class="num">0.83 亿股</td><td class="num">2.9%</td></tr>
+<tr><td class="lab"><strong>$140（实际均价）</strong></td><td class="num"><strong>1.43 亿股</strong></td><td class="num"><strong>5.0%</strong></td></tr>
+<tr><td class="lab">$115（本财季最低附近）</td><td class="num">1.74 亿股</td><td class="num">6.0%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>这张表说明一件容易被忽略的事：<strong>当一家公司靠增发补缺口时，股价下跌本身会放大稀释。</strong>同样的 200 亿，在 240 只要交出 2.9% 的公司，在 140 要交出 5.0%。跌得越多，为填同一个洞付出的所有权越多——而缺口的大小并不因股价下跌而减少。</p>
+
+<h3>缺口的长度，以及谁来填</h3>
+
+<p>自由现金流不是本季才转负的。按公司自己在新闻稿里列出的季度序列：</p>
+
+<div class="scroll">
+<table>
+<caption>自由现金流（GAAP 口径，公司新闻稿原表）</caption>
+<thead><tr><th>期间</th><th class="num">经营现金流</th><th class="num">资本开支</th><th class="num">自由现金流</th></tr></thead>
+<tbody>
+<tr><td class="lab">FY26 Q1</td><td class="num">$81.40 亿</td><td class="num">$85.02 亿</td><td class="num"><span class="dn">−$3.62 亿</span></td></tr>
+<tr><td class="lab">FY26 Q2</td><td class="num">$20.66 亿</td><td class="num">$120.33 亿</td><td class="num"><span class="dn">−$99.67 亿</span></td></tr>
+<tr><td class="lab">FY26 Q3</td><td class="num">$71.51 亿</td><td class="num">$186.35 亿</td><td class="num"><span class="dn">−$114.84 亿</span></td></tr>
+<tr><td class="lab">FY26 Q4</td><td class="num">$146.20 亿</td><td class="num">$164.93 亿</td><td class="num"><span class="dn">−$18.73 亿</span></td></tr>
+<tr><td class="lab"><strong>FY26 全年</strong></td><td class="num"><strong>$319.77 亿</strong></td><td class="num"><strong>$556.63 亿</strong></td><td class="num"><strong><span class="dn">−$236.86 亿</span></strong></td></tr>
+<tr><td class="lab"><strong>FY27 Q1</strong></td><td class="num"><strong>$231.03 亿</strong></td><td class="num"><strong>$285.00 亿</strong></td><td class="num"><strong><span class="dn">−$53.96 亿</span></strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>连续五个季度为负。</strong>而且公司维持 FY2027 全年资本开支 900–950 亿美元的指引不变——相对 FY26 的 556.63 亿，还要再增加六成以上。在经营现金流不出现同等量级跃升的前提下，缺口只会变大，不会变小。</p>
+
+<p>这一点不需要外部推测，公司自己给了答案：本财年计划通过债务与股权合计筹资约 <strong>400 亿美元</strong>，第一财季已经用掉其中的 200 亿（全部是股票）。<strong>这个融资计划的规模，本身就是公司对自己未来十二个月现金缺口的估计。</strong></p>
+
+<p>所以这门生意目前的资金闭环是这样的：经营挣到的钱全部投入建设仍然不够，差额靠外部资金补——要么发新股，要么借新债；本季选了前者，上一财年选了后者。<strong>在自由现金流转正之前，这个循环必须一直转下去。</strong></p>
+
+<div class="note">
+<p><strong>这里要和另一种风险区分开。</strong>"自由现金流为负"很容易被读成"公司在亏钱、可能撑不到盈利那天"。甲骨文不是这种情况：它本季 GAAP 每股收益 1.56 美元、同比增长 55%，损益表是正的而且在加速。</p>
+<p>它的问题是<strong>利润造出来了，但被资本开支全部吃掉，变不成自由现金流</strong>。这两种处境的风险性质完全不同——前者的最坏结果是资金链断裂，后者的最坏结果是<strong>股东被持续稀释</strong>，以及如果转向债务融资，则是利息负担与再融资条件。对持股的人来说，要盯的不是"它会不会倒"，而是"<strong>在转正之前，我手里这一股会被摊薄到什么程度</strong>"。</p>
+</div>
+
+<h2>一个我算错了的指标</h2>
+
+<p>看到上面那张表，一个自然的想法是：用利息费用除以债务余额，算出隐含利率，就能看出融资成本有没有恶化。按财年末余额算出来是这样：</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">FY25 隐含利率（期末余额法）</span><span>3.86%</span></div>
+<div class="row"><span class="lbl">FY26 隐含利率（期末余额法）</span><span>3.55%</span></div>
+</div>
+
+<p>下降了三十多个基点。在十年期美债已经升到 4.9% 附近、公司一年净增 370 亿美元债务的情况下，融资成本反而变便宜，这个结果不合常理。</p>
+
+<p>不合常理的时候，先怀疑算法。<strong>这里的问题出在分母</strong>：FY26 那 430 亿美元票据是在财年之内陆续发行的，有相当一部分到年末才计息不久；而分子是走满了一整年的利息费用。用"全年流量 ÷ 期末存量"，在债务规模年内暴涨时，机械上就会把利率算低。</p>
+
+<p>换成平均余额（期初与期末的均值）重算一遍：</p>
+
+<div class="scroll">
+<table>
+<caption>两种算法对比 · 隐含利率</caption>
+<thead><tr><th>财年</th><th class="num">期末余额法</th><th class="num">平均余额法</th></tr></thead>
+<tbody>
+<tr><td class="lab">2024</td><td class="num">4.04%</td><td class="num">3.96%</td></tr>
+<tr><td class="lab">2025</td><td class="num">3.86%</td><td class="num">3.99%</td></tr>
+<tr><td class="lab">2026</td><td class="num"><span class="dn">3.55%</span></td><td class="num"><span class="up">4.14%</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="pull flag">方向反过来了：从下降 31 个基点，变成上升 15 个基点。</p>
+
+<p>上升 15 个基点，与利率环境是一致的，没有任何反常需要解释。也就是说，本文初稿里"隐含利率反常下降"这个观察根本不存在，它是算法造出来的。</p>
+
+<div class="note">
+<span class="tag">初稿在这里写错了什么</span>
+初稿把下降归因于"建设期利息资本化"，并用了"最可能的解释是"这样的措辞。事后核对：FY26 年报全文搜索 <code>capitaliz</code> 只有两处命中，都是关于软件开发成本，<strong><code>capitalized interest</code> 一次都没有出现</strong>。也就是说那个解释在公司自己的文件里找不到任何支持，却被用接近定论的语气写了出来——而真正的原因是一个更朴素的算术问题。
+</div>
+
+<p>可用的结论是：甲骨文的平均融资成本在 FY26 上升了约 15 个基点，以及债务增速和年度发债规模这两个不受算法口径影响的量。</p>
+
+<h2>市场花了一个晚上改变主意</h2>
+
+<p>这份财报的市场反应，本身是一条值得记下来的观察。</p>
+
+<div class="scroll">
+<table>
+<caption>甲骨文股价 · 财报前后（美东时间）</caption>
+<thead><tr><th>时点</th><th class="num">价格</th><th class="num">相对 9/10 收盘 152.94</th></tr></thead>
+<tbody>
+<tr><td class="lab">9/10 盘后（新闻稿发布后）</td><td class="num">—</td><td class="num"><span class="up">一度涨近 10%</span></td></tr>
+<tr><td class="lab">9/11 开盘</td><td class="num">$165.00</td><td class="num"><span class="up">+7.9%</span></td></tr>
+<tr><td class="lab">9/11 盘初高点</td><td class="num">$166.00</td><td class="num"><span class="up">+8.5%</span></td></tr>
+<tr><td class="lab"><strong>9/11 开盘第一根五分钟</strong></td><td class="num"><strong>砸到 $154.35</strong></td><td class="num"><strong><span class="dn">五分钟内 −6.4%</span></strong></td></tr>
+<tr><td class="lab">9/11 尾盘低点</td><td class="num">$149.84</td><td class="num"><span class="dn">−2.0%</span></td></tr>
+<tr><td class="lab">9/11 收盘</td><td class="num">$150.28</td><td class="num"><span class="dn">−1.74%</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>开盘第一根五分钟柱的成交量是 1,305 万股，占当日 7,952 万股的 <strong>16.4%</strong>。不是缓慢回落，是开盘瞬间完成的。而当天大盘在涨：标普 500 <span class="up">+0.85%</span>、纳斯达克 100 <span class="up">+0.87%</span>、微软 <span class="up">+0.65%</span>。甲骨文逆势跑输 <strong>2.6 个百分点</strong>。</p>
+
+<p>一个容易得出但站不住的解释是："10-Q 里的细节引发了抛售"。查一下受理时间戳就知道不成立：</p>
+
+<div class="scroll">
+<table>
+<caption>SEC 受理时刻（美东时间）</caption>
+<thead><tr><th>文件</th><th>受理时刻</th><th>相对交易时段</th></tr></thead>
+<tbody>
+<tr><td class="lab">8-K 新闻稿</td><td>2026-09-10 16:16</td><td>收盘后 16 分钟</td></tr>
+<tr><td class="lab">10-Q 季报</td><td>2026-09-11 <strong>16:10</strong></td><td><strong>收盘后 10 分钟</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>10-Q 是在那根暴跌的五分钟结束<strong>六个半小时之后</strong>才提交的。而本文用到的关键数字——113.63 亿客户预付款、199.09 亿股票增发、285 亿资本开支、负 53.96 亿自由现金流——<strong>在 9 月 10 日盘后那份新闻稿里就已经全部公开</strong>。</p>
+
+<p class="pull flag">所以这不是新信息到达，是同一批信息在一夜之间被重新定价：盘后读的是标题和指引，开盘读的是现金流量表。</p>
+
+<div class="note">
+<p><strong>这一节只写能证实的部分。</strong>价格轨迹、成交量分布、受理时间戳、大盘对照，都是可复核的事实。至于"市场是因为算出了双重计入才砸盘"——本文没有证据，不作断言。同样的形态也可以由获利了结、做空、机构调仓或被动基金再平衡产生，而这几种成因，用公开数据一个也区分不出来。</p>
+<p>可以说的只有一点：从 7 月下旬的低点 115 美元到 9 月 11 日盘中高点 166 美元，涨幅 44%，两个月内建仓的持有者浮盈很厚；但从 6 月初的高点 240 算，150 美元仍是下跌 37%。<strong>获利盘和套牢盘同时存在于这张筹码表上</strong>，笼统说"获利了结主导"并不准确。</p>
+</div>
+
+<h3>第二天，最大股东宣布不卖了</h3>
+
+<p>9 月 12 日，公司发布了一条一段话的公告：执行董事长兼首席技术官 Lawrence J. Ellison 取消了他的 10b5-1 售股计划，<strong>该计划下没有卖出任何一股</strong>，并且他没有其他出售甲骨文股票的计划。公告没有给出原因。</p>
+
+<p>这份公告本身很简短，计划的具体条款要回 9 月 11 日那份 10-Q 的 Item 5 才查得到，原文是：</p>
+
+<div class="quote">
+<p>Lawrence J. Ellison … adopted a new trading plan on <strong>June 22, 2026</strong>. Mr. Ellison's plan is scheduled to terminate on <strong>October 24, 2026</strong> … The trading plan is intended to permit Mr. Ellison to sell up to <strong>50 million shares</strong> of Oracle common stock.</p>
+</div>
+
+<p>把它放进前面那条时间线：</p>
+
+<div class="scroll">
+<table>
+<caption>售股计划的完整生命周期</caption>
+<thead><tr><th>日期</th><th>事件</th></tr></thead>
+<tbody>
+<tr><td class="lab">6 月 22 日</td><td>采纳售股计划，上限 5,000 万股</td></tr>
+<tr><td class="lab">9 月 10 日盘后</td><td>财报发布，股价盘后涨近 10%</td></tr>
+<tr><td class="lab">9 月 11 日</td><td>高开 8.5% 后收跌 1.74%，逆势跑输大盘 2.6 个百分点</td></tr>
+<tr><td class="lab"><strong>9 月 12 日</strong></td><td><strong>取消计划，全程未售出一股</strong>（距原定终止日还有 42 天）</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>从采纳到取消是 82 天，一股没卖。时间顺序是清楚的，但公司没有说明原因，本文不把它读成因果。</p>
+
+<h3>"一股未卖"这句话，对判断他是否想卖没有分辨力</h3>
+
+<p>"No Oracle stock was sold under that plan"读起来像是一种克制。但把规则查一遍，这句话在他取消的那一刻<strong>必然为真</strong>，与他的意愿无关。</p>
+
+<p>SEC 在 2022 年 12 月修订了 Rule 10b5-1，为董事和高管设了强制冷却期：<strong>取"采纳后 90 天"与"含采纳日那一财季的 10-Q／10-K 提交后两个工作日"之中较晚者</strong>（上限 120 天）。修订特别写明：财务结果必须出现在 10-Q 或 10-K 中才能触发后一个条件，<strong>仅以 8-K 形式发布的财报不算数</strong>。</p>
+
+<p>甲骨文在 10-Q 里明确写了该计划"intended to satisfy the affirmative defense conditions of Rule 10b5-1(c)"——既然要用这条抗辩，冷却期就必须遵守。于是：</p>
+
+<div class="scroll">
+<table>
+<caption>冷却期推算 · 依据 Rule 10b5-1(c) 与申报中的硬日期</caption>
+<thead><tr><th>条件</th><th>日期</th></tr></thead>
+<tbody>
+<tr><td class="lab">(i) 采纳日 6/22 起 90 天</td><td>2026-09-20</td></tr>
+<tr><td class="lab">(ii) FY27Q1 的 10-Q（9/11 提交）后两个工作日</td><td>2026-09-15</td></tr>
+<tr><td class="lab"><strong>取较晚者 ⇒ 冷却期结束</strong></td><td><strong>2026-09-20</strong></td></tr>
+<tr><td class="lab"><strong>实际取消日</strong></td><td><strong>2026-09-12</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="pull flag">他在这个计划第一次可以卖出之前八天，就把它取消了。</p>
+
+<p>换句话说，这个 6 月 22 日采纳、原定 10 月 24 日终止的计划，真正的可交易窗口本来只有 9 月 20 日到 10 月 24 日这一段——而它没能活到窗口打开。</p>
+
+<p>这一层不改变"取消"本身是主动行为：他本可以等到窗口打开后看着价格再决定，也可以让计划自然到期，而他选择提前 42 天公开取消，并声明没有其他售股计划。但它确实改变了"一股未卖"的证据分量：<strong>如果他其实很想卖、只是被规则挡住了，公告上的文字会与现在一字不差。</strong>一个在两种相反情形下写法完全相同的表述，对区分这两种情形没有分辨力。</p>
+
+<div class="note">
+<p><strong>证据等级说明。</strong>采纳日（6/22）、原定终止日（10/24）、股数上限（5,000 万股）、10-Q 提交日（9/11）都取自申报原文；冷却期结束日（9/20）是作者依 Rule 10b5-1(c) 的条款推算，<strong>不是公司披露的数字</strong>。计划条款中另有"certain specified events"下的提前终止安排，其具体内容未公开。</p>
+</div>
+
+<p>与本文主题真正相关的是另一个对照。<strong>这个季度里，"卖甲骨文股票"这件事同时在两个方向上发生：</strong></p>
+
+<div class="scroll">
+<table>
+<caption>两个方向相反的动作 · 同一个季度</caption>
+<thead><tr><th>谁</th><th>动作</th><th class="num">股数</th><th class="num">占现有股本</th></tr></thead>
+<tbody>
+<tr><td class="lab">公司</td><td>增发新股填补现金缺口</td><td class="num"><strong>+1.43 亿股</strong></td><td class="num"><strong>4.97%</strong></td></tr>
+<tr><td class="lab">最大股东</td><td>取消减持（原上限）</td><td class="num">−0.50 亿股</td><td class="num">1.65%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="pull flag">公司这一季发出去的新股，是最大股东原计划减持上限的 2.9 倍。</p>
+
+<div class="note">
+<p><strong>这条消息不改变前面任何一个数字。</strong>取消售股计划不产生一分钱现金：自由现金流仍然是负的，资本开支指引仍然是 900–950 亿，本财年那 400 亿融资计划仍然要完成，剩下的 200 亿仍然要么发股要么借债。它是一个关于意愿的信号，不是一笔资金。</p>
+<p>把它和增发放在一起看才完整：<strong>最大股东选择不减持，而公司在替所有股东稀释</strong>。对持股人来说，前者省下的是 1.65%，后者已经花掉的是 4.97%。</p>
+</div>
+
+<h2>那么该盯什么</h2>
+
+<p>把线索合起来：收入端的大规模确认还在前面（公司自己给的曲线是首年 13%），支出端已经全速展开（单季 285 亿），而这一季的缺口是用股权而不是债务填的。在这种结构下，有几个读数比季度收入更值得跟踪。</p>
+
+<h3>FY2027 年报里的客户集中度披露</h3>
+
+<p>这是一个有明确时点的检验：<strong>约 2027 年年中</strong>。若那份合同按公司披露的节奏确认收入，单一客户很可能越过 10% 门槛，届时公司必须在年报里写明。</p>
+
+<p>它的价值在于把目前只存在于券商估算里的集中度，变成申报层面的事实——两者的证据等级不同。它的局限也要说清楚：这是年度披露、滞后指标，不提供提前量；而且季报不重复这一项，中间四个季度都读不出方向。</p>
+
+<h3>每季新增了多少股，而不只是融了多少钱</h3>
+
+<p>这是本文修订后认为最该盯的一条，因为它把"缺口"直接翻译成了持股人的成本。做法很简单：每季 10-Q 封面上都印着流通股数（<code>dei:EntityCommonStockSharesOutstanding</code>），逐季抄下来即可。本季是 30.24 亿股，上季 28.80 亿股。</p>
+
+<p>配套要看融资方式：<strong>同样是填缺口，发股和借债对股东的含义完全不同</strong>——前者摊薄所有权，后者加杠杆并抬高固定利息负担。而在"自由现金流为负"这个层面上，两者看不出任何区别。公司本财年计划筹资约 400 亿，第一财季已用掉 200 亿（全部是股票），剩下的用什么方式补，下季就能看到。</p>
+
+<h3>资金来源的构成，而不只是债务规模</h3>
+
+<p>初稿只盯债务增速，本季的数据说明这不够——债务在降，同时增发了 199 亿美元股票。真正要跟踪的是<strong>每个季度的缺口由什么补上</strong>：新发债、增发股票、还是经营现金流转正。三者对股东的含义完全不同（股权融资摊薄，债务融资加杠杆），但在"自由现金流为负"这个层面上看不出区别。</p>
+
+<h3>平均融资成本</h3>
+
+<p>用平均余额算，FY26 是 4.14%，比 FY25 上升约 15 个基点。这个数不受"期末 vs 平均"口径问题影响，逐年可比。</p>
+
+<h3>两个没有解决的盲区</h3>
+
+<p>第一，这条链条最上游的付款方是一家私有公司，没有任何财务申报。能用的间接代理只有它的主要出资方（公开上市）的财报，以及持股方在权益法下确认的损益。这一层不透明。</p>
+
+<p>第二，更根本的一点：上面所有指标都是季度节拍，而信用市场是逐日定价的。如果压力真的从融资端来，最早的迹象会出现在债券利差上，而不是任何一张季度报表里。</p>
+
+<p class="pull flag">这一条没有解决办法可写，只能如实登记：手上工具的采样频率，和风险传导的速度，差了一个数量级。</p>
+
+<h2>小结</h2>
+
+<p>这份财报的收入端是扎实的：总收入增速从去年同期的 12.2% 抬到 29.6%，云基础设施翻倍增长。订单积压确实在转化，这一点不该打折。</p>
+
+<p>与此同时，单季资本开支达到收入的 1.47 倍；剔除一次性客户预付款后，经营性自由现金流为负 168 亿（财报口径是负 54 亿），平均融资成本上升约 15 个基点。公司自己披露的订单确认曲线是后置的——未来十二个月确认 13%，大头在第二、三年之后。</p>
+
+<p>所以这门生意的关键问题落在中间那段缺口上，而非下一季的收入数字：它有多长，以及每个季度用什么方式补上。</p>
+
+<p class="pull flag">本季的答案是股权：增发 199 亿美元，流通股数一个季度增加 4.97%，而这笔股是在股价从高点腰斩之后发出去的。</p>
+
+<p>连续五个季度自由现金流为负，而资本开支指引还要再增六成。在转正之前，这个"外部资金填缺口"的循环必须一直转下去——要么继续发股，要么重新转向借债。<strong>这不是一家可能撑不到盈利的公司，它的损益表是正的而且在加速；这是一家利润被资本开支全部吃掉、因而必须持续向外部要钱的公司。</strong>对持股的人来说，风险不在"它会不会倒"，而在这段路要走多久、以及走完之后，手里这一股还剩下多少。</p>
+
+<footer>
+数据来源：甲骨文 8-K（2026-09-10、2026-06-10）、公司公告《Larry Ellison Cancels His Plan to Sell Oracle Stock》（2026-09-12）、FY2027 Q1 Form 10-Q（2026-09-11，季末 2026-08-31）、FY2026 Form 10-K、SEC XBRL companyconcept API（CIK 0001341439）。<br>
+"约 47% 订单积压绑定单一客户"为卖方机构 Jefferies 估算，非公司披露，证据等级低于申报数字，文中已标注。<br>
+四家超大规模云厂的 capex/经营现金流比值取自各自最近一期申报。<br>
+股价与成交量（含 9 月 11 日五分钟级）取自 yfinance；SEC 文件受理时间戳取自 EDGAR submissions API 的 <code>acceptanceDateTime</code>（原始为 UTC，文中已换算为美东时间）。<br>
+流通股数取自各期申报封面 <code>dei:EntityCommonStockSharesOutstanding</code>；增发均价为 199.09 亿 ÷ 本季股数净增 1.43 亿股反推，因股数净增还含员工股权计划，该价为<strong>下限近似</strong>。<br>
+全文数字为作者自 SEC 原始文件取得并独立复算。本文不构成投资建议。
+</footer>
+
+</div>
+</body>
+</html>

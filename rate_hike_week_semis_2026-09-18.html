@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>加息当天股票没动，第二天涨了 1.7%</title>
+<style>
+
+  :root{
+  color-scheme: light;
+    --paper:#FAFBFC;
+    --panel:#EDF1F5;
+    --panel-warm:#F5F1EC;
+    --ink:#15212E;
+    --muted:#5C6F82;
+    --accent:#0B5E7D;
+    --flag:#A34527;
+    --good:#1E6F4E;
+    --rule:#D5DEE6;
+    --rule-soft:#E6ECF1;
+    --serif:"Source Serif 4","Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Serif SC","Source Serif 4",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+    font-size:17px;line-height:1.78;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:0 auto;padding:56px 24px 96px}
+  .kicker{font-family:var(--mono);font-size:11.5px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 18px;}
+  h1{font-family:var(--sans);font-weight:700;font-size:clamp(28px,5vw,40px);
+    line-height:1.24;letter-spacing:-.01em;text-wrap:balance;margin:0 0 16px;}
+  .standfirst{font-size:19px;line-height:1.7;color:var(--muted);margin:0 0 26px}
+  .byline{font-family:var(--mono);font-size:12px;color:var(--muted);
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:11px 0;margin:0 0 44px;}
+  .byline span{white-space:nowrap}
+  .byline i{font-style:normal;color:var(--rule);padding:0 8px}
+  h2{font-family:var(--sans);font-weight:700;font-size:24px;line-height:1.35;
+    text-wrap:balance;margin:56px 0 4px;padding-top:22px;border-top:2px solid var(--ink);}
+  h3{font-family:var(--sans);font-weight:600;font-size:18.5px;margin:34px 0 2px}
+  p{margin:14px 0}
+  a{color:var(--accent)}
+  strong{font-weight:600}
+  .lede{font-size:18.5px}
+  .pull{font-family:var(--sans);font-weight:600;font-size:20px;line-height:1.6;
+    border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:30px 0;}
+  .pull.flag{border-left-color:var(--flag)}
+  .scroll{overflow-x:auto;margin:26px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+  table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+  caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:11.5px;
+    font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:0 0 8px;}
+  th{font-family:var(--sans);font-weight:600;font-size:13.5px;text-align:left;color:var(--muted);
+    padding:10px 14px 10px 0;border-bottom:1px solid var(--rule);white-space:nowrap;}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{font-family:var(--mono);font-size:14.5px;font-weight:500;white-space:nowrap}
+  td.lab{font-family:var(--sans);font-weight:600;font-size:14.5px}
+  .up{color:var(--good)}
+  .dn{color:var(--flag)}
+  .ledger{background:var(--panel);border:1px solid var(--rule);padding:22px 24px;margin:28px 0;
+    font-family:var(--mono);font-size:14.5px;line-height:2.05;font-variant-numeric:tabular-nums;}
+  .ledger .row{display:flex;justify-content:space-between;gap:16px}
+  .ledger .row.gap{border-top:2px solid var(--ink);margin-top:10px;padding-top:10px;
+    font-weight:600;color:var(--flag)}
+  .ledger .lbl{font-family:var(--sans);font-weight:400}
+  .ledger .in{color:var(--good)}
+  .ledger .out{color:var(--flag)}
+  .note{background:var(--panel-warm);border-left:3px solid var(--muted);padding:14px 18px;
+    margin:26px 0;font-size:15px;line-height:1.7;}
+  .note .tag{display:block;font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+  .quote{font-family:var(--mono);font-size:14px;line-height:1.75;background:var(--panel);
+    border:1px solid var(--rule);padding:16px 18px;margin:22px 0;}
+  ul{margin:14px 0;padding-left:22px}
+  li{margin:7px 0}
+  footer{margin-top:56px;padding-top:20px;border-top:2px solid var(--ink);
+    font-family:var(--mono);font-size:12px;line-height:1.9;color:var(--muted);}
+  ::selection{background:#CFE3EC;color:var(--ink)}
+  @media (max-width:640px){
+    body{font-size:16.5px}.wrap{padding:36px 18px 72px}h2{font-size:21px}.pull{font-size:18px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="kicker">行业与周期 · 2026-09-18</p>
+
+<h1>加息当天股票没动，第二天涨了 1.7%</h1>
+
+<p class="standfirst">九月中旬那一周，美联储和日本央行先后加息。加息当天纳斯达克 100 指数基金几乎没动，
+第二天涨了 1.73%。这篇记录作者怎么找那第二天的原因，以及中途看反的一段。</p>
+
+<p class="byline"><span>2026-09-18</span><i>·</i><span>数据截至 09-17 美股收盘</span><i>·</i><span>约 2,300 字</span></p>
+
+<p class="lede">作者按固定规则跑一套美股轮换策略，那一周没有调仓。下面全部是市场数据，
+不含任何持仓数字。</p>
+
+<h2>先把时间顺序摆出来</h2>
+
+<p>美联储在 9 月 16 日把联邦基金利率上调 25 个基点，到 3.75%–4%，投票 12 比 0，没有反对票。
+声明里写「通胀仍然偏高，今天的政策行动将支持更及时地回到 2% 目标」。</p>
+
+<p>如果只看「加息 + 鹰派措辞 → 股票应该跌」这条直觉，那一周的走势会很费解，因为股票涨了。
+但把日期拆开看，费解的地方就不在加息上：</p>
+
+<div class="scroll">
+<table>
+<caption>加息当天与次日</caption>
+<thead><tr><th>标的</th><th class="num">09-16（决议日）</th><th class="num">09-17</th></tr></thead>
+<tbody>
+<tr><td class="lab">纳斯达克 100 指数基金</td><td class="num">+0.03%</td><td class="num up">+1.73%</td></tr>
+<tr><td class="lab">标普 500 指数基金</td><td class="num dn">−0.44%</td><td class="num up">+1.13%</td></tr>
+<tr><td class="lab">恐慌指数</td><td class="num dn">+2.97%</td><td class="num up">−12.82%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>决议当天纳指基金动了万分之三，标普还跌了，恐慌指数反而往上走了近 3%。
+市场对加息本身的反应基本是零。</p>
+
+<p>零反应本身有个直接的解释，去看短端利率就能验：13 周国库券收益率在 9 月 15 日是 3.96%，
+17 日还是 3.96%，两天合计动了 0.13%。加息 25 个基点，它一点没挪 ——
+新的 3.75%–4% 区间，它早就待在里面了。加息在决议前就被完整定价了。</p>
+
+<p class="pull">那么 9 月 17 日那 1.73%，得从别处找原因。</p>
+
+<h2>涨幅集中在相邻的两个板块</h2>
+
+<p>把当周板块拉出来按两日涨跌排序，涨幅的分布很不均匀：</p>
+
+<div class="scroll">
+<table>
+<caption>板块两日涨跌，09-15 收盘至 09-17 收盘</caption>
+<thead><tr><th>板块</th><th class="num">两日</th><th>板块</th><th class="num">两日</th></tr></thead>
+<tbody>
+<tr><td class="lab">半导体</td><td class="num up">+3.41%</td><td class="lab">材料</td><td class="num dn">−0.04%</td></tr>
+<tr><td class="lab">科技</td><td class="num up">+2.35%</td><td class="lab">必需消费</td><td class="num dn">−0.29%</td></tr>
+<tr><td class="lab">公用</td><td class="num up">+0.90%</td><td class="lab">地产</td><td class="num dn">−0.30%</td></tr>
+<tr><td class="lab">医疗</td><td class="num up">+0.69%</td><td class="lab">通信</td><td class="num dn">−1.47%</td></tr>
+<tr><td class="lab">可选消费</td><td class="num up">+0.46%</td><td class="lab">金融</td><td class="num dn">−1.71%</td></tr>
+<tr><td class="lab">工业</td><td class="num up">+0.09%</td><td class="lab">能源</td><td class="num dn">−2.20%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>半导体和科技在往上走，同一时间金融跌了 1.71%、通信跌了 1.47%、能源跌了 2.20%。
+指数层面看到的 1.73%，基本是两个相邻板块拉起来的。</p>
+
+<h2>催化剂在 Intel 那句话</h2>
+
+<p>当天的直接触发点来自 Intel：该公司首席执行官表示，目前只能满足大约一半的中央处理器需求。
+一句产能不足的表述，推动了整条链上跟稀缺产能沾边的标的。</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">Intel</span><span class="in">+7.7%</span></div>
+<div class="row"><span class="lbl">Arm</span><span class="in">+8.6%</span></div>
+<div class="row"><span class="lbl">AMD</span><span class="in">+6.5%</span></div>
+<div class="row"><span class="lbl">闪迪</span><span class="in">+6.2%</span></div>
+<div class="row"><span class="lbl">美光</span><span class="in">+5.5%</span></div>
+<div class="row gap"><span class="lbl">英伟达</span><span>+2.5%</span></div>
+</div>
+
+<p>最后一行值得多看一眼。在一个被普遍描述为「人工智能行情」的上涨日里，
+最具人工智能代表性的那只股票涨幅排在这批的末位，只有涨幅第一名的三分之一不到。</p>
+
+<h2>把解释推成预测，再去验</h2>
+
+<p>「Intel 说产能不够，所以半导体涨」听起来说得通。但说得通的解释很多，
+作者的做法是先问：如果这个解释成立，它还必然意味着什么？然后去验那个推论。</p>
+
+<p>这里有两个互相竞争的解释，各自的推论不一样：</p>
+
+<div class="quote">解释甲：半导体供给紧张<br>
+⇒ 那么涨幅应该按<strong>元器件的稀缺程度</strong>排序，而不是按人工智能曝光度排序。</div>
+
+<div class="quote">解释乙：美联储措辞被读成鸽派<br>
+⇒ 那么<strong>对利率敏感的板块应该领涨</strong>：地产、公用事业、小盘股。</div>
+
+<p>解释甲的推论对上了。产能明确不足的 Intel 涨幅最大，内存类的美光和闪迪都在 5% 以上，
+而人工智能叙事最强的英伟达垫底。排序跟稀缺度走，不跟叙事走。</p>
+
+<p>解释乙的推论没对上。那两天地产涨 0.30%、公用事业涨 0.90%、小盘股涨 0.53%，
+三个都跑输了大盘的 1.13%。如果市场真在为「利率见顶」定价，这三个不该是落后的那批。</p>
+
+<p class="pull flag">一个解释在自己的地盘上总是说得通，推导出去才会撞墙。
+两个解释放在一起各自推一步，哪个错就看出来了。</p>
+
+<h2>信用那一段，作者先看反了</h2>
+
+<p>看完股票，作者接着去看信用市场有没有压力。手边最方便的办法是拿高收益债基金
+除以投资级债基金，比值往下走通常意味着高收益端相对变差。那几天的读数是连续下滑的：</p>
+
+<div class="quote">09-10  0.7534<br>09-11  0.7535<br>09-14  0.7529<br>09-15  0.7516<br>09-16  0.7508<br>09-17  0.7486</div>
+
+<p>连跌五天，看着像信用在恶化，而且是在股票上涨的同时恶化 —— 一个很吸引人的背离故事。
+作者差一点就这么写了。</p>
+
+<p>然后去拉了真正的利差数据。美银的美国高收益债期权调整利差，是直接测这件事的指标：</p>
+
+<div class="scroll">
+<table>
+<caption>美国高收益债期权调整利差</caption>
+<thead><tr><th>日期</th><th class="num">利差</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td class="lab">09-14</td><td class="num">2.71%</td><td></td></tr>
+<tr><td class="lab">09-15</td><td class="num">2.76%</td><td>当周高点</td></tr>
+<tr><td class="lab">09-16</td><td class="num up">2.70%</td><td>决议当天反而收窄</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>方向是反的。那个比值下滑跟信用没什么关系 —— 9 月 17 日长端利率下行，
+10 年期收益率从 5.01% 降到 4.95%，而投资级债基金的久期比高收益债基金长得多，
+利率一跌它涨得更多，分母涨过了分子，比值自然往下。</p>
+
+<div class="note"><span class="tag">这一段的教训</span>
+那个比值里同时混着久期和信用两样东西。当两样东西一起变，
+比值的方向由变得更剧烈的那一样决定，而作者想读的偏偏是另一样。
+读数本身没错。问题在于这个指标对作者想问的那件事<strong>没有分辨能力</strong>。</div>
+
+<p>顺带一提，2.70% 这个绝对水平是很窄的。作为参照，压力时期这个指标会到 10% 以上。
+信用市场当时没有压力。</p>
+
+<h2>日本央行加息，日元下跌</h2>
+
+<p>同一周的 9 月 18 日，日本央行把政策利率上调 25 个基点到 1.25%，31 年来最高。
+按教科书，本币加息本币应该走强。实际走势相反：</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">09-15 美元兑日元</span><span>154.38</span></div>
+<div class="row"><span class="lbl">09-17 美元兑日元</span><span>156.01</span></div>
+<div class="row gap"><span class="lbl">09-18 加息后</span><span class="out">157.85</span></div>
+</div>
+
+<p>日经指数当天涨了 1.38%。市场给出的读法是：投票 7 比 2，有两张反对票，
+而且这次没有更新经济预测 —— 加息本身兑现了，但后续路径没有被承诺，
+于是整件事被读成了偏鸽的加息。</p>
+
+<p>对套息交易来说，这意味着日元融资成本上升的幅度不足以让人平仓。那条交易不但没有收缩，
+当周还在扩张。作者一直把日本央行九月会议当成一个需要观察的时间点，
+现在这个时间点过去了，而它预设的那种情形没有出现。</p>
+
+<div class="note"><span class="tag">措辞要准</span>
+那一周并没有给「套息交易平仓不危险」添上新证据。那一周根本没有发生平仓，
+所以关于平仓后果的任何判断，这一周都没有检验到。事件发生了，情形没出现，
+这两件事不一样。</div>
+
+<h2>这些数据没有告诉我们的</h2>
+
+<p>上面所有价格都是日线收盘。日线能说明「涨幅集中在哪些板块」，
+但说明不了因果 —— 要证明 Intel 那句话推动了当天行情，需要逐分钟数据看时点，
+作者没有做这一步。所以上面写的是「推论对上了」，不是「证明了」。</p>
+
+<p>还有三处作者没有核实，一并写在这里：</p>
+
+<ul>
+<li>关于「多数官员预期年内还会再加一次」的说法，来自搜索结果对点阵图的转述。
+作者只核对了联储声明正文原文，没有核对点阵图本身。</li>
+<li>9 月 17 日当天的高收益债利差，数据源有一天滞后，写这篇时还没有发布。</li>
+<li>9 月 18 日盘前的股指期货在涨，但盘前报价不能当收盘结果用。
+作者在几天前刚吃过一次亏：一组盘前看起来分层清晰的横截面，到收盘时单只标的最大重排了
+6.11 个百分点，盘前读出来的那个结论完全不成立。</li>
+</ul>
+
+<h2>回到最初那个问题</h2>
+
+<p>那一周两家主要央行都加了息，而股票涨、日元跌。如果只看这个组合，
+容易得出「市场不信央行」或者「流动性压倒基本面」之类的大结论。</p>
+
+<p>拆开之后，情况要平淡得多：加息本身在决议前已经被短端利率完整定价，决议当天市场没有反应；
+第二天的上涨集中在半导体一条线上，起因是一家公司关于产能的表述；
+日元的下跌，来源是决议里的那两张反对票和缺失的预测更新。</p>
+
+<p>三件事各有各的原因，凑在同一周而已。</p>
+
+<footer>
+生成于 2026-09-18 22:40（日本时间）<br>
+数据来源：yfinance（价格 / 利率 / 汇率）、FRED（美银美国高收益债期权调整利差）、
+美联储与日本银行公告原文。<br>
+本文记录个人研究过程，不构成投资建议。文中不含任何持仓、成交或收益数据。
+</footer>
+
+</div>
+</body>
+</html>

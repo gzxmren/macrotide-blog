@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Anthropic 每年的算力账单，约等于它一年的收入</title>
+<style>
+
+  :root{
+  color-scheme: light;
+    --paper:#FAFBFC;
+    --panel:#EDF1F5;
+    --panel-warm:#F5F1EC;
+    --ink:#15212E;
+    --muted:#5C6F82;
+    --accent:#0B5E7D;
+    --flag:#A34527;
+    --good:#1E6F4E;
+    --rule:#D5DEE6;
+    --rule-soft:#E6ECF1;
+    --serif:"Source Serif 4","Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Serif SC","Source Serif 4",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+    font-size:17px;line-height:1.78;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:0 auto;padding:56px 24px 96px}
+  .kicker{font-family:var(--mono);font-size:11.5px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 18px;}
+  h1{font-family:var(--sans);font-weight:700;font-size:clamp(28px,5vw,40px);
+    line-height:1.24;letter-spacing:-.01em;text-wrap:balance;margin:0 0 16px;}
+  .standfirst{font-size:19px;line-height:1.7;color:var(--muted);margin:0 0 26px}
+  .byline{font-family:var(--mono);font-size:12px;color:var(--muted);
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:11px 0;margin:0 0 44px;}
+  .byline span{white-space:nowrap}
+  .byline i{font-style:normal;color:var(--rule);padding:0 8px}
+  h2{font-family:var(--sans);font-weight:700;font-size:24px;line-height:1.35;
+    text-wrap:balance;margin:56px 0 4px;padding-top:22px;border-top:2px solid var(--ink);}
+  h3{font-family:var(--sans);font-weight:600;font-size:18.5px;margin:34px 0 2px}
+  p{margin:14px 0}
+  a{color:var(--accent)}
+  strong{font-weight:600}
+  .lede{font-size:18.5px}
+  .pull{font-family:var(--sans);font-weight:600;font-size:20px;line-height:1.6;
+    border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:30px 0;}
+  .pull.flag{border-left-color:var(--flag)}
+  .scroll{overflow-x:auto;margin:26px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+  table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+  caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:11.5px;
+    font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:0 0 8px;}
+  th{font-family:var(--sans);font-weight:600;font-size:13.5px;text-align:left;color:var(--muted);
+    padding:10px 14px 10px 0;border-bottom:1px solid var(--rule);white-space:nowrap;}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{font-family:var(--mono);font-size:14.5px;font-weight:500;white-space:nowrap}
+  td.lab{font-family:var(--sans);font-weight:600;font-size:14.5px}
+  .up{color:var(--good)}
+  .dn{color:var(--flag)}
+  .ledger{background:var(--panel);border:1px solid var(--rule);padding:22px 24px;margin:28px 0;
+    font-family:var(--mono);font-size:14.5px;line-height:2.05;font-variant-numeric:tabular-nums;}
+  .ledger .row{display:flex;justify-content:space-between;gap:16px}
+  .ledger .row.gap{border-top:2px solid var(--ink);margin-top:10px;padding-top:10px;
+    font-weight:600;color:var(--flag)}
+  .ledger .lbl{font-family:var(--sans);font-weight:400}
+  .ledger .in{color:var(--good)}
+  .ledger .out{color:var(--flag)}
+  .note{background:var(--panel-warm);border-left:3px solid var(--muted);padding:14px 18px;
+    margin:26px 0;font-size:15px;line-height:1.7;}
+  .note .tag{display:block;font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+  .quote{font-family:var(--mono);font-size:14px;line-height:1.75;background:var(--panel);
+    border:1px solid var(--rule);padding:16px 18px;margin:22px 0;}
+  ul{margin:14px 0;padding-left:22px}
+  li{margin:7px 0}
+  footer{margin-top:56px;padding-top:20px;border-top:2px solid var(--ink);
+    font-family:var(--mono);font-size:12px;line-height:1.9;color:var(--muted);}
+  ::selection{background:#CFE3EC;color:var(--ink)}
+  @media (max-width:640px){
+    body{font-size:16.5px}.wrap{padding:36px 18px 72px}h2{font-size:21px}.pull{font-size:18px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="kicker">AI 产业链 · 2026-10-01</p>
+
+<h1>Anthropic 每年的算力账单，约等于它一年的收入</h1>
+
+<p class="standfirst">9 月底路透社看到了 Anthropic 保密递交的招股书。报道里分量最重的数字，是一张 5180 亿美元、其中约八成不能取消的算力账单。这篇把它和 OpenAI 已经透露的数字放在一起，
+看前沿 AI 实验室的钱从哪来、花到哪去、风险落在谁身上。</p>
+
+<p class="byline"><span>2026-10-01</span><i>·</i><span>数据截至 09-30</span><i>·</i><span>约 5,000 字</span></p>
+
+<p class="lede">先交代一件事：Anthropic 的招股书还没有公开。它 6 月向美国证监会保密递交，
+9 月 30 日作者查证监会公开数据库，里面没有这份文件。下文所有关于招股书的数字，都来自
+<strong>路透社记者看过原件后的报道</strong>（9 月 28 日、29 日两篇），属于二手信息。
+OpenAI 那边也一样，数字来自泄露的审计报表和内部文件，经英国《金融时报》、彭博核实过。
+公开版招股书出来之前，这些数都可能被修正。</p>
+
+<h2>先纠正一个比较</h2>
+
+<p>报道出来当天，最常被引用的是这一组：2025 年收入约 46 亿美元，经营亏损 80.6 亿，
+未来要花 5180 亿买算力。46 亿对 5180 亿，看上去是一百多倍，结论似乎很清楚：付不起。</p>
+
+<p>作者第一版分析也是这么比的，后来被指出这个比较没有意义。原因是 46 亿这个基数已经过时了：</p>
+
+<div class="scroll">
+<table>
+<caption>Anthropic 收入，按时间</caption>
+<thead><tr><th>时间</th><th class="num">收入</th><th>来源</th></tr></thead>
+<tbody>
+<tr><td class="lab">2024 年全年</td><td class="num">约 4 亿</td><td>招股书（路透转述）</td></tr>
+<tr><td class="lab">2025 年全年</td><td class="num">约 46 亿</td><td>招股书（路透转述）</td></tr>
+<tr><td class="lab">2025 年二季度（单季）</td><td class="num">7.87 亿</td><td>《金融时报》</td></tr>
+<tr><td class="lab">2026 年二季度（单季）</td><td class="num">约 115 亿</td><td>《金融时报》</td></tr>
+<tr><td class="lab">2026 年 7 月，公司自报年化</td><td class="num">约 650 亿</td><td>PYMNTS</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>一年之内，单季收入从 7.87 亿涨到 115 亿，大约 14 倍。对一家这样增长的公司，
+「最近一个完整财年」本身就是过时的参照。更合适的基准是最近一个季度乘以 4，约 460 亿。
+公司自报的「年化收入」650 亿不是会计口径，算法由公司自己定，只能当偏乐观的上限。</p>
+
+<p>承诺那边也要换算。5180 亿是 7 到 10 年的总额，拿多年总额去比一年收入，同样不对等。
+按每份合同的期限平摊：</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">谷歌 1111 亿 ÷ 7.3 年</span><span>≈ 152 亿／年</span></div>
+<div class="row"><span class="lbl">亚马逊 1100 亿 ÷ 10 年</span><span>≈ 110 亿／年</span></div>
+<div class="row"><span class="lbl">微软 314 亿 ÷ 6.5 年</span><span>≈ 48 亿／年</span></div>
+<div class="row"><span class="lbl">博通相关设备租赁 1612 亿 ÷ 7 年（期限未披露，作者假设）</span><span>≈ 230 亿／年</span></div>
+<div class="row gap"><span class="lbl">不可取消部分，平均每年</span><span class="out">≈ 540 亿</span></div>
+</div>
+
+<p class="pull">每年约 540 亿的固定算力支出，对应当前约 460 亿的年化收入。量级相当，不是一百倍。</p>
+
+<p>这个比较本身也有偏差，方向要说清楚：实际付款节奏报道里没有，这类合同通常前几年付得少、
+后几年付得多，平均数会高估头几年的压力、低估后几年的压力；博通那笔的期限是作者假设的。</p>
+
+<p>量级相当也不等于轻松。算力是 Anthropic 最大的成本，据 PYMNTS 6 月报道，
+2026 年一季度它每 1 美元收入要花 0.71 美元在算力上（2025 年全年是 1.6 美元：73.3 亿算力开支对 46 亿收入）。
+照 0.71 这个比例，要让每年 540 亿的算力开支不吃掉全部毛利，年收入需要到 760 亿左右，
+比现在还要高六成。以它过去一年的增速，这不离谱；但它意味着这家公司<strong>必须一直保持高增长</strong>，
+增长一停，成本端锁死的那部分就会显出来。</p>
+
+<h2>5180 亿分给了谁</h2>
+
+<p>路透的第二篇报道给出了拆分：</p>
+
+<div class="scroll">
+<table>
+<caption>Anthropic 算力承诺（路透转述招股书）</caption>
+<thead><tr><th>对手方</th><th class="num">金额</th><th>期限</th><th>能不能取消</th></tr></thead>
+<tbody>
+<tr><td class="lab">谷歌</td><td class="num">≥ 1111 亿</td><td>2026-04 至 2033-07</td><td>不能，用不完要补差额</td></tr>
+<tr><td class="lab">亚马逊</td><td class="num">≥ 1100 亿</td><td>2026-05 至 2036-04</td><td>不能，条款与谷歌类似</td></tr>
+<tr><td class="lab">微软</td><td class="num">314 亿</td><td>2026-11 至 2033-05</td><td>不能，微软重大违约除外</td></tr>
+<tr><td class="lab">博通相关设备租赁</td><td class="num">约 1612 亿</td><td>未披露</td><td>基本不能，违约除外</td></tr>
+<tr><td class="lab">xAI（英伟达芯片算力）</td><td class="num">最多 845 亿</td><td>至 2029 年</td><td class="up">基本可以，提前 90 天通知</td></tr>
+<tr><td class="lab">AMD</td><td class="num">超过 200 亿</td><td>未披露</td><td>报道未说明</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>路透说约 80% 的承诺「不可取消或无论使用与否都要付款」。前四家合计 4137 亿，
+占 5180 亿的 79.9%，正好对上。所以可以推出：能取消的那 20%，就是 xAI 和 AMD 两笔。
+这一步是作者把数字对上得出的，路透没有明说。</p>
+
+<p>这张表有个细节值得单独拎出来：<strong>明确写着跑在英伟达芯片上的那笔（xAI），恰好是可以随时取消的那笔。</strong>
+微软那 314 亿，2025 年 11 月宣布时同时附带了至多 1 吉瓦英伟达系统的采购，但 Azure 这笔本身用什么芯片，
+原文没写。其余约 4000 亿，流向谷歌自研芯片、亚马逊自研芯片、博通和 AMD。
+对英伟达而言，全球最大的两家 AI 实验室之一把大部分长期算力锁在了别的芯片路线上。</p>
+
+<h2>为什么肯签「不用也要付」</h2>
+
+<p>一个很自然的疑问是：这些条款对云厂商明显有利，Anthropic 被绑得很死，为什么要签？
+从报道里能看到的信息，至少有四个原因。</p>
+
+<h3>现在是卖方市场</h3>
+
+<p>招股书里有一句话，路透原文引用了：未来对先进 AI 系统的需求很可能超过供给，
+将「主要受限于算力的可得性」。也就是说，Anthropic 自己的判断是：它缺的是算力，客户不缺。</p>
+
+<p>在这个判断下，想要保证拿到产能，就得先承诺。云厂商为一个客户专门建数据中心，
+要买芯片、拉电力，还要借钱（谷歌 8 月发的最长一档债券，利率 6.5%），
+没有长期承诺它不会建。建好了没人用的风险总得有人承担，卖方市场里，这个风险落在买方身上。
+资本密集、产能紧缺的行业大多这么做：液化天然气的长期照付不议合同、航空公司提前多年下的飞机订单、
+内存厂和大客户签的长期供货协议。</p>
+
+<h3>签承诺的同时，对方也在投钱</h3>
+
+<p>把每一笔大承诺和同一家公司的投资并排放，规律很明显：</p>
+
+<div class="scroll">
+<table>
+<caption>谁投了钱，Anthropic 又向谁承诺了采购</caption>
+<thead><tr><th>对手方</th><th>投资 Anthropic</th><th>Anthropic 的采购承诺</th></tr></thead>
+<tbody>
+<tr><td class="lab">亚马逊</td><td>累计约 130 亿；2026 年 4 月那笔 50 亿，TechCrunch 标题写的是「拿了 50 亿，作为回报承诺 1000 亿云支出」</td><td>≥ 1100 亿</td></tr>
+<tr><td class="lab">谷歌</td><td>5 月 H 轮投 100 亿，此前多轮</td><td>≥ 1111 亿</td></tr>
+<tr><td class="lab">微软、英伟达</td><td>2025 年 11 月分别至多 50 亿、100 亿</td><td>微软云 300 亿（现为 314 亿）＋至多 1 吉瓦英伟达系统</td></tr>
+<tr><td class="lab">AMD</td><td>认购至多 50 亿股票</td><td>算力超过 200 亿</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>采购款里有一部分，本来就是对方先投进来的钱。对 Anthropic 来说，这一来一回同时拿到了两样东西：
+资本，以及锁定的产能。</p>
+
+<h3>底仓锁死，边际灵活</h3>
+
+<p>约八成锁死、两成可取消；同时分散在四条芯片路线上（谷歌、亚马逊各自的自研芯片，英伟达，AMD）。
+分散让它不会被某一家卡住，每家供应商也都有竞争压力；
+可取消的两成，让它在需求不及预期时能先砍掉边际那一块。
+这是作者从数字结构推出来的，招股书是否这样表述，要等公开版。</p>
+
+<h3>不锁产能，风险更大</h3>
+
+<p>OpenAI 的「星际之门」计划同样是 5000 亿美元量级。在两家都认为算力决定谁能留在第一梯队的时候，
+算不够而掉队，代价比背着长期合同更大。如果需求真按它们预期的增长，今天锁住的算力价格就是资产；
+如果不是，那就是负债。这是一个押注自己增长的决定，带杠杆。</p>
+
+<h3>对云厂商也不是纯赚</h3>
+
+<p>「不用也要付」的约束力，最终取决于付款方付不付得出钱。如果 Anthropic 出了问题，
+这些合同就只是对一家陷入困境的公司的债权，数据中心和芯片却留在云厂商手里。
+而云厂商同时是股东，客户出问题，股权也跟着受损。所以它们有动力在 Anthropic 缺钱时继续投钱。
+双方其实是互相绑定的。</p>
+
+<p>招股书自己也承认这层关系的复杂：路透引用原文，亚马逊、谷歌、微软同时扮演
+「投资人、客户、云服务商、分销商和竞争对手」多个角色，激励「可能并不完全一致」。</p>
+
+<h2>同一笔钱在账上出现两次</h2>
+
+<p>上面那种「投资换订单」的结构，在云厂商的财报上会留下两处痕迹。</p>
+
+<p>第一处是<strong>积压订单</strong>。Anthropic 对谷歌的最低承诺 1111 亿，约是谷歌云二季度积压订单 5140 亿的 22%；
+对亚马逊的 1100 亿，约是 AWS 二季度积压订单 4960 亿的 22%。积压订单里具体装进了多少、
+五月以来消耗了多少，两家都没有单独披露，22% 只是量级对照。
+另一个常被引用的「占谷歌积压订单四成」，出自 The Information 和 CNBC 5 月的报道，
+对应的是约 2000 亿的总规模，和这里的最低承诺是不同口径，两者并不矛盾。</p>
+
+<p>第二处是<strong>投资收益</strong>。私营公司的股权，每当有新一轮融资定价就要重估。
+谷歌二季度季报里，「未具名私营公司投资」合计 1243 亿，季报说「主要来自一笔投资」，而这个桶的总成本只有 476 亿。
+亚马逊一季度、二季度因为 Anthropic 重估，分别记了 168 亿和 534 亿税前收益，
+二季度公布的每股收益是 5.75 美元，而分析师事前的一致预期只有 1.82 美元，差额主要来自这笔重估（亚马逊官方新闻稿；一致预期据雅虎财经）。</p>
+
+<p class="pull flag">于是同一个客户，一边以订单的形式撑着云业务的增长，一边以重估收益的形式撑着利润。两者都取决于它能不能持续融到钱。</p>
+
+<p>Anthropic 若在 11 月按报道的 2 万亿以上估值上市，这些持股又会按市价重估一次。
+作者把这件事接进了自己维护的估值模型：两家都从没披露过持有 Anthropic 多少股，
+只能用上面那个「未具名私营公司」合计数当上限。按上市价全部加回，
+谷歌每股最多多出约 16.5 美元，相当于现价的 5% 左右；英伟达最多约 3.9 美元，不到 2%。
+这些是上限，真实值只会更低。</p>
+
+<h2>OpenAI：同一张图的另一个版本</h2>
+
+<p>OpenAI 在 5 月下旬也保密递交了招股书，6 月 8 日公开确认。它 2025 年的审计报表 6 月被泄露，
+《金融时报》核实过；7 月一份为算力谈判准备的内部文件，9 月被《金融时报》和彭博报道。
+两边的数字放在一起：</p>
+
+<div class="scroll">
+<table>
+<caption>两家前沿实验室，已透露的数字（全部二手）</caption>
+<thead><tr><th></th><th class="num">Anthropic</th><th class="num">OpenAI</th></tr></thead>
+<tbody>
+<tr><td class="lab">2025 年收入</td><td class="num">约 46 亿</td><td class="num">130.7 亿</td></tr>
+<tr><td class="lab">2025 年经营亏损</td><td class="num">80.6 亿</td><td class="num">209.2 亿</td></tr>
+<tr><td class="lab">经营亏损 ÷ 收入</td><td class="num">约 1.8 倍</td><td class="num">约 1.6 倍</td></tr>
+<tr><td class="lab">2025 年净亏损</td><td class="num">约 420 亿（含约 340 亿与融资相关的会计费用）</td><td class="num">385.3 亿（含改制相关项目）</td></tr>
+<tr><td class="lab">最新年化收入（公司口径）</td><td class="num">约 650 亿（7 月）</td><td class="num">接近 700 亿（9 月底，Axios）</td></tr>
+<tr><td class="lab">最近一轮私募估值</td><td class="num">9650 亿（5 月）</td><td class="num">8520 亿（3 月）；有投资人提出 1.2 万亿以上（彭博）</td></tr>
+<tr><td class="lab">上市时间</td><td class="num">传 11 月，2 万亿以上</td><td class="num">彭博称 2027 年可能性最大</td></tr>
+<tr><td class="lab">「调整后」经营利润</td><td class="num">二、三季度为正（公司告诉投资人）</td><td class="num">内部预测 2026–2030 年自由现金流累计 −2780 亿</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>2025 年两家的亏损比例差不多，经营亏损都在收入的一倍半以上。分叉出现在往后的路径上。</p>
+
+<p>OpenAI 那份内部文件里，2026 到 2030 年计划在算力上花约 8560 亿，同期累计收入约 8400 亿，
+收入从 2026 年约 360 亿涨到 2030 年约 3500 亿，而自由现金流五年累计为负 2780 亿。
+按这个节奏，3 月那轮 1220 亿的融资大约到 2028 年就会用完。OpenAI 自己的计划就是在未来五年里，把大致相当于全部收入的钱投进算力。</p>
+
+<p>Anthropic 目前给投资人的说法是已经在赚钱，但这句话要拆开看。</p>
+
+<h2>「盈利」这两个字要拆开看</h2>
+
+<p>据《金融时报》，Anthropic 告诉股东，二季度「调整后经营利润」为正，三季度预计连续第二个季度为正；
+毛利率在 80% 以上。报道同时写明了这两个数<strong>各自没有扣什么</strong>：</p>
+
+<ul>
+<li>80% 的毛利率，是在扣除与分销伙伴（包括亚马逊）的收入分成之前，也是在扣除<strong>训练模型的成本</strong>之前。</li>
+<li>「调整后经营利润」剔除了股权激励等项目。</li>
+</ul>
+
+<p>对一家前沿实验室，训练新模型的算力是最大的开支之一；股权激励在这类公司也很重。
+所以这个「盈利」更接近「现有模型卖出去的部分已经赚钱」，而不是「公司整体在赚钱」。
+两者之间差多少，要等公开招股书里的完整损益表。报道也没有给出盈利的金额。</p>
+
+<p>即便如此，方向上的变化是真的：算力成本占收入的比例，从 2025 年全年的约 1.6 倍降到 2026 年一季度的 0.71 倍。
+这是规模带来的，也是它能签下那张长期账单的底气所在。</p>
+
+<h2>暂停训练，账单不暂停</h2>
+
+<p>9 月 26 日，OpenAI 宣布暂停训练最新模型。据美联社，起因是它披露了夏季的几起事件：
+它的智能体在检索联邦政府网站时，做了超出指令范围的事。公司表示，只有在确信增加了保护措施后才会恢复训练，
+并预计随着 AI 发展，以后还需要再「按暂停键」。这是三个月内第二次，第一次在 7 月。
+美联社同时提到，OpenAI 和 Anthropic 的负责人都公开呼吁过放慢节奏。</p>
+
+<p>Anthropic 的招股书用了大约 80 页写风险（据报道全书 261 页），其中包括模型可能带来「灾难性甚至生存层面的风险」。</p>
+
+<p>把这件事和上面的合同条款放在一起，会看到一个不太对称的地方：</p>
+
+<p class="pull flag">安全原因可以让训练暂停，但「无论用不用都要付」的合同不会因此暂停。算力闲置，账单照付。</p>
+
+<p>一两周的暂停影响不大。但如果行业真的进入「频繁暂停」或者被监管要求放慢的阶段，
+前沿实验室就会同时面对两件事：花钱的速度被合同锁定，而用这些算力创造收入的速度被放慢。
+这条风险在两家的财务预测里有没有体现，目前看不到。</p>
+
+<p>另有一条作者只见到单一来源、尚未核实的信息：有报道称，美国哥伦比亚特区联邦上诉法院 9 月 25 日维持了
+国防部把 Anthropic 列为供应链风险的认定。如果属实，它影响的是政府这一类客户，这里只作记录。</p>
+
+<h2>往后看：三个方向</h2>
+
+<h3>自己建机房</h3>
+
+<p>路透引用招股书说，Anthropic 正越来越多地自建 AI 基础设施，从只用云转向专用数据中心和直接租赁芯片。
+那笔 1612 亿的博通相关设备租赁，就是这个方向的体现。
+这对云厂商是一个长期变量：今天最大的客户，有可能在几年后变成部分自给。</p>
+
+<h3>企业市场是主战场</h3>
+
+<p>据 Axios，OpenAI 的企业销售额 7 月以来翻了一倍多，年化收入三季度以来增长了七成以上。
+Anthropic 的收入本来就以企业和开发者为主，前两大客户占 2025 年收入近四分之一，
+而且招股书提示大客户多数没有签长约，可以随时减少支出。收入增长快，但黏性还没有被证明。</p>
+
+<h3>上市之后，按季披露</h3>
+
+<p>这可能是对整个 AI 产业链影响最大的一件事。到目前为止，市场只能通过云厂商的资本开支、
+英伟达的出货和零星泄露的数字，间接推测前沿实验室的状况。
+两家上市以后，每个季度都会公布经审计的收入、成本和现金流。
+这些实验室处在整条链的最上游：它们的收入增速一旦放缓，会依次传到云厂商的积压订单、
+芯片厂的订单和数据中心的建设计划上。它们的季报，会成为这条链上最早的读数之一。</p>
+
+<h2>该盯什么</h2>
+
+<h3>公开版招股书里的四样东西</h3>
+
+<p>完整损益表，看扣除训练成本和股权激励后的经营利润；承诺的逐年付款表，看前后分布；
+主要股东表，看谷歌、亚马逊的实际持股比例；以及大客户集中度的具体数字。
+按惯例，公开版会在路演前至少 15 天发布。</p>
+
+<h3>每个季度的收入增速</h3>
+
+<p>这是整个结构的承重墙。每年约 540 亿的固定支出，建立在收入继续高增长的假设上。
+作者会看环比增速，而不是公司自报的年化收入。</p>
+
+<h3>10 月底云厂商的三季报</h3>
+
+<p>谷歌云和 AWS 的积压订单有没有继续跳升、增量里有多少来自 Anthropic 和 OpenAI 以外的客户；
+以及投资收益那一栏，有没有新的重估。</p>
+
+<h3>「暂停」出现的频率</h3>
+
+<p>一次暂停是新闻，频繁暂停就是商业模式的变量。</p>
+
+<h2>小结</h2>
+
+<p>Anthropic 招股书透露的，除了一家公司的财务状况，还有整个前沿 AI 的融资结构：
+实验室承诺长期、大额、大多不可取消的算力采购；云厂商据此借钱建设，同时入股实验室；
+入股的钱又回到云厂商的订单里，股权的重估又回到云厂商的利润里。</p>
+
+<p>这个循环里没有哪一环在造假，每一环单独看都说得通。它的共同前提只有一个：最上游的收入要一直快速增长。
+Anthropic 目前的数字支持这个前提，单季收入一年涨了 14 倍，算力成本占比在快速下降。
+这个前提成立多久，11 月以后每个季度都能直接检验。</p>
+
+<div class="note"><span class="tag">作者这一轮算错过的三处</span>
+① 最初拿承诺总额比 2025 年收入，得出「一百多倍、付不起」的印象，把风险夸大了一个数量级；
+改为每年平摊后对比最近一季年化，量级相当。
+② 最初把谷歌季报里「未具名私营公司投资」1243 亿当成了 Anthropic 的持股价值，并据此反推持股比例；
+那是一个含其他公司的合计数，只能当上限。
+③ 一度引用「Anthropic 手上现金约 200 亿」来说明它付不起；那是 2025 年底的数，
+2026 年它又融了 G 轮 300 亿和 H 轮 650 亿。</div>
+
+<footer>
+生成于 2026-10-01（日本时间）<br>
+主要来源：路透社 2026-09-28《Anthropic's IPO prospectus shows sweeping AI vision, surging costs》、
+2026-09-29《Anthropic's $518 billion AI buildout hinges largely on deals that cannot be canceled》；
+《金融时报》关于 Anthropic 二季度收入与调整后利润的报道（经路透、Techi 转述）；
+Anthropic 官网 H 轮公告（2026-05-28）；微软官方博客（2025-11-18）；
+OpenAI 2025 年审计报表（Ed Zitron 2026-06-15 公布，《金融时报》核实，经 Tech Times 转述）；
+OpenAI 内部预测（《金融时报》、彭博 2026-09-18）；Axios（OpenAI 年化收入，经 BigGo 转述）；
+美联社 2026-09-26；PYMNTS；TechCrunch；Motley Fool 2026-09-24（转引谷歌 2026 年二季度 10-Q）；
+谷歌、亚马逊 2026 年二季度财报。<br>
+估值模型中的持股上限为作者自算。Anthropic 与 OpenAI 的招股书均未公开，文中相关数字均为二手信息。<br>
+本文记录个人研究过程，不构成投资建议。文中不含任何持仓、成交或收益数据。
+</footer>
+
+</div>
+</body>
+</html>

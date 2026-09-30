@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>这一轮 AI 投资要多少收入才撑得起</title>
+<style>
+
+  :root{
+  color-scheme: light;
+    --paper:#FAFBFC;
+    --panel:#EDF1F5;
+    --panel-warm:#F5F1EC;
+    --ink:#15212E;
+    --muted:#5C6F82;
+    --accent:#0B5E7D;
+    --flag:#A34527;
+    --good:#1E6F4E;
+    --rule:#D5DEE6;
+    --rule-soft:#E6ECF1;
+    --serif:"Source Serif 4","Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Serif SC","Source Serif 4",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+    font-size:17px;line-height:1.78;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:0 auto;padding:56px 24px 96px}
+  .kicker{font-family:var(--mono);font-size:11.5px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 18px;}
+  h1{font-family:var(--sans);font-weight:700;font-size:clamp(28px,5vw,40px);
+    line-height:1.24;letter-spacing:-.01em;text-wrap:balance;margin:0 0 16px;}
+  .standfirst{font-size:19px;line-height:1.7;color:var(--muted);margin:0 0 26px}
+  .byline{font-family:var(--mono);font-size:12px;color:var(--muted);
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:11px 0;margin:0 0 44px;}
+  .byline span{white-space:nowrap}
+  .byline i{font-style:normal;color:var(--rule);padding:0 8px}
+  h2{font-family:var(--sans);font-weight:700;font-size:24px;line-height:1.35;
+    text-wrap:balance;margin:56px 0 4px;padding-top:22px;border-top:2px solid var(--ink);}
+  h3{font-family:var(--sans);font-weight:600;font-size:18.5px;margin:34px 0 2px}
+  p{margin:14px 0}
+  a{color:var(--accent)}
+  strong{font-weight:600}
+  .lede{font-size:18.5px}
+  .pull{font-family:var(--sans);font-weight:600;font-size:20px;line-height:1.6;
+    border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:30px 0;}
+  .pull.flag{border-left-color:var(--flag)}
+  .scroll{overflow-x:auto;margin:26px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+  table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+  caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:11.5px;
+    font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:0 0 8px;}
+  th{font-family:var(--sans);font-weight:600;font-size:13.5px;text-align:left;color:var(--muted);
+    padding:10px 14px 10px 0;border-bottom:1px solid var(--rule);white-space:nowrap;}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{font-family:var(--mono);font-size:14.5px;font-weight:500;white-space:nowrap}
+  td.lab{font-family:var(--sans);font-weight:600;font-size:14.5px}
+  .up{color:var(--good)}
+  .dn{color:var(--flag)}
+  .ledger{background:var(--panel);border:1px solid var(--rule);padding:22px 24px;margin:28px 0;
+    font-family:var(--mono);font-size:14.5px;line-height:2.05;font-variant-numeric:tabular-nums;}
+  .ledger .row{display:flex;justify-content:space-between;gap:16px}
+  .ledger .row.gap{border-top:2px solid var(--ink);margin-top:10px;padding-top:10px;
+    font-weight:600;color:var(--flag)}
+  .ledger .lbl{font-family:var(--sans);font-weight:400}
+  .ledger .in{color:var(--good)}
+  .ledger .out{color:var(--flag)}
+  .note{background:var(--panel-warm);border-left:3px solid var(--muted);padding:14px 18px;
+    margin:26px 0;font-size:15px;line-height:1.7;}
+  .note .tag{display:block;font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+  .quote{font-family:var(--mono);font-size:14px;line-height:1.75;background:var(--panel);
+    border:1px solid var(--rule);padding:16px 18px;margin:22px 0;}
+  ul{margin:14px 0;padding-left:22px}
+  li{margin:7px 0}
+  footer{margin-top:56px;padding-top:20px;border-top:2px solid var(--ink);
+    font-family:var(--mono);font-size:12px;line-height:1.9;color:var(--muted);}
+  ::selection{background:#CFE3EC;color:var(--ink)}
+  @media (max-width:640px){
+    body{font-size:16.5px}.wrap{padding:36px 18px 72px}h2{font-size:21px}.pull{font-size:18px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="kicker">AI 产业链 · 2026-10-01</p>
+
+<h1>这一轮 AI 投资要多少收入才撑得起，以及接下来几年的三种走法</h1>
+
+<p class="standfirst">上一篇拆了 Anthropic 招股书里的算力账单，结论落在「整个结构靠收入增长撑着」。
+这一篇往上走一层：把视角从一家实验室放大到整个产业，粗算这一轮投资每年需要多少回报，
+再按「收入能不能在折旧年限内追上投资」这一个问题，给出作者对接下来几年的判断，以及判断错了会看到什么。</p>
+
+<p class="byline"><span>2026-10-01</span><i>·</i><span>数据截至 09-30</span><i>·</i><span>约 4,500 字</span></p>
+
+<p class="lede">先说清楚这篇是什么：它是一个推算加一组判断，不是预测模型的输出。
+推算里的每一个假设都会写出来，判断都附带「如果错了会看到什么」。作者在前面几篇里算错过几次，
+这一篇的数字同样可能被后来的数据推翻。</p>
+
+<h2>它已经大到影响整个经济</h2>
+
+<p>谷歌、亚马逊、微软、Meta 四家的资本开支，2025 年合计约 3580 亿美元；按各家年初的指引，
+2026 年合计约 7000 亿，差不多翻了一倍。今年年中作者整理这组数据时，还注意到一件以前没有过的事：
+四家的资本开支指引，第一次全部超过了各自当前的经营现金流。</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">四家云厂商 2026 年资本开支指引合计</span><span>约 7000 亿</span></div>
+<div class="row"><span class="lbl">美国名义 GDP（2026 年二季度，年化）</span><span>32.56 万亿</span></div>
+<div class="row gap"><span class="lbl">占比</span><span class="out">约 2.1%</span></div>
+</div>
+
+<p>2% 听起来不大，但它是一个行业、四家公司的投资，而且一年之内翻了一倍。
+一项支出占到 GDP 的 2%、又在快速变化，它的起落就会直接反映在全国的经济增速上。</p>
+
+<p>钱花出去之后，流向很多地方：数据中心的土建和电力设备、芯片和内存、网络设备、电网接入。
+亚马逊在 7 月的电话会上说，2027 年底它的电力容量要达到 2025 年的两倍，
+而且「即使花 2200 亿，2026、2027 年的产能都还不够」。另一头，这些投资越来越多地靠借钱：
+谷歌 8 月发了 250 亿美元债券，最长一档到 2066 年；亚马逊上半年发了 670 亿长期债。
+所以 AI 拉动的除了芯片，还有建筑、电力、制造和金融。这一点上，读者的直觉是对的。</p>
+
+<h2>这些投资每年要赚回多少</h2>
+
+<p>这是整篇的核心问题。下面是一个粗算，每一步的假设都列出来。</p>
+
+<div class="scroll">
+<table>
+<caption>AI 基础设施每年需要的回报，粗算</caption>
+<thead><tr><th>步骤</th><th>假设</th><th class="num">结果</th></tr></thead>
+<tbody>
+<tr><td class="lab">每年 AI 相关资本开支</td><td>约 7000 亿中，约四分之三用于 AI（Futurum 的估计）</td><td class="num">约 5200 亿</td></tr>
+<tr><td class="lab">每年折旧</td><td>投资进入稳定期后，每年折旧约等于每年投资</td><td class="num">约 5200 亿</td></tr>
+<tr><td class="lab">资本应得的回报</td><td>在用资产约 1.3 万亿，按 10% 的资本成本</td><td class="num">约 1300 亿</td></tr>
+<tr><td class="lab">每年需要的息税折旧前利润</td><td>两项相加</td><td class="num dn">约 6500 亿</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>对照一下现在看得到的收入。两家最大的 AI 实验室，Anthropic 自报年化收入约 650 亿（7 月），
+OpenAI 接近 700 亿（9 月底，据 Axios），合计约 1350 亿。这是公司口径，偏乐观。
+即便全额当真，离每年 6500 亿的利润需求也差了几倍，而且收入还不等于利润。</p>
+
+<h3>为什么普通水平的盈利不够</h3>
+
+<p>关键在资产寿命。修铁路、修电网，资产能用几十年，可以慢慢回本。
+这一轮投资的大头是芯片和服务器，几家云厂商的折旧年限在 5 到 6 年：谷歌和微软 6 年，Meta 5.5 年，亚马逊 5 年。
+谷歌还是 2023 年才把服务器从 4 年延长到 6 年的。技术换代快，实际可用的年限还可能更短。</p>
+
+<p class="pull">所以难点不在于每一块钱要赚得特别多，而在于这么大一笔投资，必须在五六年内赚回来。</p>
+
+<p>折旧已经开始进入利润表。谷歌的财务长给过指引：2026 年折旧比上年多约 130 亿，而且会一路加速到 2027 年。
+投资是先花的，折旧是按年摊的，所以利润表上的压力会比现金流晚一到两年到来，
+而且在投资停止增长之后还会持续几年。</p>
+
+<h3>这个粗算的偏向</h3>
+
+<p>作者按惯例先说明这个估计偏在哪一边，因为两个方向都有：</p>
+
+<ul>
+<li><strong>让缺口看起来更大的</strong>：「每年折旧约等于每年投资」是稳定期的假设，眼下投资还在爬坡，
+实际折旧低于这个数，所以当下的缺口被高估了。</li>
+<li><strong>让缺口看起来更小的</strong>：芯片如果提前过时，实际年限短于 5 到 6 年，每年需要赚回的更多；
+10% 的资本成本在当前利率下可能偏低。</li>
+<li><strong>最大的一处遗漏</strong>：相当一部分算力是云厂商自己在用，谷歌的搜索和广告、Meta 的推荐系统。
+这部分回报体现在广告收入里，不会被记成「AI 收入」。只拿实验室的收入去比，会低估回报。</li>
+</ul>
+
+<p>所以这张表只能说明量级：这一轮投资需要的回报，是当前看得见的 AI 收入的几倍。
+缺口能不能补上，取决于两件事：实验室的收入再涨多少，以及云厂商自用部分的回报有多大。</p>
+
+<h2>收入在追，追得有多快</h2>
+
+<p>收入这一侧确实在高速增长，这是支持乐观一方的最强证据。</p>
+
+<div class="scroll">
+<table>
+<caption>收入端的几个读数（均为二手或公司口径）</caption>
+<thead><tr><th>读数</th><th class="num">数值</th><th>来源</th></tr></thead>
+<tbody>
+<tr><td class="lab">Anthropic 单季收入</td><td class="num">7.87 亿 → 约 115 亿</td><td>2025 年二季度 → 2026 年二季度，《金融时报》</td></tr>
+<tr><td class="lab">Anthropic 算力支出 ÷ 收入</td><td class="num">1.6 → 0.71</td><td>2025 年全年 → 2026 年一季度，招股书与 PYMNTS</td></tr>
+<tr><td class="lab">OpenAI 年化收入</td><td class="num">三季度以来增长七成以上</td><td>Axios</td></tr>
+<tr><td class="lab">OpenAI 企业销售</td><td class="num">7 月以来翻倍</td><td>Axios</td></tr>
+<tr><td class="lab">OpenAI 自己的收入计划</td><td class="num">2026 年约 360 亿 → 2030 年约 3500 亿</td><td>内部文件，《金融时报》、彭博</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>单季收入一年涨 14 倍，单位收入的算力成本一年降一半多。如果这个速度能维持两三年，
+上面那张表的缺口是可以补上的。</p>
+
+<p>但 OpenAI 自己的计划也说明了追赶需要多久：到 2030 年，收入涨到约 3500 亿，
+而 2026 到 2030 年间计划在算力上花约 8560 亿，同期自由现金流累计为负约 2780 亿。
+按它自己的时间表，收入要到这个十年的末尾才追得上投入。
+这比服务器 5 到 6 年的折旧年限，长不了多少，也短不了多少。</p>
+
+<h2>钱最终流到了谁手里</h2>
+
+<p>判断一轮投资的回报，还要看回报分配给了产业链的哪一段。作者在 9 月初做过一次逐段的毛利率拆分，
+在这里再用一次：</p>
+
+<ul>
+<li><strong>稀缺的零部件赚得最多。</strong>内存厂美光上一季的毛利率达到 84.6%。
+作者此前还检验过「利润向英伟达集中」的说法：从证监会数据逐家拉了 26 家产业链公司的毛利率同比，
+14 家在扩张，只有 5 家在收缩，而收缩的 5 家全是买元器件来组装或出租算力的公司。这个说法不成立。
+更符合数据的描述是：利润流向当时最稀缺的环节，今年是内存。</li>
+<li><strong>出租算力的赚得很少。</strong>把折旧算回成本之后，出租 GPU 这门生意的毛利率约 11.5%。</li>
+<li><strong>组装和集成夹在中间</strong>，议价能力有限。</li>
+</ul>
+
+<p>这个分布说明：在建设期，谁手里有瓶颈，谁拿走大部分利润。瓶颈是会移动的：
+前两年是 GPU，今年是内存，从亚马逊那句「产能到 2027 年都不够」看，下一个很可能是电力。
+而建设期的利润，不等于这一轮投资最终的回报。最终回报要看最下游的用户付不付钱。</p>
+
+<h2>历史上长什么样</h2>
+
+<p>大规模基础设施投资，历史上有一个反复出现的形状：19 世纪的铁路、1990 年代末的光纤网络都是这样。</p>
+
+<p>基础设施最后确实建成了，也被长期使用，后来的经济因此受益。
+但建设期投资的速度，往往超过需求兑现的速度。于是会出现一段过剩：资产价格下跌、一批投资人亏损、
+一部分公司倒闭或被收购。之后过剩的产能变得便宜，反过来加快了使用的普及。</p>
+
+<p class="pull">所以「AI 有没有价值」和「这一轮投资能不能赚回来」是两个问题。前一个的答案很可能是有；后一个要看时间窗口。</p>
+
+<p>这一轮和前两次有一个明显的不同：出钱的主体。铁路和光纤时代，大量资金来自靠借钱扩张的新公司；
+这一轮的主力是几家现金流极强的巨头。它们扛得住更长的消化期，不容易在第一轮冲击里倒下。
+但前面也看到，它们的自由现金流已经转负、正在借钱，而处在边缘的参与者，
+比如甲骨文和一批专做算力出租的新公司，负债要重得多。</p>
+
+<h2>三种走法</h2>
+
+<p>把上面几部分合起来，接下来几年大致有三种走法。区分它们的只有一个问题：
+<strong>收入能不能在折旧年限内追上投资。</strong></p>
+
+<div class="scroll">
+<table>
+<caption>三种走法</caption>
+<thead><tr><th>走法</th><th>发生了什么</th><th>产业链上会看到什么</th></tr></thead>
+<tbody>
+<tr><td class="lab">追上</td><td>实验室和企业端收入保持高增长，云厂商自用部分的回报也兑现</td><td>资本开支继续上调，同时云厂商自由现金流转正；瓶颈环节继续高利润</td></tr>
+<tr><td class="lab">消化期</td><td>收入仍在增长，但慢于投资和折旧的增长</td><td>资本开支持平甚至下降；折旧压低云厂商利润率；内存、芯片进入下行周期；部分资产减值；股价重新定价，但基础设施留下来了</td></tr>
+<tr><td class="lab">断裂</td><td>融资链条在某一处先断</td><td>上市破发或降价融资、边缘参与者信用事件、监管或安全原因导致训练长期放慢；资本开支被迫大幅削减</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>作者的判断</h2>
+
+<p>这部分是判断，不是推算。</p>
+
+<h3>未来四个季度，到 2027 年年中：扩张继续，把握较高</h3>
+
+<p>理由很直接：合同已经签了，资本开支指引已经给了，亚马逊说 2027 年新增产能大部分已被预订，
+实验室的收入还在以每年十倍左右的速度增长。短期内，推动扩张的力量都是已经锁定的。
+这段时间里最可能出现的波动，来自利率和上市定价，而不是需求。</p>
+
+<h3>2027 年下半年到 2028 年：进入消化期的可能性，作者认为大于一半</h3>
+
+<p>理由有四条。第一，折旧高峰正好在这段时间到来，谷歌的指引已经写明折旧会加速到 2027 年。
+第二，上面的粗算显示，需要的回报是当前可见 AI 收入的几倍，收入要保持多年的超高速增长才补得上。
+第三，建设越来越依赖借钱，而长期利率在 2002 年以来的高位。
+第四，历史上同类的基础设施投资，几乎都经历过一段消化期。</p>
+
+<p>作者对这个判断的把握是中等。反对它的最强证据，是实验室收入增长的速度确实前所未有，
+比作者见过的任何一轮基础设施周期都快。如果这个速度再持续两年，消化期可能会很短，甚至不明显。</p>
+
+<h3>断裂：可能性低，但不可忽略</h3>
+
+<p>它需要某一个薄弱环节先出事：上市定价远低于最近一轮私募价格；边缘参与者的信用事件
+（甲骨文的信用违约互换价格在 9 月 24 日创了新高）；或者安全和监管原因让训练长期停下来，
+而那些「无论用不用都要付」的合同照付不误。巨头本身的资产负债表很强，
+所以即使发生，更可能是局部的，而不是整个结构同时崩掉。</p>
+
+<h2>如果作者判断错了，会看到什么</h2>
+
+<p>下面这几条事先写死，时间点都在 2027 年底之前。门槛是作者选的，没有经过回测，只是把判断变成可以核对的东西。</p>
+
+<ul>
+<li><strong>「消化期」判断错了</strong>，会看到：谷歌和亚马逊的过去 12 个月自由现金流在 2027 年内转正，
+同时资本开支还在继续增长；或者 2028 年初，四家再次上调资本开支，而且上调的同时现金流是正的。</li>
+<li><strong>「消化期」正在到来</strong>，会看到：云厂商的折旧增速连续四个季度超过收入增速；
+2028 年的资本开支指引持平或下调；内存合约价格的涨幅明显放缓，然后转跌；
+有公司把服务器折旧年限缩短，这等于承认设备过时得比预期快。</li>
+<li><strong>最上游的那个数</strong>：Anthropic 上市后每个季度公布的收入。环比增速长期保持在 10% 以上（折合一年约 46%），
+支持「追上」；持续低于 5%，支持「消化期」。</li>
+</ul>
+
+<h2>对普通投资者意味着什么</h2>
+
+<p>作者自己跑的是一套按固定规则执行的美股轮换策略，它不依赖对 AI 周期的判断，这篇里的任何结论都不会改变它的操作。
+写这篇的目的是理解产业在发生什么，而不是择时。</p>
+
+<p>如果要从这篇里带走一样东西，那就是：这一轮 AI 周期的成败，最终是一道时间题。
+投资已经花出去了，折旧年限摆在那里，收入要在这个窗口里追上来。
+接下来两年里，每一份实验室和云厂商的季报，都是在回答这道题。</p>
+
+<h2>小结</h2>
+
+<p>这一轮 AI 投资已经大到约占美国 GDP 的 2%，拉动了建筑、电力、制造和金融。
+粗算下来，它每年需要约 6500 亿美元的回报，是当前看得见的 AI 收入的几倍；
+难点在于芯片只有五六年的寿命，回本的窗口很短。</p>
+
+<p>收入确实在以前所未有的速度增长，这是乐观一方最强的证据。
+但按 OpenAI 自己的计划，收入要到这个十年末才追得上投入。
+作者的判断是：未来一年扩张继续；2027 年下半年到 2028 年，进入消化期的可能性大于一半；
+断裂可能性低。上面列出的几个读数，会在 2027 年底前告诉我们这个判断对不对。</p>
+
+<p>这篇的上一篇：<a href="frontier_lab_prospectus_2026-10-01.html">《从 Anthropic 的算力账单里读到的信息和数据》</a>。</p>
+
+<footer>
+生成于 2026-10-01（日本时间）<br>
+数据来源：美国经济分析局名义 GDP（经圣路易斯联储数据库）；谷歌、亚马逊、微软、Meta 的 2026 年资本开支指引与折旧年限（各家财报与电话会，作者 2026 年 7 月整理）；
+亚马逊 2026 年二季度电话会；谷歌 8 月债券发行；Futurum Research（AI 占资本开支比例，经 Tech Times 转述）；
+《金融时报》、彭博（OpenAI 内部预测、Anthropic 季度收入）；Axios（OpenAI 年化收入）；PYMNTS；
+路透社（Anthropic 招股书）；美光季报（毛利率）；作者此前的产业链毛利率拆分与半导体追踪。<br>
+「每年需要约 6500 亿回报」为作者粗算，假设已在文中列出；三种走法与概率判断为作者个人判断。<br>
+本文记录个人研究过程，不构成投资建议。文中不含任何持仓、成交或收益数据。
+</footer>
+
+</div>
+</body>
+</html>

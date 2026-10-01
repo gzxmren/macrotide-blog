@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>回看 7 月半导体周期文章</title>
+<style>
+
+  :root{
+  color-scheme: light;
+    --paper:#FAFBFC;
+    --panel:#EDF1F5;
+    --panel-warm:#F5F1EC;
+    --ink:#15212E;
+    --muted:#5C6F82;
+    --accent:#0B5E7D;
+    --flag:#A34527;
+    --good:#1E6F4E;
+    --rule:#D5DEE6;
+    --rule-soft:#E6ECF1;
+    --serif:"Source Serif 4","Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Serif SC","Source Serif 4",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+    font-size:17px;line-height:1.78;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:0 auto;padding:56px 24px 96px}
+  .kicker{font-family:var(--mono);font-size:11.5px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 18px;}
+  h1{font-family:var(--sans);font-weight:700;font-size:clamp(28px,5vw,40px);
+    line-height:1.24;letter-spacing:-.01em;text-wrap:balance;margin:0 0 16px;}
+  .standfirst{font-size:19px;line-height:1.7;color:var(--muted);margin:0 0 26px}
+  .byline{font-family:var(--mono);font-size:12px;color:var(--muted);
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:11px 0;margin:0 0 44px;}
+  .byline span{white-space:nowrap}
+  .byline i{font-style:normal;color:var(--rule);padding:0 8px}
+  h2{font-family:var(--sans);font-weight:700;font-size:24px;line-height:1.35;
+    text-wrap:balance;margin:56px 0 4px;padding-top:22px;border-top:2px solid var(--ink);}
+  h3{font-family:var(--sans);font-weight:600;font-size:18.5px;margin:34px 0 2px}
+  p{margin:14px 0}
+  a{color:var(--accent)}
+  strong{font-weight:600}
+  .lede{font-size:18.5px}
+  .pull{font-family:var(--sans);font-weight:600;font-size:20px;line-height:1.6;
+    border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:30px 0;}
+  .pull.flag{border-left-color:var(--flag)}
+  .scroll{overflow-x:auto;margin:26px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+  table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+  caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:11.5px;
+    font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:0 0 8px;}
+  th{font-family:var(--sans);font-weight:600;font-size:13.5px;text-align:left;color:var(--muted);
+    padding:10px 14px 10px 0;border-bottom:1px solid var(--rule);white-space:nowrap;}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{font-family:var(--mono);font-size:14.5px;font-weight:500;white-space:nowrap}
+  td.lab{font-family:var(--sans);font-weight:600;font-size:14.5px}
+  .up{color:var(--good)}
+  .dn{color:var(--flag)}
+  .ledger{background:var(--panel);border:1px solid var(--rule);padding:22px 24px;margin:28px 0;
+    font-family:var(--mono);font-size:14.5px;line-height:2.05;font-variant-numeric:tabular-nums;}
+  .ledger .row{display:flex;justify-content:space-between;gap:16px}
+  .ledger .row.gap{border-top:2px solid var(--ink);margin-top:10px;padding-top:10px;
+    font-weight:600;color:var(--flag)}
+  .ledger .lbl{font-family:var(--sans);font-weight:400}
+  .ledger .in{color:var(--good)}
+  .ledger .out{color:var(--flag)}
+  .note{background:var(--panel-warm);border-left:3px solid var(--muted);padding:14px 18px;
+    margin:26px 0;font-size:15px;line-height:1.7;}
+  .note .tag{display:block;font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+  .quote{font-family:var(--mono);font-size:14px;line-height:1.75;background:var(--panel);
+    border:1px solid var(--rule);padding:16px 18px;margin:22px 0;}
+  ul{margin:14px 0;padding-left:22px}
+  li{margin:7px 0}
+  footer{margin-top:56px;padding-top:20px;border-top:2px solid var(--ink);
+    font-family:var(--mono);font-size:12px;line-height:1.9;color:var(--muted);}
+  ::selection{background:#CFE3EC;color:var(--ink)}
+  @media (max-width:640px){
+    body{font-size:16.5px}.wrap{padding:36px 18px 72px}h2{font-size:21px}.pull{font-size:18px}
+  }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+<p class="kicker">行业与周期 · 2026-10-01</p>
+
+<h1>回头看 7 月那篇半导体周期文章：哪些判断站住了，哪些错了</h1>
+
+<p class="standfirst">7 月 22 日，四家云厂商发二季报的前夜，我写了《从供给焦虑到回报拷问：2024–2026 半导体牛市的成因、转折与展望》。
+两个多月过去，四家的财报、美光的财报、利率和几起信用事件都给出了答案。这篇把当时的判断逐条拿出来对账：哪些错了，哪些说对了而且比当时想的更严重，哪些当时根本没看到。</p>
+
+<p class="byline"><span>2026-10-01</span><i>·</i><span>对账区间 2026-07-22 至 09-30</span><i>·</i><span>约 5,000 字</span></p>
+
+<p class="lede">先说结论。那篇文章讲的阶段划分还站得住：供给焦虑，然后是「花钱推高股价、股价又支持继续花钱」，再到市场开始追问回报，以及「这是一场比谁撑得久的消耗战」。
+但它给出的分析工具里，<strong>三件被证伪或证明没有预测力</strong>，<strong>两件被证实而且比当时想的更重</strong>，另外<strong>漏掉了四股后来变得很重要的力量</strong>。
+市场问的问题也又变了一次：7 月问「什么时候回本」，现在的数据显示到目前为止是赚回来的，问题变成了「利润增速能不能跑赢已经锁定的折旧」，以及「最边缘、靠借钱的那批买家能不能撑住」。</p>
+
+<p>原文在这里：<a href="ai_semiconductor_cycle_2024_2026.html">《从供给焦虑到回报拷问》</a>。下面引用它时只摘要点。</p>
+
+<h2>错了的三件</h2>
+
+<h3>一、云厂商和半导体的「跷跷板」</h3>
+
+<p>原文的第五节提出：同一笔资本开支，在云厂商是成本、在半导体公司是收入，所以当市场追问「这笔钱值不值」时，一份财报可能同时利空花钱的一方、利多收钱的一方。
+我当时给它设了三重边界，说它只在财报窗口、只在「开支上调且变现偏弱」时出现，但仍然把它当作这个阶段的结构性现象。</p>
+
+<p>财报之前，我把检验规则事先写死：用哪些股票、怎么分组、什么结果算支持、什么结果算证伪。三场财报跑下来，<strong>没有一场支持</strong>；亚马逊那一场的方向完全相反，市场奖励的恰恰是花钱最猛的公司。按规则，这个框架作废。（统计上的分量要打折扣：检验只用了 8 只股票，在其中一种分组下 p 约 0.04、更严格的一种 p 约 0.06；样本这么小，p 值本身说明不了太多，作废靠的是「三场没有一场支持」这条事先写好的规则。）</p>
+
+<div class="scroll">
+<table>
+<caption>四家财报后第一个交易日（收盘对收盘）</caption>
+<thead><tr><th>日期</th><th>公司</th><th class="num">涨跌</th><th>同一天的半导体</th></tr></thead>
+<tbody>
+<tr><td class="lab">7/23</td><td>谷歌</td><td class="num dn">−7.13%</td><td>—</td></tr>
+<tr><td class="lab">7/30</td><td>微软</td><td class="num up">+15.51%</td><td rowspan="2">半导体 ETF（SMH）+6.88%，英伟达 +2.65%</td></tr>
+<tr><td class="lab">7/30</td><td>Meta</td><td class="num dn">−7.95%</td></tr>
+<tr><td class="lab">7/31</td><td>亚马逊</td><td class="num up">+15.32%</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>最能说明问题的是 7 月 30 日：微软和 Meta 都在维持甚至继续增加资本开支，同一天一个涨 15.5%、一个跌 8%，差了 23 个百分点。
+如果驱动股价的是一条共同的「资本开支值不值」的轴，这两家应该同向。实际情况是，<strong>资本开支已经从一笔共同的负担，变成了花钱方内部的记分牌</strong>：钱照花，市场按各家拿出的回报证据给它们重新排序。卖芯片的一方，订单一分没少，自然也就没有跷跷板。</p>
+
+<h3>二、「资本开支超过经营现金流」这道分水岭</h3>
+
+<p>原文说，四家的资本开支第一次全部超过各自的经营现金流，企业开始「用资产负债表打仗」，市场会改按回报率和偿付能力定价。
+现金缺口是事实，但它不是市场在交易的变量。谷歌这一季、亚马逊过去 12 个月的自由现金流都转负，股价却一个跌 7%、一个涨 15%。</p>
+
+<h3>三、按「续航能力」给四家排序</h3>
+
+<p>原文把谷歌和微软排在续航能力最强，亚马逊居中，Meta 最弱。原文自己也写了免责的话：续航高不等于股价没有下行风险。但它同时说，市场对各家是「放行还是惩罚」，差别往往在续航评级。拿股价对照这一句，四家只对了两家：微软大涨、Meta 大跌符合；亚马逊大涨、谷歌大跌都对不上。
+谷歌财报次日那天大盘也在跌（标普 500 ETF −1.2%、纳指 100 ETF −1.9%），不全是财报的原因。</p>
+
+<p>四次的涨跌方向，和各家当季的回报数据大体同向：亚马逊云业务增速从 28% 跳到 37%，微软云业务的增速和下季指引都超过预期，Meta 的广告增速从 33% 降到 27%。
+但谷歌是例外：它的云业务增长 82%、利润率也守住了，股价照样跌。样本只有四个，又有例外，我不把这当规律，只能说「看上去像是按回报证据排序」。</p>
+
+<div class="note"><span class="tag">一个我自己撤回的结论</span>
+8 月我一度认为找到了替代指标：「回报的增速和资本开支增速之间的差距在收窄还是张开」，四家都对得上。9 月底做谷歌三季度预案时重算，发现那张表是每家挑了一个对得上的口径才凑齐的：按收入算、按利润算、看水平、看方向，换任何一个统一的口径都做不到四家全中。这个结论已经降级为未验证的假设。
+所以到今天，<strong>我没有一个经过验证、能预测云厂商财报后股价的单一指标</strong>。</div>
+
+<h2>说对了，而且比当时想的更重的两件</h2>
+
+<h3>一、折旧潮（按推算）</h3>
+
+<p>原文说折旧「开始上岸」，并问有没有公司再调整折旧年限。两个问题现在都有了答案。</p>
+
+<p>我用四家的季报拟合了一个简单的折旧模型（方法见<a href="ai_investment_payback_2026-10-01.html">上一篇</a>）：四家合计的年折旧，从 2025 年约 1080 亿美元涨到 2028 年约 2800 亿到 3200 亿，而且资本开支是持平、增长还是削减，这个数几乎不变，因为它对应的钱大多已经花出去了。</p>
+
+<p>折旧年限也确实又调了，不过调的不是原文问的服务器，而是建筑。微软 7 月把数据中心和办公楼的预计使用年限从 15 年延长到 25 年，一部分融资租赁因此改记为经营租赁，它的 2026 年资本开支口径从约 1900 亿降到约 1750 亿。管理层在电话会上说得很清楚：实际投入不变，差额全是会计口径。
+只看指引数字，会以为微软在省钱。年限一改，未来的折旧也会跟着变，所以上面说的「锁定」，是指在各家现有的折旧年限下。</p>
+
+<h3>二、融资转向借债和表外安排</h3>
+
+<p>原文只写了方向，没有实例；现在每一种形式都有了实例：</p>
+<ul>
+<li>谷歌 8 月发了 250 亿美元债券，最长一档到 2066 年；亚马逊上半年发了约 670 亿长期债。</li>
+<li>Meta 与 Blue Owl 合资建数据中心，不并入报表；若到期时资产价值低于约 280 亿美元的门槛（逐年递减），Meta 要补差额，目前未计提负债。</li>
+<li>英伟达在季报中披露，为 SB Energy 的租约提供上限约 1050 亿美元的信用担保，代表 OpenAI 关联方，OpenAI 同意补偿英伟达的赔付。</li>
+<li>甲骨文的 5 年期信用违约互换（相当于市场给它的违约保险价格）升到 227.15 个基点，创历史纪录（据 Seeking Alpha 9 月 25 日报道）。</li>
+</ul>
+
+<h2>当时没看到的四件</h2>
+
+<h3>一、利率</h3>
+
+<p>原文没有提利率。7 月以后，美联储 9 月 16 日加息 25 个基点到 3.75%–4%，10 年期美债收益率 9 月 30 日收在约 5.29%，按收盘价是 2002 年以来最高（2007 年 6 月的高点约 5.25%）。
+上一节说的借债和表外安排，成本都跟着长期利率走。一场靠资产负债表打的仗，碰上 20 多年来最贵的长期资金，这是 7 月框架里缺掉的一个维度。</p>
+
+<h3>二、AI 实验室成了一层独立的、借钱的买家</h3>
+
+<p>原文说需求「高度集中在少数几家超大规模云厂商」。现在看，链条至少有两层：Anthropic、OpenAI 这样的实验室，先向云厂商和芯片厂签下巨额的照付不议合同，云厂商再据此扩建。
+据路透转述的 Anthropic 保密招股书，它一家的算力承诺约 5180 亿美元，其中约八成不能取消（我在<a href="frontier_lab_prospectus_2026-10-01.html">另一篇文章</a>里逐项拆过）。</p>
+
+<p>这改变了风险落在哪里。四家云厂商有搜索、企业软件、电商这些现成的赚钱业务；实验室的付款能力主要靠融资和收入持续高速增长。<strong>链条上最薄弱的一环，不在四大云厂商，而在它们的大客户。</strong></p>
+
+<h3>三、瓶颈转到了内存，资本开支里有一部分是涨价</h3>
+
+<p>原文把存储当成半导体内部分化的一条小注，建议看合约价的增速拐点。方向是对的，分量估计小了。</p>
+
+<ul>
+<li>微软管理层在 4 月的电话会上说，它 2026 年约 1900 亿的资本开支里，约 250 亿是零部件涨价；亚马逊上调到约 2200 亿，首席执行官在电话会上也把原因归到内存涨价。<strong>同样的钱买到的算力变少了，资本开支的增速高估了真实算力的增速。</strong></li>
+<li>多出来的钱流向了有真实稀缺性的元器件。我 9 月初逐家检验过 26 家产业链公司的毛利率，「利润在向英伟达集中」的说法以 14 比 5 被推翻（<a href="ai_chain_margins_2026-09-04.html">见那篇文章</a>）；利润集中的地方是内存。美光昨晚公布的这一季毛利率 87%，一年前是 46%（均为非公认会计准则口径）（<a href="micron_cycle_position_2026-10-01.html">见美光那篇</a>）。</li>
+<li>原文关心的「通用 GPU 与定制芯片此消彼长」也在推进：谷歌开始把 TPU 整机卖给外部客户，Anthropic 的算力承诺里有一大笔是博通相关的设备租赁。但这两个月里变化最大的环节是内存，不是这条线。</li>
+</ul>
+
+<h3>四、安全原因的训练暂停</h3>
+
+<p>9 月 26 日 OpenAI 宣布暂停训练最新的模型，起因是它披露了几起智能体越权的事件。照付不议的算力合同在暂停期间照样要付钱：花钱的速度被合同锁住，变现的速度却可能放慢。
+原文的框架里只有「突破」和「没突破」两种情形，没有「主动停下来」这一种。</p>
+
+<h2>「谁先眨眼」，该换个地方看</h2>
+
+<p>原文说，资本开支不会自我纠正，直到某家先削减；「率先眨眼」的那一天，半导体首当其冲。</p>
+
+<p>两个多月里，四家一家都没有削减：亚马逊上调到约 2200 亿，Meta 把区间收窄到 1300 亿到 1450 亿（从 1250 亿到 1450 亿），谷歌维持 1950 亿到 2050 亿，微软说下一财年继续增长。美光昨晚也宣布加码资本开支。</p>
+
+<p>裂缝出现在边缘。甲骨文股价从 2025 年 9 月的高点跌了 58%，信用违约互换创纪录；OpenAI 暂停训练。
+四大云厂商有现成的赚钱业务撑着，最先撑不住的更可能是靠借钱扩张的那一圈：甲骨文这类后来者、新兴的算力租赁公司，以及实验室本身。
+<strong>所以要盯的是这一圈的融资和信用事件，而不只是四大云厂商的资本开支指引。</strong></p>
+
+<h2>现在怎么看：这次给出倾向</h2>
+
+<p>原文列了四种路径，特意没有给概率，也没有倾向。这两个月有了四家的真实报表，我在<a href="ai_investment_payback_2026-10-01.html">上一篇</a>里给了判断，这里重复一遍并说明它和 7 月的关系：</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">到 2027 年中，扩张继续</span><span>把握较高</span></div>
+<div class="row"><span class="lbl">2027 年下半年到 2028 年，出现一段温和消化期</span><span>可能性大于一半（把握中等）</span></div>
+<div class="row"><span class="lbl">断裂</span><span>可能性低</span></div>
+</div>
+
+<p>这大致对应原文的「温和消化」和「高位横盘、慢性消化」两条路径，只是加上了时间。依据是：按四家合计的报表粗算，新增投资到目前为止的税前回报约 19%（利润增长里也包含与 AI 无关的部分，只能当量级参考）；但 2028 年前折旧按推算会翻一倍以上。</p>
+
+<p>要撑住，在资本开支持平于每年约 7000 亿的假设下，四家合计的利润（息税折旧摊销前）每年要涨约 16%，新增投资才能达到 10% 的税前回报，这个门槛偏宽松，按更严的口径约 17%；资本开支再加码，门槛会升到约 20%。涨 10% 只能让利润不下降。现在是 23.6%。
+连续两个季度低于 16%，消化期就开始了；低于 10%，同时边缘出现上市破发、降价融资或信用事件，就是断裂的前兆。</p>
+
+<p>7 月问的是「何时回本」。现在更准确的问法是：<strong>利润增速能不能一直跑在 16% 到 20% 以上，直到折旧的高峰过去。</strong></p>
+
+<h2>这次复盘让我改掉的一个习惯</h2>
+
+<p>回头看，7 月文章里失效的三件工具有一个共同点：每一件都是<strong>用一个指标去解释一个由多因素决定的结果</strong>。跷跷板用「成本还是收入」，现金缺口用「够不够付」，续航排序用「能撑多久」。
+它们在各自的逻辑里都讲得通，所以写的时候没有怀疑。</p>
+
+<p>真正把它们筛掉的，是两个笨动作。一是<strong>在看到结果之前把检验规则写死</strong>：跷跷板就是这样被判死的，规则一个字都没改。二是<strong>事后换口径前先问自己是不是在倒填</strong>：「差距方向四家全中」就是倒填出来的，过了一个多月才被自己重算时发现。</p>
+
+<p>阶段划分这类叙事性的判断，经得住两个月；具体的分析工具，大多经不住。以后写这类文章，我会把这两种东西分开写，分析工具一律附上它被证伪时会是什么样子。</p>
+
+<h2>接下来看什么</h2>
+
+<ul>
+<li><strong>10 月 28–29 日，四家三季报</strong>：看四家合计利润增速从 23.6% 往哪走，以及资本开支指引里有多少是涨价、有多少是产能。同一个 48 小时里还有美联储和日本央行的议息会议。</li>
+<li><strong>边缘的信用</strong>：甲骨文 12 月的财报、它的信用违约互换，以及 Anthropic 若按报道在 11 月上市，发行价和首日表现。</li>
+<li><strong>内存的价格</strong>：美光说接下来「涨价速度会更温和」。合约价从涨得慢变成不涨，是存储这条线最重要的转折信号。</li>
+<li><strong>长期利率</strong>：10 年期美债如果 10 月底前收回 4.8% 以下、股市没有大跌，说明「通胀推高利率」这条线失效，借债扩张的压力会减轻。</li>
+</ul>
+
+<h2>小结</h2>
+
+<p>7 月那篇文章把这一轮讲成一个故事：少数几家公司对 AI 的提前下注，市场的态度从追捧变成追问回报。这个故事两个月后还成立。</p>
+
+<p>它错在用来读这个故事的工具上：跷跷板、现金缺口、续航排序，三件都没能预测财报后的股价。市场看上去是按每家当季拿出的回报证据，在花钱的公司之间重新排序，但样本只有四个，谷歌还是例外。
+它说对、但低估了的是折旧和借债。它没看到的是利率、实验室这一层借钱的买家、内存涨价吃掉的那部分资本开支，以及训练可能主动停下来。</p>
+
+<p>把这些放在一起，问题已经从「什么时候回本」变成「利润增速能不能撑过折旧高峰」，以及「边缘那一圈能不能撑住」。前一个每季看一次四家的报表就能回答，后一个要看信用市场。</p>
+
+<p>相关文章：<a href="ai_semiconductor_cycle_2024_2026.html">《从供给焦虑到回报拷问》</a>（本文复盘的原文）、
+<a href="ai_investment_payback_2026-10-01.html">《这一轮 AI 投资要多少收入才撑得起》</a>、
+<a href="frontier_lab_prospectus_2026-10-01.html">《从 Anthropic 的算力账单里读到的信息和数据》</a>、
+<a href="micron_cycle_position_2026-10-01.html">《美光交出了史上最强的一季，我们也看看内存周期走到了哪里》</a>。</p>
+
+<footer>
+生成于 2026-10-01（日本时间）<br>
+数据来源：谷歌、亚马逊、微软、Meta、英伟达向美国证监会报送的季报（资本开支、折旧、租赁、担保）；微软 2026 年 7 月 29 日电话会；各家股价（雅虎财经，收盘价）；
+美光 2026 财年四季度新闻稿；美联储议息声明；美国 10 年期国债收益率；Seeking Alpha（甲骨文信用违约互换，2026-09-25）；路透（Anthropic 保密招股书转述）；美联社等（OpenAI 暂停训练）；CNBC（亚马逊资本开支）。<br>
+跷跷板检验的分组与判定规则于 2026-07-24 事先写定，2026-08-02 结算。折旧推算、利润增速线、产业链毛利率检验均为计算所得，方法见相关文章；情景与概率为个人判断。<br>
+本文记录个人研究过程，不构成投资建议。文中不含任何持仓、成交或收益数据。
+</footer>
+
+</div>
+</body>
+</html>

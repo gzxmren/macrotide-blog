@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>美光最强一季与内存周期</title>
+<style>
+
+  :root{
+  color-scheme: light;
+    --paper:#FAFBFC;
+    --panel:#EDF1F5;
+    --panel-warm:#F5F1EC;
+    --ink:#15212E;
+    --muted:#5C6F82;
+    --accent:#0B5E7D;
+    --flag:#A34527;
+    --good:#1E6F4E;
+    --rule:#D5DEE6;
+    --rule-soft:#E6ECF1;
+    --serif:"Source Serif 4","Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Serif SC","Source Serif 4",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+    font-size:17px;line-height:1.78;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:0 auto;padding:56px 24px 96px}
+  .kicker{font-family:var(--mono);font-size:11.5px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 18px;}
+  h1{font-family:var(--sans);font-weight:700;font-size:clamp(28px,5vw,40px);
+    line-height:1.24;letter-spacing:-.01em;text-wrap:balance;margin:0 0 16px;}
+  .standfirst{font-size:19px;line-height:1.7;color:var(--muted);margin:0 0 26px}
+  .byline{font-family:var(--mono);font-size:12px;color:var(--muted);
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:11px 0;margin:0 0 44px;}
+  .byline span{white-space:nowrap}
+  .byline i{font-style:normal;color:var(--rule);padding:0 8px}
+  h2{font-family:var(--sans);font-weight:700;font-size:24px;line-height:1.35;
+    text-wrap:balance;margin:56px 0 4px;padding-top:22px;border-top:2px solid var(--ink);}
+  h3{font-family:var(--sans);font-weight:600;font-size:18.5px;margin:34px 0 2px}
+  p{margin:14px 0}
+  a{color:var(--accent)}
+  strong{font-weight:600}
+  .lede{font-size:18.5px}
+  .pull{font-family:var(--sans);font-weight:600;font-size:20px;line-height:1.6;
+    border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:30px 0;}
+  .pull.flag{border-left-color:var(--flag)}
+  .scroll{overflow-x:auto;margin:26px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+  table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+  caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:11.5px;
+    font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:0 0 8px;}
+  th{font-family:var(--sans);font-weight:600;font-size:13.5px;text-align:left;color:var(--muted);
+    padding:10px 14px 10px 0;border-bottom:1px solid var(--rule);white-space:nowrap;}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{font-family:var(--mono);font-size:14.5px;font-weight:500;white-space:nowrap}
+  td.lab{font-family:var(--sans);font-weight:600;font-size:14.5px}
+  .up{color:var(--good)}
+  .dn{color:var(--flag)}
+  .ledger{background:var(--panel);border:1px solid var(--rule);padding:22px 24px;margin:28px 0;
+    font-family:var(--mono);font-size:14.5px;line-height:2.05;font-variant-numeric:tabular-nums;}
+  .ledger .row{display:flex;justify-content:space-between;gap:16px}
+  .ledger .row.gap{border-top:2px solid var(--ink);margin-top:10px;padding-top:10px;
+    font-weight:600;color:var(--flag)}
+  .ledger .lbl{font-family:var(--sans);font-weight:400}
+  .ledger .in{color:var(--good)}
+  .ledger .out{color:var(--flag)}
+  .note{background:var(--panel-warm);border-left:3px solid var(--muted);padding:14px 18px;
+    margin:26px 0;font-size:15px;line-height:1.7;}
+  .note .tag{display:block;font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+  .quote{font-family:var(--mono);font-size:14px;line-height:1.75;background:var(--panel);
+    border:1px solid var(--rule);padding:16px 18px;margin:22px 0;}
+  ul{margin:14px 0;padding-left:22px}
+  li{margin:7px 0}
+  footer{margin-top:56px;padding-top:20px;border-top:2px solid var(--ink);
+    font-family:var(--mono);font-size:12px;line-height:1.9;color:var(--muted);}
+  ::selection{background:#CFE3EC;color:var(--ink)}
+  @media (max-width:640px){
+    body{font-size:16.5px}.wrap{padding:36px 18px 72px}h2{font-size:21px}.pull{font-size:18px}
+  }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+<p class="kicker">半导体 · 2026-10-01</p>
+
+<h1>美光交出了史上最强的一季，股价却比 6 月低 12%：内存周期走到了哪里</h1>
+
+<p class="standfirst">美光 9 月 30 日公布的财报，本季收入、毛利率，以及下季的收入和每股收益指引都超过了市场预期，只有下季毛利率指引略低于预期。盘后报价几乎没动（盘后基本没有成交，正式交易日的反应要等美股开盘）。
+这篇文章用美光自己 17 年的季报，回答三个问题：利润一季比一季高，股价为什么反而比 6 月低；过去几轮内存周期里，股价通常在什么时候见顶；
+这一轮和过去哪里真的不一样，周期又会从哪里开始结束。最后给出作者的判断，以及判断错了会看到什么。</p>
+
+<p class="byline"><span>2026-10-01</span><i>·</i><span>数据截至 2026-09-03 财季与 09-30 收盘</span><i>·</i><span>约 6,000 字</span></p>
+
+<p class="lede">先交代一件事：财报发布前，作者事先写下了自己的预测，其中一条错了。
+作者预计美光下一季的收入指引在 560 亿到 600 亿美元之间，实际给的是 615 亿。错的原因后面会讲，它本身就是理解这一轮周期的线索。</p>
+
+<h2>这份财报有多强</h2>
+
+<div class="scroll">
+<table>
+<caption>美光 2026 财年四季度（截至 9 月 3 日，14 周）</caption>
+<thead><tr><th>项目</th><th class="num">实际</th><th class="num">公司 6 月给的指引</th><th class="num">一年前同季</th></tr></thead>
+<tbody>
+<tr><td class="lab">收入</td><td class="num">542.3 亿</td><td class="num">500 亿 ±10 亿</td><td class="num">113.2 亿</td></tr>
+<tr><td class="lab">毛利率（非公认会计准则）</td><td class="num">87.0%</td><td class="num">约 86%</td><td class="num">45.7%</td></tr>
+<tr><td class="lab">每股收益（非公认会计准则）</td><td class="num">33.42 美元</td><td class="num">31.00 ±1.00</td><td class="num">3.03</td></tr>
+<tr><td class="lab">自由现金流</td><td class="num">332 亿</td><td class="num">—</td><td class="num">8 亿</td></tr>
+<tr><td class="lab">下季收入指引</td><td class="num">615 亿 ±15 亿</td><td class="num">一致预期 563–577 亿</td><td class="num">—</td></tr>
+<tr><td class="lab">下季毛利率指引</td><td class="num">86.25%</td><td class="num">一致预期 86.5%</td><td class="num">—</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>一个季度的收入是一年前的 4.8 倍，毛利率 87%。毛利率 87% 意味着每卖 100 美元的芯片，生产成本只有 13 美元，
+这在制造业里几乎没有先例，美光上一轮周期的最高点是 2018 年的 61%。</p>
+
+<p>看这家公司的环比数字时要先除以周数。这一季有 14 周，上一季和下一季都是 13 周。按每周收入算：</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">2026 年 3–5 月那季，比前一季每周收入</span><span class="in">+74%</span></div>
+<div class="row"><span class="lbl">6–9 月这季（刚公布）</span><span class="in">+21.5%</span></div>
+<div class="row"><span class="lbl">9–11 月那季（公司指引）</span><span class="in">+22.1%</span></div>
+</div>
+
+<p>增长从每季 70% 多降到 20% 出头，然后在 20% 出头稳住。作者事前判断下一季会继续放慢，这就是错的那一条。</p>
+
+<h3>作者错在哪</h3>
+
+<p>作者原来的推算是：美光 6 月签的长期合同里，最大几份把价格上限锁在了 2026 年二季度的市场价，
+而这些合同约占美光内存出货量的 20%、闪存的三分之一，所以按机构普遍假设的市场价每季涨约 10% 算，美光拿到的平均涨价会被打折到 6.5% 到 8%（这是作者财报前事先写下的推算）。</p>
+
+<p>实际这一季，美光的内存平均售价环比涨了十几个百分点（管理层原话是「高十几」），闪存涨了约 30%。
+合同上限的拖累比作者想的小得多。管理层在电话会上补了两点：长期合同里有四分之一的收入是按市价定期重新谈的；
+新签的合同「按当前市况以更高价格谈」。也就是说，6 月锁住的那部分只是一小块，后面签的合同价格一直在往上走。</p>
+
+<div class="note"><span class="tag">这个错误的方向</span>
+作者的推算偏悲观。这次的偏差说明一件事：在供给真正短缺的时候，长期合同的价格上限挡不住涨价，
+因为买方更在意能不能拿到货，而卖方每签一份新合同都能重新定价。</div>
+
+<h2>利润创新高，股价却比 6 月低：市场在给周期定价，不是给利润定价</h2>
+
+<p>按下季指引的每股收益 38.15 美元乘以 4，美光一年能赚约 153 美元；9 月 30 日收盘价 1065 美元，市盈率只有 7 倍左右。
+一家利润还在创新高的公司只值 7 倍，说明市场根本不相信这样的利润能持续。</p>
+
+<p>内存股在周期顶部的市盈率本来就低。下面是美光过去几次股价高点时的市盈率（作者用美光报给证监会的每股收益和当时的收盘价计算）：</p>
+
+<div class="scroll">
+<table>
+<caption>美光股价高点时的市盈率</caption>
+<thead><tr><th>股价高点</th><th class="num">收盘价</th><th class="num">÷ 上一财年每股收益</th><th class="num">÷ 当年财年每股收益</th><th class="num">之后两年内最大跌幅</th></tr></thead>
+<tbody>
+<tr><td class="lab">2011-02-17</td><td class="num">11.80</td><td class="num">6.4 倍</td><td class="num">69 倍</td><td class="num dn">−63%</td></tr>
+<tr><td class="lab">2014-12-05</td><td class="num">36.49</td><td class="num">14.4 倍</td><td class="num">14.8 倍</td><td class="num dn">−74%</td></tr>
+<tr><td class="lab">2018-05-29</td><td class="num">62.62</td><td class="num">14.2 倍</td><td class="num">5.4 倍</td><td class="num dn">−54%</td></tr>
+<tr><td class="lab">2022-01-14</td><td class="num">97.36</td><td class="num">18.9 倍</td><td class="num">12.6 倍</td><td class="num dn">−50%</td></tr>
+<tr><td class="lab">现在（2026-09-30）</td><td class="num">1065.11</td><td class="num">14.3 倍</td><td class="num">约 7 倍（下季指引的非公认会计准则每股收益 ×4，口径与上面几行不同）</td><td class="num">—</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>2018 年 5 月，美光股价见顶时只有当年利润的 5.4 倍，之后七个月跌了 54%。
+所以「才 7 倍市盈率，很便宜」在内存股上不构成安全理由。现在按上一财年利润算是 14.3 倍，正好落在过去几个高点的区间里。</p>
+
+<p>市场争的不是美光今年能赚多少，而是这样的利润能维持几年。下面两节分别看历史规律和这一轮的不同之处。</p>
+
+<h2>过去几轮，美光股价在什么时候见顶</h2>
+
+<p>流行的说法是「内存股在增速见顶时见顶，而不是在利润见顶时见顶」。作者以前也引用过这句话，但一直没有验证。
+这次用美光 2009 年以来的季报做了一张表：</p>
+
+<div class="scroll">
+<table>
+<caption>收入增速、毛利率、股价，三个高点的先后</caption>
+<thead><tr><th>周期</th><th>收入同比增速最高的季度</th><th>毛利率最高的季度</th><th>股价高点</th></tr></thead>
+<tbody>
+<tr><td class="lab">2010–2011</td><td>数据不全</td><td>截至 2010-06（37.1%）</td><td>2011-02，在毛利率高点之后 8 个月</td></tr>
+<tr><td class="lab">2013–2015</td><td>截至 2013-11（+120%，含 2013 年 7 月并购尔必达并表的影响）</td><td>截至 2014-12（35.8%）</td><td>2014-12-05，增速高点后约 12 个月，与毛利率高点同一周</td></tr>
+<tr><td class="lab">2017–2019</td><td>截至 2017-06（+92%）</td><td>截至 2018-08（61.0%）</td><td>2018-05-29，增速高点后约 12 个月，毛利率高点前 3 个月</td></tr>
+<tr><td class="lab">2020–2023</td><td>截至 2021-06/09（+37%）</td><td>截至 2021-09（47.3%），之后持平到 2022-06</td><td>2022-01-14，增速高点后 4–7 个月，毛利率开始下滑前约半年</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>能看出的规律比那句流行说法更具体一点：</p>
+<ul>
+<li>股价不是在增速见顶的那一刻见顶，而是在<strong>增速见顶之后 4 到 12 个月</strong>。</li>
+<li>股价高点<strong>落在毛利率见顶之前或同时</strong>。等财报上看到毛利率下降时，股价通常已经跌了一段。</li>
+<li>2010–2011 那一轮是例外，股价在毛利率见顶之后才见顶。那段的收入数据也不完整，所以「增速见顶后几个月」这条实际只有三轮样本。</li>
+</ul>
+
+<p>换成人话：市场在「增长开始放慢、毛利率已经贴近天花板」的时候开始卖，不等利润真的下滑。</p>
+
+<h3>现在在哪个位置</h3>
+
+<p>先看收入同比增速。这一季多出的一周会把同比数字放大，作者按 13 周折算后：</p>
+
+<div class="ledger">
+<div class="row"><span class="lbl">截至 2026-02 的季度</span><span>+196%</span></div>
+<div class="row"><span class="lbl">截至 2026-05 的季度</span><span>+346%</span></div>
+<div class="row"><span class="lbl">截至 2026-09 的季度（折算成 13 周）</span><span>+345%</span></div>
+<div class="row"><span class="lbl">截至 2026-11 的季度（公司指引）</span><span>+351%</span></div>
+</div>
+
+<p>同比增速在 350% 左右走平，还没有出现明确的高点；环比增速已经从 70% 多降到 20% 出头，然后稳住。
+但同比增速的高点几乎可以用算术确定：下下季（2026 年 12 月到 2027 年 2 月）对应的去年同季收入是 238.6 亿，
+要维持 350% 的同比增速，那一季收入得超过 1070 亿，比这一季指引的 615 亿高七成多，不可能。
+<strong>所以按历史表的定义，这一轮的收入增速高点基本就是 2026 年 9–11 月这一季。</strong></p>
+
+<p>毛利率不好直接和历史比。历史上那几个高点只有 36% 到 61%，没有一次是因为离 100% 太近才见顶的。
+这次毛利率 87%，成本只占收入 13%，确实没有多少空间；但管理层说 9–11 月这一季就是 2027 财年毛利率的底，之后会更高。这句话对不对，12 月就能验。</p>
+
+<p>把这两点放回历史表：如果规律仍然成立，股价高点应该在增速见顶之后 4 到 12 个月，也就是 2027 年上半年到 2027 年底之间。
+可是美光股价今年 6 月 25 日已经创了 1213.56 美元的高点，7 月底跌到 739 美元（−39%），现在 1065 美元，比高点低 12%。
+6 月那个高点出现在增速见顶<strong>之前</strong>，和过去三轮的顺序都不一样。只有两种可能：要么 6 月不是这一轮的高点，要么这一轮的节奏和过去不同。现有数据分不出是哪一种。</p>
+
+<div class="pull flag">这张表只有三到四轮周期，而且表里的「高点」都是事后才知道的。它能提示该看哪些指标，说明不了「哪天见顶」。
+2017 年那轮，增速见顶后股价又涨了将近一年。</div>
+
+<h2>这一轮哪里真的不一样</h2>
+
+<p>每一轮周期顶部都会有人说「这次不一样」。这次有一样东西确实是过去没有的：长期客户合同。美光在电话会上披露的情况：</p>
+
+<ul>
+<li>已签 <strong>26 份</strong>多年期合同（6 月时是 16 份），估计覆盖 2030 年前美光收入的 35% 以上，有的已经签到 2031 年。</li>
+<li>都是<strong>照付不议</strong>：约定的量，客户不要也得付钱。</li>
+<li>合同收入的四分之三有定价框架，多数设了价格上下限。管理层说，<strong>即使按下限价格，毛利率也明显高于以往任何一轮周期的峰值</strong>。</li>
+<li>客户的财务承诺 320 亿美元，绝大部分是现金押金；这一季就收到 123 亿。按已定价合同计算的剩余履约义务约 1500 亿。</li>
+<li>据电话会问答，2027 年美光 75% 以上的产出已经有客户承诺（含长期合同和其他客户承诺）；日历 2027 年绝大部分高带宽内存已经签完，价格同比大幅上涨。</li>
+</ul>
+
+<p>这改变了什么：过去的内存周期，价格一跌，收入和利润会在一两个季度里塌下去（2023 年初美光毛利率是 −33%）。
+现在合同约占 2030 年前收入的 35% 以上，其中四分之三有定价框架，即全部收入的约四分之一有价格框架、多数设了下限；合同的量全部是照付不议。下一次下行时，这部分收入有托底。作者推测，美光的利润不太可能再像 2023 年那样跌到亏损，但这只是推测。</p>
+
+<p>这没改变什么，有三点：</p>
+<ol>
+<li><strong>价格上限同样存在。</strong>据媒体转述，瑞银的分析师认为长期合同压低了收入的上行空间。托底和封顶是同一份合同的两面。</li>
+<li><strong>照付不议的合同，可靠程度取决于买方。</strong>美光没有披露哪些客户签了合同。从业务分部看，云和数据中心两个分部占了这一季收入的 63%。如果签约客户里有依赖外部融资的 AI 实验室，它们的付款能力取决于融资和收入增长。
+作者在<a href="frontier_lab_prospectus_2026-10-01.html">上一篇关于 Anthropic 算力账单的文章</a>里拆过：这一层的付款能力靠的是收入持续高速增长。
+如果哪家实验室放慢，合同重谈的压力会沿着链条传到内存厂。9 月 26 日 OpenAI 宣布暂停最强模型的训练和评估，作者能读到的发言稿和问答摘录里，没有提到它对订单的影响。</li>
+<li><strong>押金是要还的。</strong>美光首席财务官说，押金在每份合同的后半段陆续退还给客户。它计入融资现金流，不算收入。</li>
+</ol>
+
+<h2>周期从哪里开始结束：两条路，这份财报里都有了苗头</h2>
+
+<p>内存周期结束只有两种方式：供给追上来，或者需求被高价挤掉。</p>
+
+<h3>供给：资本开支连续三年接近翻倍</h3>
+
+<p>美光说 2027 财年的资本开支要「高于原计划」：上半年约 250 亿美元，下半年更多。公司没给全年数，作者按此推算全年超过 500 亿，比 2026 财年的 274 亿多 80% 以上（两者都是扣除政府补贴后的口径）。
+这是美光报给证监会的历年资本开支（2026 年及以前是未扣补贴的毛额）：</p>
+
+<div class="scroll">
+<table>
+<caption>美光资本开支大增的年份，以及之后发生了什么</caption>
+<thead><tr><th>财年</th><th class="num">资本开支</th><th class="num">同比</th><th>之后</th></tr></thead>
+<tbody>
+<tr><td class="lab">2011</td><td class="num">25.5 亿</td><td class="num">+314%</td><td>2011–2012 毛利率跌到 10.5%</td></tr>
+<tr><td class="lab">2014</td><td class="num">31.1 亿</td><td class="num">+115%</td><td>2015–2016 收入同比 −30%</td></tr>
+<tr><td class="lab">2018</td><td class="num">88.8 亿</td><td class="num">+88%</td><td>2019 收入同比 −42%</td></tr>
+<tr><td class="lab">2021–2022</td><td class="num">100–121 亿</td><td class="num">+20%左右</td><td>2023 毛利率转负（这次是需求塌了，不是供给）</td></tr>
+<tr><td class="lab">2025</td><td class="num">158.6 亿</td><td class="num">+89%</td><td rowspan="3">—</td></tr>
+<tr><td class="lab">2026</td><td class="num">307.1 亿</td><td class="num">+94%</td></tr>
+<tr><td class="lab">2027（作者推算）</td><td class="num">500 亿以上（扣补贴后）</td><td class="num">+80% 以上（与 2026 年扣补贴的 274 亿比）</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>过去三次单年接近或超过翻倍，之后一两年内都出现了下行。连续三年接近翻倍，在 2009 年以来的数据里没有出现过。</p>
+
+<p>这个对照要打两个折扣。第一，因果可能是反的：资本开支在周期顶部大增，是因为那时利润最多，资本开支本身未必是下行的原因。
+第二，这次增加的大部分是厂房建设，用管理层的话说，是「为了让 2028 年底及以后的洁净室提前可用」，设备会「随需求适度爬坡」。
+厂房盖好不等于产能，装不装设备还可以看需求再定。按资本开支（扣补贴）占收入的比例算，2026 财年是 20.5%；2027 财年作者推算在 18% 到 25% 之间，取决于收入涨多少和下半年开支有多大。比例本身没有跳升，但分子和分母都是作者推的下限。</p>
+
+<p>所以供给这条路的时间表大致是：<strong>2027 年</strong>新加坡高带宽内存封装厂年初开始初期产出，爱达荷新厂年中开始出片，台湾铜锣厂年中开始有意义的出货，这是第一批真正的新增量，管理层也说新厂要几个季度之后产出才逐渐有意义；
+<strong>2028 年底以后</strong>，这次加码盖的洁净室才会变成产能。管理层给出的全行业内存位元增速，2027、2028 年都是「20% 出头」，并说「看不到供需何时恢复平衡」。</p>
+
+<p>美光只是三家之一。三星、SK 海力士占了内存市场的大部分，它们 10 月发三季度业绩时如果也大幅加码资本开支，
+全行业的供给风险会比美光一家的数字大得多。</p>
+
+<h3>需求：价格已经开始挤掉一部分</h3>
+
+<p>这份财报里有几句话不显眼，但方向值得记下：</p>
+<ul>
+<li>个人电脑和手机今年的出货量「可能出现两位数下滑」，行业收入还在涨，靠的是高端机型。</li>
+<li>服务器的单机内存容量增长「比原先预期略低」，管理层给的原因是「内存供给紧张」。也就是买不到或买不起，就少装一点。</li>
+<li>存货从 86 亿涨到 104 亿，存货天数从 120 天升到 129 天。公司解释是旧制程停产前提前备货，加上奖金计入了存货成本，并说「存货仍然极紧」。</li>
+</ul>
+
+<p>这些目前都在边缘。消费电子的需求被挤掉，在 AI 服务器需求面前是小数字。但需求被价格挤掉，正是内存周期结束的经典方式之一，第一句官方说法已经出现了。</p>
+
+<h2>作者的判断，以及判断错了会看到什么</h2>
+
+<p><strong>关于生意：</strong>美光 2027 财年大概率是又一个创纪录的年份。依据是公司指引（每季环比增长）、75% 以上产出已有客户承诺、2027 年高带宽内存已经签完且涨价。这部分作者把握较高。</p>
+
+<p><strong>关于股价：</strong>收入增速的高点基本就是这一季，资本开支连续三年接近翻倍。这两件事放在过去，都是周期后段的特征。
+作者认为接下来几个月，市场对「利润能维持多久」的怀疑会压着股价，不会因为又一份好财报大涨。
+但作者没有能力判断高点是不是已经出现在 6 月：按历史顺序，股价高点应在增速见顶之后，6 月偏早；长期合同也可能让这一轮拖得比过去更久。</p>
+
+<p>作者在财报前登记了一条可以对账的判断：<strong>10 月 7 日收盘，美光股价低于 9 月 30 日的 1065.11 美元</strong>，把握约 60%。届时照实公布对错。</p>
+
+<h3>接下来要看的三个数</h3>
+
+<ol>
+<li><strong>12 月美光财报给出的下下季毛利率指引，是否高于 86.25%。</strong>
+公司把下滑归因于加发的奖金计入了存货成本，并说 9–11 月这一季「就是 2027 财年毛利率的底」。
+如果这个解释是真的，下一次指引必须回升，存货天数必须开始下降。两条有一条不成立，就说明毛利率真的见顶了。</li>
+<li><strong>内存合约价环比什么时候不再上涨。</strong>
+管理层已经说 2027 财年「涨价速度会更温和」。从「涨得慢」到「不涨」是一个质变。作者印象里，过去几轮毛利率见顶前后合约价也趋平，但没有核对过价格序列，这只是待验证的假设。
+这个数有第三方调查机构定期公布，比财报早。</li>
+<li><strong>三星、SK 海力士 10 月的资本开支计划，以及美光 12 月 9 日之后的回购。</strong>
+前者决定供给那条路走多快。后者是一个反向的变量：美光说从 12 月 9 日起加大股东回报，长期要把多余现金全部返还；
+但目前回购授权只剩 22 亿美元，宣布新的大额授权之前，这句话还只是意向。</li>
+</ol>
+
+<h3>什么情况说明作者看错了</h3>
+
+<ul>
+<li><strong>往乐观方向错：</strong>下下季毛利率指引回到 87% 以上、合约价涨幅不降反升、美光宣布数百亿美元回购，同时三星和 SK 海力士克制资本开支。
+那说明长期合同真的改变了周期形态，这一轮会比历史上任何一轮都长。</li>
+<li><strong>往悲观方向错（比作者想的更糟）：</strong>毛利率指引再次下降、存货天数继续上升、或者有客户公开推迟或重谈合同。那就不是「股价不涨」，而是历史表上那种五到七成的跌幅。</li>
+</ul>
+
+<h2>小结</h2>
+
+<p>美光这一季的数字没有挑剔的余地：收入一年涨了将近四倍，毛利率 87%，下季还要再涨。作者财报前低估了它的涨价能力，原因是高估了长期合同价格上限的拖累。</p>
+
+<p>但股价看的是周期的位置，不是这一季。用美光 17 年的季报对照，股价见顶通常发生在增速见顶之后 4 到 12 个月、毛利率见顶之前。这一轮的收入增速高点按算术基本就是这一季，资本开支正在连续第三年接近翻倍；而股价 6 月的高点比历史顺序来得早，要么它不是这一轮的顶，要么这一轮的节奏变了。
+长期客户合同是这一轮唯一真正的新东西：它给利润装了托底，也给涨价封了顶，可靠程度取决于买方能不能一直付得起。</p>
+
+<p>接下来该盯的不是美光又超预期多少，而是三件事：毛利率下一次指引能不能回升，合约价什么时候停涨，三星和 SK 海力士会不会跟着加码。</p>
+
+<p>相关文章：<a href="frontier_lab_prospectus_2026-10-01.html">《从 Anthropic 的算力账单里读到的信息和数据》</a>、
+<a href="ai_investment_payback_2026-10-01.html">《这一轮 AI 投资要多少收入才撑得起，以及接下来几年的三种走法》</a>。</p>
+
+<footer>
+生成于 2026-10-01（日本时间）<br>
+数据来源：美光 2026 财年四季度新闻稿（美国证监会 8-K 附件）与管理层发言稿（美光投资者网站）；电话会问答（Investing.com 转录摘录，作者未读到全文）；
+美光 2009 年以来季度收入、毛利、年度资本开支与每股收益（美国证监会公开数据接口，四季度由全年减前三季累计得出）；美光股价（雅虎财经，未复权收盘价）；
+一致预期（路透/LSEG、雅虎财经、摩根大通报告的媒体转述）；瑞银观点（媒体转述）。<br>
+按周数折算的增速、市盈率、周期对照表、资本开支占收入比例均为作者计算；文中关于股价的判断为作者个人判断。<br>
+本文记录个人研究过程，不构成投资建议。文中不含任何持仓、成交或收益数据。
+</footer>
+
+</div>
+</body>
+</html>
